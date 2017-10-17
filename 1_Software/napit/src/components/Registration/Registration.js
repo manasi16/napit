@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import { StyleSheet, Text, Image, View, KeyboardAvoidingView } from 'react-native';
+import RegistrationForm from './RegistrationForm';
+
 
 export default class Registration extends Component {
   render() {
@@ -9,6 +11,7 @@ export default class Registration extends Component {
           <Text style={styles.title}> NapIT </Text>
         </View>
         <View style={styles.formContainer}>
+        <RegistrationForm></RegistrationForm>
         </View>
       </KeyboardAvoidingView>
     );
@@ -18,7 +21,7 @@ export default class Registration extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'blue',
+    backgroundColor: '#FFF',
     alignItems: 'center',
     justifyContent: 'center',
   },
