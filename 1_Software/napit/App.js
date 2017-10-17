@@ -4,6 +4,8 @@ import { StackNavigator } from 'react-navigation';
 import Login from './src/components/Login/Login';
 import Registration from './src/components/Registration/Registration';
 
+import Sleep from './src/components/Sleep/Sleep';
+
 class HomeScreen extends React.Component {
   static navigationOptions = {
     title: 'NapIT',
@@ -30,8 +32,12 @@ class HomeScreen extends React.Component {
             title="Registration" >
           </Button>
         </View>
-      
-
+         <View style={styles.containerButton}>
+          <Button style={styles.ButtonHomeScreen}
+            onPress={() => navigate('SleepLink')}
+            title="Sleep" >
+          </Button>
+        </View>
 
       </View>
     );
@@ -51,7 +57,8 @@ export const NapitApp = StackNavigator({
   Home: { screen: HomeScreen },
   Chat: { screen: ChatScreen },
   LoginLink: { screen: Login },
-  RegistrationLink: { screen: Registration }
+  RegistrationLink: { screen: Registration },
+  SleepLink: {screen: Sleep}
 });
 
 
@@ -92,3 +99,8 @@ const styles = StyleSheet.create({
     opacity: 0.9
   }
 });
+
+
+
+
+
