@@ -223,9 +223,9 @@ If this causes problems for you, you may want to try changing your terminal's co
 
 ### References 
 Other software components used in this application
-[Database backend tutorial](http://rationalappdev.com/api-backend-with-nodejs-express-and-mongodb-for-react-native-apps/)
-[Database backend code example](https://github.com/rationalappdev/MovieTicketsBackend)
-[Accelorometer](https://docs.expo.io/versions/latest/sdk/accelerometer.html)
-[Networking](https://facebook.github.io/react-native/docs/network.html)
-[Navigation github]https://github.com/react-community/react-navigation
-[Navigation Tutorial](https://reactnavigation.org/docs/intro/)
+* [Database backend tutorial](http://rationalappdev.com/api-backend-with-nodejs-express-and-mongodb-for-react-native-apps/)
+* [Database backend code example](https://github.com/rationalappdev/MovieTicketsBackend)
+* [Accelorometer](https://docs.expo.io/versions/latest/sdk/accelerometer.html)
+* [Networking](https://facebook.github.io/react-native/docs/network.html)
+* [Navigation github]https://github.com/react-community/react-navigation
+* [Navigation Tutorial](https://reactnavigation.org/docs/intro/)
