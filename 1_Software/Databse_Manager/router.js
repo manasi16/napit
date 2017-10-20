@@ -1,6 +1,7 @@
 import express, { Router } from 'express';
 // Import index action from movies controller
 import { index } from './controllers/movies';
+import { getUser } from './controllers/NapItController';
 
 // Initialize the router
 const router = Router();
@@ -8,12 +9,9 @@ const router = Router();
 // Handle /movies.json route with index action from movies controller
 //router.route('/movies.json')
   //.get(index);
-router.get('/movies.json',index);
+router.get('/movies',index);
 //Account actions
-router.get('/User', function (req, res) 
-{
-	res.send('GET request /USER')
-});
+router.get('/User', getUser);
 
 router.post('/User', function (req, res) 
 {
