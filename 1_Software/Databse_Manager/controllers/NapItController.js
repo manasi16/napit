@@ -16,3 +16,41 @@ export const getUser = (req, res, next) => {
   ));
 };
 
+export const getUserTest = (req, res, next) => {
+  // Find all movies and return json response
+  console.log(req.body);
+  User.find().lean().exec((err, UserInfo) => res.json(
+    // Iterate through each movie
+    { Login: true }
+  ));
+};
+
+export const postCreateUser = (req, res, next) => {
+
+	console.log(req.body);
+	console.log(req.data);
+	console.log(res.body);
+
+	res.json(
+
+		//account was created successfully 
+		{
+			AccountConfirmed: true,
+			Error: 0 
+		}
+
+		// //Account exists 
+		// {
+		// 	AccountConfirmed: false,
+		// 	Error: 1
+		// }
+
+		// //General Error
+		// {
+		// 	AccountConfirmed: false,
+		// 	Error: 2
+		// }
+
+
+		);
+};

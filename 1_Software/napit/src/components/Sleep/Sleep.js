@@ -5,7 +5,28 @@ import { Accelerometer } from 'expo';
 export default class Sleep extends Component {
   state = {
     accelerometerData: {},
+    SensorReading: Number
   }
+
+   handleSensorReading= (SensorMagValue) => {
+      this.setState({ SensorReading: SensorMagValue })
+   }
+   SendSensor = (SensorMagVal) => {
+      fetch('http://192.168.10.160:3000/v1/Sensor', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+        body: JSON.stringify({
+          SensorReading: SensorMagVal
+        })
+      })
+      .then((response) => response.json()) 
+      // response from the server side
+      //.then((response) => { alert("Account created: " }) 
+      .catch((error) => { console.error(error); });
+   }
 
   componentDidMount() {
     this._toggle();
@@ -44,22 +65,19 @@ export default class Sleep extends Component {
 
   render() {
     let { x, y, z } = this.state.accelerometerData;
+    let Magitude = round(getMagitude(x,y,z));
+    //this.handleSensorReading(Magitude);
+    //this.SendSensor(Magitude;
 
     return (
       <View style={styles.sensor}>
         <Text>Accelerometer:</Text>
-        <Text>x: {round(x)} y: {round(y)} z: {round(z)}</Text>
-
+        <Text>x: {round(x)} y: {round(y)} z: {round(z)}  Mag: { Magitude }</Text>
         <View style={styles.buttonContainer}>
           <TouchableOpacity onPress={this._toggle} style={styles.button}>
             <Text>Toggle</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={this._slow} style={[styles.button, styles.middleButton]}>
-            <Text>Slow</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={this._fast} style={styles.button}>
-            <Text>Fast</Text>
-          </TouchableOpacity>
+
         </View>
       </View>
     );
@@ -71,7 +89,17 @@ function round(n) {
     return 0;
   }
 
-  return Math.floor(n * 100) / 100;
+  return Math.floor(n * 1000) / 1000;
+}
+
+function averageVal(Val, Num)
+{
+  /// something in here
+}
+
+function getMagitude(X,Y,Z)
+{// get the vector magitude
+  return Math.sqrt(X^2 + Y^2 + Z^2);
 }
 
 const styles = StyleSheet.create({
@@ -100,3 +128,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
 });
+
+
+
+
+
+
+          // <TouchableOpacity onPress={this._slow} style={[styles.button, styles.middleButton]}>
+          //   <Text>Slow</Text>
+          // </TouchableOpacity>
+          // <TouchableOpacity onPress={this._fast} style={styles.button}>
+          //   <Text>Fast</Text>
+          // </TouchableOpacity>
