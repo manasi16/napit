@@ -13,7 +13,7 @@ export default class RegistrationForm extends Component {
    handlePassword = (text) => {
       this.setState({ password: text })
    }
-   login = (email, pass) => {
+   login = (user, pass) => {
       fetch('http://192.168.10.160:3000/v1/User/Create', {
       method: 'POST',
       headers: {
@@ -21,8 +21,8 @@ export default class RegistrationForm extends Component {
         'Content-Type': 'application/json',
       },
         body: JSON.stringify({
-          username: "Testemail",
-          password: "testpassword",
+          username: user,
+          password: pass,
         })
       })
       .then((response) => response.json()) 
@@ -37,7 +37,7 @@ export default class RegistrationForm extends Component {
         <TextInput placeholder="username" onChangeText = {this.handleUsername} returnKeyType="next" onSubmitEditing={()=>this.passwordInput.focus()} keyboardType="email-address" autoCapitalize="none" autoCorrect={false} style={styles.input}> </TextInput>
         <TextInput placeholder="password" secureTextEntry onChangeText = {this.handlePassword} style={styles.input} ref={(input) => this.passwordInput = input}> </TextInput>
         
-        <TouchableOpacity style={styles.buttonContainer} onPress = {() => this.login(this.state.email, this.state.password)}  > 
+        <TouchableOpacity style={styles.buttonContainer} onPress = {() => this.login(this.state.username, this.state.password)}  > 
           <Text style={styles.buttonText}> Create account </Text>
         </TouchableOpacity>
       </View>

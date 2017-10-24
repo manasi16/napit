@@ -18,7 +18,10 @@ export const getUser = (req, res, next) => {
 
 export const getUserTest = (req, res, next) => {
   // Find all movies and return json response
-  console.log(req.body);
+  console.log(req.body.username);
+  console.log(req.body.password)
+
+  // find the user.
   User.find().lean().exec((err, UserInfo) => res.json(
     // Iterate through each movie
     { Login: true }
@@ -28,8 +31,8 @@ export const getUserTest = (req, res, next) => {
 export const postCreateUser = (req, res, next) => {
 
 	console.log(req.body);
-	console.log(req.data);
-	console.log(res.body);
+	console.log(req.body.username);
+	console.log(req.body.password);
 
 	res.json(
 
@@ -53,4 +56,16 @@ export const postCreateUser = (req, res, next) => {
 
 
 		);
+};
+
+export const postSensorReadings = (req, res, next) => {
+
+	//stroe data in database based on username 
+	console.log(req.body.username);
+	console.log(req.body.SensorReading);
+	// write to database.
+	//Note mongo id has timestamp encoded into it. 
+	res.json({Stored: true});
+
+
 };
