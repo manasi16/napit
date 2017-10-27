@@ -1,12 +1,12 @@
 import express from 'express';
 import morgan from 'morgan';
-import mongoose from 'mongoose';
+//import mongoose from 'mongoose';
 import router from './router';
 import bodyParser from'body-parser';
 
 
 // Connect to MongoDB
-mongoose.connect('mongodb://localhost/movies');
+//mongoose.connect('mongodb://localhost/movies');
 
 // Initialize http server
 const app = express();
