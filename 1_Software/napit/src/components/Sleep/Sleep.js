@@ -2,16 +2,31 @@ import React, {Component} from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Accelerometer } from 'expo';
 
+ //limit the nmber of sample to send in the array 
+  const SendLimit = 20;
+
 export default class Sleep extends Component {
   state = {
     accelerometerData: {},
-    SensorReading: Number
-  }
+    SensorReadings: Array,
+    SumReading: Number,
+    count: Number
+  };
+
+  IntervalSum = {
+    X: Number,
+    Y: Number,
+    Z: Number
+  };
+
+  // stores a ton of averaged values into 
+  DataArray = []; 
 
    handleSensorReading= (SensorMagValue) => {
-      this.setState({ SensorReading: SensorMagValue })
+      //this.setState({ SensorReading: SensorMagValue })
    }
-   SendSensor = (SensorMagVal) => {
+
+   SendSensor = (SensorMagVals) => {
       fetch('http://192.168.10.160:3000/v1/Sensor', {
       method: 'POST',
       headers: {
@@ -19,7 +34,7 @@ export default class Sleep extends Component {
         'Content-Type': 'application/json',
       },
         body: JSON.stringify({
-          SensorReading: SensorMagVal
+          SensorReadings: SensorMagVals
         })
       })
       .then((response) => response.json()) 
@@ -45,7 +60,7 @@ export default class Sleep extends Component {
   }
 
   _slow = () => {
-    Accelerometer.setUpdateInterval(1000); 
+    Accelerometer.setUpdateInterval(100); 
   }
 
   _fast = () => {
@@ -54,6 +69,20 @@ export default class Sleep extends Component {
 
   _subscribe = () => {
     this._subscription = Accelerometer.addListener(accelerometerData => {
+      let { x, y, z } = accelerometerData;
+      if(this.state.count <10)
+      {
+        this._AddToIntervalSum(x,y,z);
+        this.state.count = this.state.count + 1;
+      }
+      else
+      {
+        // will return the average value of mag
+        this._AddAveragedDataArray(this._GetAverageMag());
+        this._ClearIntervalSum();
+      }
+      
+
       this.setState({ accelerometerData });
     });
   }
@@ -63,16 +92,49 @@ export default class Sleep extends Component {
     this._subscription = null;
   }
 
+  _AddAveragedDataArray = (NewValue) => {
+    if(this.DataArray.length < SendLimit)
+    {
+      this.DataArray.push(NewValue);
+    }
+    else
+    {
+      this.SendSensor(this.DataArray);
+      alert(this.DataArray);
+      this._ClearAveragedDataArray();
+      this.DataArray.push(NewValue);
+    }
+  }
+
+  _ClearAveragedDataArray = () => {
+    this.DataArray = [];
+  }
+
+  _GetAverageMag = () => {
+    return getMagitude((this.IntervalSum.X/ this.state.count),(this.IntervalSum.Y/ this.state.count), (this.IntervalSum.Z/ this.state.count) ); 
+
+  }
+
+  _AddToIntervalSum = (X,Y,Z) => {
+    this.IntervalSum.X = this.IntervalSum.X + X;
+    this.IntervalSum.Y = this.IntervalSum.Y + Y;
+    this.IntervalSum.Z = this.IntervalSum.Z + Z;
+  }
+
+  _ClearIntervalSum = () => {
+    this.IntervalSum.X = 0; 
+    this.IntervalSum.Y = 0;
+    this.IntervalSum.Z = 0;
+    this.state.count = 0;
+  }
+
   render() {
     let { x, y, z } = this.state.accelerometerData;
-    let Magitude = round(getMagitude(x,y,z));
-    //this.handleSensorReading(Magitude);
-    //this.SendSensor(Magitude;
 
     return (
       <View style={styles.sensor}>
         <Text>Accelerometer:</Text>
-        <Text>x: {round(x)} y: {round(y)} z: {round(z)}  Mag: { Magitude }</Text>
+        <Text>x: {round(x)} y: {round(y)} z: {round(z)} </Text>
         <View style={styles.buttonContainer}>
           <TouchableOpacity onPress={this._toggle} style={styles.button}>
             <Text>Toggle</Text>
@@ -92,10 +154,26 @@ function round(n) {
   return Math.floor(n * 1000) / 1000;
 }
 
-function averageVal(Val, Num)
-{
-  /// something in here
-}
+// function averageVal(X, Y, Z, count)
+// {
+//   /// something in here
+//   if(this.state.count >= 10)
+//   {
+//     this.state.SensorReading = this.state.count;
+//     this.state.SumReading = Val;
+
+//     this.state.count = 0;
+//     return this.state.SensorReading;
+//   }
+//   else
+//   {
+//     this.state.SumReading = this.state.SumReading + Val;
+//     this.state.count = this.state.count + 1; 
+//     return this.state.SensorReading;
+//   }
+
+
+//}
 
 function getMagitude(X,Y,Z)
 {// get the vector magitude

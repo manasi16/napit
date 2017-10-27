@@ -3,7 +3,6 @@ import { AppRegistry, StyleSheet, Text, View, Button, Image } from 'react-native
 import { StackNavigator } from 'react-navigation';
 import Login from './src/components/Login/Login';
 import Registration from './src/components/Registration/Registration';
-
 import Sleep from './src/components/Sleep/Sleep';
 
 class HomeScreen extends React.Component {
@@ -32,7 +31,7 @@ class HomeScreen extends React.Component {
             title="Registration" >
           </Button>
         </View>
-         <View style={styles.containerButton}>
+        <View style={styles.containerButton}>
           <Button style={styles.ButtonHomeScreen}
             onPress={() => navigate('SleepLink')}
             title="Sleep" >
@@ -44,18 +43,8 @@ class HomeScreen extends React.Component {
   }
 }
 
-class ChatScreen extends React.Component {
-  static navigationOptions = {
-    title: 'Chat with Lucy',
-  };
-  render() {
-    return <Text>Hello, Navigation!</Text>;
-  } //render
-} //end of chat 
-
 export const NapitApp = StackNavigator({
   Home: { screen: HomeScreen },
-  Chat: { screen: ChatScreen },
   LoginLink: { screen: Login },
   RegistrationLink: { screen: Registration },
   SleepLink: {screen: Sleep}

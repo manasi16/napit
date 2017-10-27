@@ -6,6 +6,10 @@ import { PersonalDetails , SensorReading, User } from '../models/NapItModel';
 // Same for the times
 //const times = [ '9:00 AM', '11:10 AM', '12:00 PM', '1:50 PM', '4:30 PM', '6:00 PM', '7:10 PM', '9:45 PM' ];
 
+//DEGUG 
+var DebugLoginUsername = "";
+var DebugPassword = "";
+
 export const getUser = (req, res, next) => {
   // Find all movies and return json response
   User.find().lean().exec((err, UserInfo) => res.json(
@@ -22,17 +26,48 @@ export const getUserTest = (req, res, next) => {
   console.log(req.body.password)
 
   // find the user.
-  User.find().lean().exec((err, UserInfo) => res.json(
+  //User.find().lean().exec((err, UserInfo) => res.json(
     // Iterate through each movie
-    { Login: true }
-  ));
+    //{ Login: true }
+  //));
+
+  //DEGUG 
+  if(req.body.username === DebugLoginUsername)
+  {
+  	console.log("Correct username");
+  	if( req.body.password === DebugPassword)
+  	{
+  		console.log("Correct Password");
+  		res.json({ Login: true });
+  	}
+  	else 
+  	{
+  		console.log("WRONG Password");
+  		res.json({ Login: false });
+  	}
+  }
+  else
+  {
+  	console.log("WRONG username");
+  	res.json({ Login: false });
+  }
+  //DEGUG 
+
 };
 
 export const postCreateUser = (req, res, next) => {
 
+	//DEGUG 
 	console.log(req.body);
 	console.log(req.body.username);
 	console.log(req.body.password);
+
+	DebugLoginUsername = req.body.username;
+	DebugPassword = req.body.password;
+
+	//DEGUG 
+	console.log("Debug username is: " + DebugLoginUsername);
+	console.log("Debug password is: " + DebugPassword);
 
 	res.json(
 
@@ -61,8 +96,9 @@ export const postCreateUser = (req, res, next) => {
 export const postSensorReadings = (req, res, next) => {
 
 	//stroe data in database based on username 
+	//DEGUG 
 	console.log(req.body.username);
-	console.log(req.body.SensorReading);
+	console.log(req.body.SensorReadings);
 	// write to database.
 	//Note mongo id has timestamp encoded into it. 
 	res.json({Stored: true});
