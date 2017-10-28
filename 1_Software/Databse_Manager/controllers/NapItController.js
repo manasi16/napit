@@ -1,4 +1,4 @@
-import { PersonalDetails , SensorReading, User } from '../models/NapItModel';
+//import { PersonalDetails , SensorReading, User } from '../models/NapItModel';
 //import moment from 'moment';
 
 // Hardcode the days for the sake of simplicity
