@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { StyleSheet, View, TextInput, TouchableOpacity, Text } from 'react-native';
+import {ServerBackend} from '../../../configure';
 
 export default class RegistrationForm extends Component {
 
@@ -14,7 +15,9 @@ export default class RegistrationForm extends Component {
       this.setState({ password: text })
    }
    login = (user, pass) => {
-      fetch('http://192.168.10.160:3000/v1/User/Create', {
+      let dest = 'http://'  + ServerBackend + '/v1/User/Create';
+      alert(dest);
+      fetch(dest, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

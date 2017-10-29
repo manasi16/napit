@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { StyleSheet, View, TextInput, TouchableOpacity, Text } from 'react-native';
 import Sleep from '../Sleep/Sleep';
 import { StackNavigator } from 'react-navigation';
+import {ServerBackend} from '../../../configure';
 
 
  Accept = false; 
@@ -22,7 +23,7 @@ export default class LoginForm extends Component {
       this.setState({ password: text })
    }
    login = (email, pass) => {
-      fetch('http://192.168.10.160:3000/v1/User/Login', {
+      fetch('http://' + ServerBackend + '/v1/User/Login', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

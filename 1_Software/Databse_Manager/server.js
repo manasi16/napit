@@ -24,7 +24,7 @@ app.use(morgan('combined'));
 
 app.use('/v1', router);
 
-const server = app.listen(3000, () => {
+const server = app.listen(3002, () => {
   const { address, port } = server.address();
   console.log(`Listening at http://${address}:${port}`);
 });

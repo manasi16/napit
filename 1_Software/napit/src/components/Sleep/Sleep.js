@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Accelerometer } from 'expo';
+import {ServerBackend} from '../../../configure';
 
  //limit the nmber of sample to send in the array 
   const SendLimit = 20;
@@ -27,7 +28,7 @@ export default class Sleep extends Component {
    }
 
    SendSensor = (SensorMagVals) => {
-      fetch('http://192.168.10.160:3000/v1/Sensor', {
+      fetch('http://' + ServerBackend + '/v1/Sensor', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -100,7 +101,7 @@ export default class Sleep extends Component {
     else
     {
       this.SendSensor(this.DataArray);
-      alert(this.DataArray);
+      //alert(this.DataArray);
       this._ClearAveragedDataArray();
       this.DataArray.push(NewValue);
     }
