@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import { StyleSheet, View, TextInput, TouchableOpacity, Text } from 'react-native';
 import Sleep from '../Sleep/Sleep';
-import { StackNavigator } from 'react-navigation';
 import {ServerBackend} from '../../../configure';
 
 
@@ -13,7 +12,6 @@ export default class LoginForm extends Component {
       username: '',
       password: ''
    };
-
   
 
    handleUsername = (text) => {
@@ -43,35 +41,21 @@ export default class LoginForm extends Component {
    }
 
   render() {
-
-    if( Accept === true)
-    {
-      return (
-      <View style={styles.container}>
-        <Text> "LOGGED IN!" </Text>
-      </View>)
-    }
-    else // must be a better way to do this
-    {
+    const { navigate } = this.props.navigation;
     return (
       <View style={styles.container}>
         <TextInput placeholder="username" onChangeText = {this.handleUsername} returnKeyType="next" onSubmitEditing={()=>this.passwordInput.focus()} keyboardType="email-address" autoCapitalize="none" autoCorrect={false} style={styles.input}> </TextInput>
         <TextInput placeholder="password" secureTextEntry onChangeText = {this.handlePassword} style={styles.input} ref={(input) => this.passwordInput = input}> </TextInput>
         
-        <TouchableOpacity style={styles.buttonContainer} onPress = {() => this.login(this.state.username, this.state.password)}  > 
+        <TouchableOpacity style={styles.buttonContainer} onPress = {() => navigate('SleepLink') }  > 
+
           <Text style={styles.buttonText}> LOGIN </Text>
         </TouchableOpacity>
       </View>
     );
-   }
-
-
-  }
+   }  
 }
 
-export const LoginNapitApp = StackNavigator({
-  SleepLink: {screen: Sleep}
-});
 
 const styles = StyleSheet.create({
   container: {

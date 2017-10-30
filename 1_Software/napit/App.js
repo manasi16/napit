@@ -2,8 +2,10 @@ import React from 'react';
 import { AppRegistry, StyleSheet, Text, View, Button, Image } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import Login from './src/components/Login/Login';
+import LoginForm from './src/components/Login/LoginForm';
 import Registration from './src/components/Registration/Registration';
 import Sleep from './src/components/Sleep/Sleep';
+
 
 class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -46,9 +48,13 @@ class HomeScreen extends React.Component {
 export const NapitApp = StackNavigator({
   Home: { screen: HomeScreen },
   LoginLink: { screen: Login },
+  LoginFormLink : {screen: LoginForm},
   RegistrationLink: { screen: Registration },
   SleepLink: {screen: Sleep}
+
 });
+
+
 
 
 export default class App extends React.Component {
