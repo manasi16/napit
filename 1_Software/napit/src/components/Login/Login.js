@@ -12,6 +12,7 @@ export default class Login extends Component {
       password: ''
    };
 
+
    handleUsername = (text) => {
       this.setState({ username: text })
    }
@@ -52,7 +53,7 @@ export default class Login extends Component {
               <TextInput placeholder="username" onChangeText = {this.handleUsername} returnKeyType="next" onSubmitEditing={()=>this.passwordInput.focus()} keyboardType="email-address" autoCapitalize="none" autoCorrect={false} style={styles.input}> </TextInput>
               <TextInput placeholder="password" secureTextEntry onChangeText = {this.handlePassword} style={styles.input} ref={(input) => this.passwordInput = input}> </TextInput>
               
-              <TouchableOpacity style={styles.buttonContainer} onPress = {() => { this.login(this.state.username, this.state.password); if(Accept === true){ navigate('SleepLink')} } }  > 
+              <TouchableOpacity style={styles.buttonContainer} onPress = {() => { this.login(this.state.username, this.state.password); screenProps={name:this.state.username}; if(Accept === true){ navigate('SleepLink')} } }  > 
 
                 <Text style={styles.buttonText}> LOGIN </Text>
               </TouchableOpacity>

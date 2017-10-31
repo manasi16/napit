@@ -11,7 +11,8 @@ export default class Sleep extends Component {
     accelerometerData: {},
     SensorReadings: Array,
     SumReading: Number,
-    count: Number
+    count: Number,
+    User: String
   };
 
   IntervalSum = {
@@ -35,6 +36,7 @@ export default class Sleep extends Component {
         'Content-Type': 'application/json',
       },
         body: JSON.stringify({
+          username: this.state.User,
           SensorReadings: SensorMagVals
         })
       })
@@ -129,13 +131,18 @@ export default class Sleep extends Component {
     this.state.count = 0;
   }
 
+  _SetUser = (Uname) => { 
+    this.state.User = Uname;
+
+  }
+
   render() {
     let { x, y, z } = this.state.accelerometerData;
 
     return (
       <View style={styles.sensor}>
         <Text>Accelerometer:</Text>
-        <Text>x: {round(x)} y: {round(y)} z: {round(z)} </Text>
+        <Text>x: {round(x)} y: {round(y)} z: {round(z)} {this._SetUser(screenProps.name)} </Text>
         <View style={styles.buttonContainer}>
           <TouchableOpacity onPress={this._toggle} style={styles.button}>
             <Text>Toggle</Text>
