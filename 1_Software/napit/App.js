@@ -33,13 +33,6 @@ class HomeScreen extends React.Component {
             title="Registration" >
           </Button>
         </View>
-        <View style={styles.containerButton}>
-          <Button style={styles.ButtonHomeScreen}
-            onPress={() => navigate('SleepLink')}
-            title="Sleep" >
-          </Button>
-        </View>
-
       </View>
     );
   }
@@ -94,6 +87,13 @@ const styles = StyleSheet.create({
     opacity: 0.9
   }
 });
+
+// <View style={styles.containerButton}>
+//           <Button style={styles.ButtonHomeScreen}
+//             onPress={() => navigate('SleepLink')}
+//             title="Sleep" >
+//           </Button>
+//         </View>
 
 
 

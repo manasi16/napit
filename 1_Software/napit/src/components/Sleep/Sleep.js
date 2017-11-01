@@ -73,16 +73,22 @@ export default class Sleep extends Component {
   _subscribe = () => {
     this._subscription = Accelerometer.addListener(accelerometerData => {
       let { x, y, z } = accelerometerData;
-      if(this.state.count <10)
+      if(this.state.count < 6 )  //every 6000 secs or 1 min
       {
-        this._AddToIntervalSum(x,y,z);
+        //this._AddToIntervalSum(x,y,z);
         this.state.count = this.state.count + 1;
       }
       else
       {
+
+        // reset the counter
+        this.state.count = 0;
+        this._AddAveragedDataArray(z);
+
+        //old code
         // will return the average value of mag
-        this._AddAveragedDataArray(this._GetAverageMag());
-        this._ClearIntervalSum();
+        //this._AddAveragedDataArray(this._GetAverageMag());
+        //this._ClearIntervalSum();
       }
       
 

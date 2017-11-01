@@ -119,7 +119,7 @@ export const postSensorReadings = (req, res, next) => {
 	// write to database.
 	//Note mongo id has timestamp encoded into it. 
 
-var data = {Accel: req.body.SensorReadings}
+var data = {Username:req.body.username, Accel: req.body.SensorReadings}
 
 
   collection.insert(data, {w:1}, function(err, result) {

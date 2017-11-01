@@ -44,14 +44,15 @@ export default class Login extends Component {
     const { navigate } = this.props.navigation;
     return (
       <KeyboardAvoidingView behavior="padding" style={styles.container}>
-        <View style={styles.logoContainer}>
-          <Image style={styles.logo} source={require('../../images/sleep.jpeg')}></Image>
-          <Text style={styles.title}> NapIT </Text>
-        </View>
+        
         <View style={styles.formContainer}>
+          <View style={styles.logoContainer}>
+            <Image style={styles.logo} source={require('../../images/sleep.jpeg')}></Image>
+          </View>
+            <Text style={styles.title}> NapIT </Text>
             <View style={styles.container}>
-              <TextInput placeholder="username" onChangeText = {this.handleUsername} returnKeyType="next" onSubmitEditing={()=>this.passwordInput.focus()} keyboardType="email-address" autoCapitalize="none" autoCorrect={false} style={styles.input}> </TextInput>
-              <TextInput placeholder="password" secureTextEntry onChangeText = {this.handlePassword} style={styles.input} ref={(input) => this.passwordInput = input}> </TextInput>
+              <TextInput placeholder="username" onChangeText = {this.handleUsername} returnKeyType="next" onSubmitEditing={()=>this.passwordInput.focus()} keyboardType="email-address" autoCapitalize="none" autoCorrect={false} style={styles.input}></TextInput>
+              <TextInput placeholder="password" secureTextEntry onChangeText = {this.handlePassword} style={styles.input} ref={(input) => this.passwordInput = input}></TextInput>
               
               <TouchableOpacity style={styles.buttonContainer} onPress = {() => { this.login(this.state.username, this.state.password); screenProps={name:this.state.username}; if(Accept === true){ navigate('SleepLink')} } }  > 
 
