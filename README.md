@@ -1,13 +1,13 @@
 ## Table of Contents
 
 
-# Napit
+## Napit
 Code and documentation for Software Engineering Fall 2017 Rutgers
 
-#Demo
+## Demo
 See 0_Demo for code used in the Demo on Nov 1st 2017. 
 
-##Install
+## Install
 
 Install mongodb on your system
 
@@ -40,7 +40,7 @@ npm install
 Install the Expo app on your phone
 Connect your phone to the same network that the backend will be running on.
 
-##Configuration
+## Configuration
 
 Change the ServerBackend variable ip address in 1_Software/napit/configuration.js to point to the loction where the backend will be running.
 
