@@ -61,6 +61,7 @@ In the Expo app scan the 2D bar code that appears in your terminal
 
 ### References 
 Other software components and tutorials used in this application
+* [LibSVM](https://github.com/yctung/AndroidLibSVM)
 * [Database backend tutorial](http://rationalappdev.com/api-backend-with-nodejs-express-and-mongodb-for-react-native-apps/)
 * [Database backend code example](https://github.com/rationalappdev/MovieTicketsBackend)
 * [Accelorometer](https://docs.expo.io/versions/latest/sdk/accelerometer.html)
