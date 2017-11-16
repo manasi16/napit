@@ -76,6 +76,12 @@ public class SleepActivity extends Activity implements SensorEventListener {
         return super.onOptionsItemSelected(item);
     }
 
+    public boolean WriteSensorReadingsToDatabase(SensorEvent event)
+    {
+
+        return true;
+    }
+
 
 
 
