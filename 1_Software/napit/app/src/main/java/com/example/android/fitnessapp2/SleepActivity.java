@@ -1,6 +1,7 @@
 package com.example.android.fitnessapp2;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -144,8 +145,17 @@ public class SleepActivity extends Activity implements SensorEventListener {
         return true;
     }
 
+    public void Run_Analysis(View v)
+    { // Run the analysis on the data
+        Intent i = new Intent(this,SVM.class);
+                startService(i);
+    }
 
-
-
+    public void Train_SVM(View v)
+    { // Train the SVM
+        Intent i = new Intent(this,SVM.class);
+        i.putExtra("Train",true);
+        startService(i);
+    }
 
 }
