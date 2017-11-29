@@ -21,6 +21,7 @@
         <activity android:name=".RegisterActivity" />
         <activity android:name=".DashboardActivity" />
         <activity android:name=".SleepActivity" />
+        <activity android:name="AndroidDatabaseManager" />
 
         <service
             android:name=".SVM"

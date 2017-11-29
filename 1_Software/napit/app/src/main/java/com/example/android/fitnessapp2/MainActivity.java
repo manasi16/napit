@@ -1,5 +1,6 @@
 package com.example.android.fitnessapp2;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -36,6 +37,10 @@ public class MainActivity extends AppCompatActivity {
 
         sqLiteHelper = new SQLiteHelper(this);
 
+        //SQLiteDataBaseBuild();
+
+        //SQLiteTableBuild();
+
         //Adding click listener to log in button.
         LogInButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,6 +68,21 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void SQLiteDataBaseBuild(){
+
+        //not the place to put this. Databse should be created once the app starts for the first time
+        sqLiteDatabaseObj = openOrCreateDatabase(SQLiteHelper.DATABASE_NAME, Context.MODE_PRIVATE, null);
+
+    }
+
+    // SQLite table build method.
+    public void SQLiteTableBuild() {
+
+        //not the place to put this. Databse should be created once the app starts for the first time
+        sqLiteDatabaseObj.execSQL("CREATE TABLE IF NOT EXISTS " + SQLiteHelper.TABLE_NAME + "(" + SQLiteHelper.Table_Column_ID + " PRIMARY KEY AUTOINCREMENT NOT NULL, " + SQLiteHelper.Table_Column_1_Name + " VARCHAR, " + SQLiteHelper.Table_Column_2_Email + " VARCHAR, " + SQLiteHelper.Table_Column_3_Password + " VARCHAR);");
+        sqLiteDatabaseObj.execSQL("CREATE TABLE IF NOT EXISTS "+SQLiteHelper.TABLE_NAME_Sensor+" ("+SQLiteHelper.Table_Column_Sensor_ID+" INTEGER PRIMARY KEY, "+ SQLiteHelper.Table_Column_Sensor_Reading+" REAL);"); // + SQLiteHelper.Tables_Column_Sensor_Timestamp+ "DATETIME DEFAULT CURRENT_TIMESTAMP);");
     }
 
     // Login function starts from here.

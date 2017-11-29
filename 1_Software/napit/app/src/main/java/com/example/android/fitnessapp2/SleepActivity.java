@@ -25,6 +25,8 @@ public class SleepActivity extends Activity implements SensorEventListener {
     TextView startSleepTime,stopSleepTime;
 
     private SensorManager SM;
+    SQLiteHelper SensorReadingdb;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,8 @@ public class SleepActivity extends Activity implements SensorEventListener {
 
         // Accelerometer Sensor
         mySensor = SM.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+
+        SensorReadingdb = new SQLiteHelper(this);
 
         // Register sensor Listener
       //  SM.registerListener(this, mySensor, SensorManager.SENSOR_DELAY_NORMAL);
@@ -52,7 +56,7 @@ public class SleepActivity extends Activity implements SensorEventListener {
             public void onClick(View view) {
                 DateFormat dfDate = new SimpleDateFormat("yyyy/MM/dd");
                 String date=dfDate.format(Calendar.getInstance().getTime());
-                DateFormat dfTime = new SimpleDateFormat("HH:mm");
+                DateFormat dfTime = new SimpleDateFormat("HH:mm:ss");
                 String time = dfTime.format(Calendar.getInstance().getTime());
                 startSleepTime.setText(date + " " + time);
                 switch (view.getId()) {
@@ -72,7 +76,7 @@ public class SleepActivity extends Activity implements SensorEventListener {
             public void onClick(View view) {
                 DateFormat dfDate = new SimpleDateFormat("yyyy/MM/dd");
                 String date=dfDate.format(Calendar.getInstance().getTime());
-                DateFormat dfTime = new SimpleDateFormat("HH:mm");
+                DateFormat dfTime = new SimpleDateFormat("HH:mm:ss");
                 String time = dfTime.format(Calendar.getInstance().getTime());
                 stopSleepTime.setText(date + " " + time);
                 switch (view.getId()) {
@@ -111,9 +115,9 @@ public class SleepActivity extends Activity implements SensorEventListener {
         yText.setText("Y: " + event.values[1]);
         zText.setText("Z: " + event.values[2]);
 
+        //DateFormat dfTime = new SimpleDateFormat("HH:mm:ss");
 
-
-
+        SensorReadingdb.addSensorReading(event.values[2]);
 
     }
 
@@ -159,3 +163,6 @@ public class SleepActivity extends Activity implements SensorEventListener {
     }
 
 }
+
+
+

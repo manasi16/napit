@@ -11,6 +11,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import static java.text.DateFormat.DEFAULT;
+import static javax.xml.datatype.DatatypeConstants.DATETIME;
+
 public class RegisterActivity extends AppCompatActivity {
     EditText Email, Password, Name ;
     Button Register;
@@ -59,6 +62,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
     public void SQLiteDataBaseBuild(){
 
+        //not the place to put this. Databse should be created once the app starts for the first time
         sqLiteDatabaseObj = openOrCreateDatabase(SQLiteHelper.DATABASE_NAME, Context.MODE_PRIVATE, null);
 
     }
@@ -66,8 +70,9 @@ public class RegisterActivity extends AppCompatActivity {
     // SQLite table build method.
     public void SQLiteTableBuild() {
 
+        //not the place to put this. Databse should be created once the app starts for the first time
         sqLiteDatabaseObj.execSQL("CREATE TABLE IF NOT EXISTS " + SQLiteHelper.TABLE_NAME + "(" + SQLiteHelper.Table_Column_ID + " PRIMARY KEY AUTOINCREMENT NOT NULL, " + SQLiteHelper.Table_Column_1_Name + " VARCHAR, " + SQLiteHelper.Table_Column_2_Email + " VARCHAR, " + SQLiteHelper.Table_Column_3_Password + " VARCHAR);");
-
+        sqLiteDatabaseObj.execSQL("CREATE TABLE IF NOT EXISTS "+SQLiteHelper.TABLE_NAME_Sensor+" ("+SQLiteHelper.Table_Column_Sensor_ID+" INTEGER PRIMARY KEY, "+ SQLiteHelper.Table_Column_Sensor_Reading+" REAL);"); // + SQLiteHelper.Tables_Column_Sensor_Timestamp+ "DATETIME DEFAULT CURRENT_TIMESTAMP);");
     }
 
     // Insert data into SQLite database method.
