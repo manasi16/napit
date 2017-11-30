@@ -16,6 +16,7 @@ import java.util.Vector;
 /**
  * Created by Aishwarya Srikanth on 11/3/2017.
  * Modified by John Grun 11/23/2017
+ * Modified by Madhura on 11/30/2017
  */
 
 public class SQLiteHelper extends SQLiteOpenHelper {
@@ -45,7 +46,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
         public SQLiteHelper(Context context) {
 
-            super(context, DATABASE_NAME, null, 1);
+            super(context, DATABASE_NAME, null, 3);
 }
 
         @Override
@@ -53,7 +54,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
             String CREATE_TABLE="CREATE TABLE IF NOT EXISTS "+TABLE_NAME+" ("+Table_Column_ID+" INTEGER PRIMARY KEY, "+Table_Column_1_Name+" VARCHAR, "+Table_Column_2_Email+" VARCHAR, "+Table_Column_3_Password+" VARCHAR)";
             //sensor table
-            String CREATE_TABLESensor="CREATE TABLE IF NOT EXISTS "+TABLE_NAME_Sensor+" ("+Table_Column_Sensor_ID+" INTEGER PRIMARY KEY, "+Table_Column_Sensor_Reading+" REAL);"; // + Tables_Column_Sensor_Timestamp+ "DATETIME DEFAULT CURRENT_TIMESTAMP)";
+            String CREATE_TABLESensor="CREATE TABLE IF NOT EXISTS "+TABLE_NAME_Sensor+" ("+Table_Column_Sensor_ID+" INTEGER PRIMARY KEY, "+Table_Column_Sensor_Reading+" REAL, " + Tables_Column_Sensor_Timestamp+ " TIMESTAMP DEFAULT CURRENT_TIMESTAMP);";
 
             database.execSQL(CREATE_TABLE);
             database.execSQL(CREATE_TABLESensor);
@@ -85,12 +86,14 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         db.close(); // Closing database connection
     }
 
+
+
     // Getting single sensor reading
     float getSensorReading(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(TABLE_NAME_Sensor, new String[] { Table_Column_Sensor_ID,
-                        Table_Column_Sensor_Reading }, Table_Column_Sensor_ID + "=?",
+                        Table_Column_Sensor_Reading, Tables_Column_Sensor_Timestamp }, Table_Column_Sensor_ID + "=?",
                 new String[] { String.valueOf(id) }, null, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();
