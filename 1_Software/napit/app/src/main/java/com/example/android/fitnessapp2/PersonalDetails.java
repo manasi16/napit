@@ -13,7 +13,7 @@ public class PersonalDetails extends AppCompatActivity {
     static final int REQ_CODE = 123;
 
     Button btnDetails;
-    TextView textName, textEmail;
+    TextView textName, textEmail, textAge;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +22,7 @@ public class PersonalDetails extends AppCompatActivity {
 
         textName = (TextView)findViewById(R.id.name_holder);
         textEmail = (TextView)findViewById(R.id.email_holder);
+        textAge = (TextView)findViewById(R.id.age_holder);
 
         btnDetails = (Button) findViewById(R.id.btnDetails);
         btnDetails.setOnClickListener(new View.OnClickListener() {
@@ -42,11 +43,13 @@ public class PersonalDetails extends AppCompatActivity {
 
             String details_name = intent.getStringExtra("detailsName");
             String details_email = intent.getStringExtra("detailsEmail");
+            String details_age = intent.getStringExtra("detailsAge");
 
-            Toast.makeText(this, "Intent Received " + details_name, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "Intent Received " + details_name, Toast.LENGTH_SHORT).show();
 
             textName.setText(details_name);
             textEmail.setText(details_email);
+            textAge.setText(details_age);
         }
     }
 }

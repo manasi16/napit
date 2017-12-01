@@ -30,7 +30,7 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="Enter Name"
+        android:hint="Enter your Name"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
         android:layout_alignBaseline="@+id/nameEditText"
         android:layout_alignBottom="@+id/nameEditText"
@@ -51,12 +51,32 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="Enter Email"
+        android:hint="Enter your Email ID"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
         android:id="@+id/edit_email"
         android:layout_alignBaseline="@+id/emailEditText"
         android:layout_alignBottom="@+id/emailEditText"
-        android:layout_alignEnd="@+id/edit_name" />
+        android:layout_alignStart="@+id/edit_name" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Age: "
+        android:id="@+id/ageEditText"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/edit_email"
+        android:layout_alignStart="@+id/emailEditText" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Enter your Age"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+        android:id="@+id/edit_age"
+        android:layout_alignBaseline="@+id/ageEditText"
+        android:layout_alignBottom="@+id/ageEditText"
+        android:layout_alignStart="@+id/edit_name" />
 
     <Button
         android:layout_width="wrap_content"

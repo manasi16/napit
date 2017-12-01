@@ -10,9 +10,10 @@ import android.widget.Toast;
 
 public class EditPersonalDetails extends AppCompatActivity {
     private Button saveDetails;
-    private EditText detailsName, detailsEmail;
+    private EditText detailsName, detailsEmail, detailsAge;
     private String name = "";
     private String email = "";
+    private String age = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +22,7 @@ public class EditPersonalDetails extends AppCompatActivity {
 
         detailsName = (EditText)findViewById(R.id.edit_name);
         detailsEmail = (EditText)findViewById(R.id.edit_email);
+        detailsAge = (EditText)findViewById(R.id.edit_age);
 
         saveDetails = (Button)findViewById(R.id.saveDetails);
         saveDetails.setOnClickListener(new View.OnClickListener() {
@@ -28,12 +30,14 @@ public class EditPersonalDetails extends AppCompatActivity {
             public void onClick(View view) {
                 name = detailsName.getText().toString();
                 email = detailsEmail.getText().toString();
+                age = detailsAge.getText().toString();
 
                 Intent intent = new Intent();
                 intent.putExtra("detailsName", name);
                 intent.putExtra("detailsEmail", email);
+                intent.putExtra("detailsAge", age);
                 setResult(RESULT_OK, intent);
-                Toast.makeText(EditPersonalDetails.this, "Intent Sent!" + name, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(EditPersonalDetails.this, "Intent Sent!" + name, Toast.LENGTH_SHORT).show();
                 finish();
             }
         });
