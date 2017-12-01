@@ -22,16 +22,20 @@ public class MainActivity extends AppCompatActivity {
     Cursor cursor;
     String TempPassword = "NOT_FOUND" ;
     public static final String UserEmail = "";
+    //Context context;
+
+    //private SessionHandler sessionHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //creating a new SessionHandler object
+        //sessionHandler = new SessionHandler(context);
+
         LogInButton = (Button)findViewById(R.id.buttonLogin);
-
         RegisterButton = (Button)findViewById(R.id.buttonRegister);
-
         Email = (EditText)findViewById(R.id.editEmail);
         Password = (EditText)findViewById(R.id.editPassword);
 
@@ -155,9 +159,10 @@ public class MainActivity extends AppCompatActivity {
 
             // Sending Email to Dashboard Activity using intent.
             intent.putExtra(UserEmail, EmailHolder);
-
             startActivity(intent);
 
+            //starting a session
+            //sessionHandler.setName(EmailHolder);
 
         }
         else {

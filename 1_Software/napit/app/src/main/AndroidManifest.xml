@@ -21,12 +21,15 @@
         <activity android:name=".RegisterActivity" />
         <activity android:name=".DashboardActivity" />
         <activity android:name=".SleepActivity" />
-        <activity android:name="AndroidDatabaseManager" />
+        <activity android:name=".AndroidDatabaseManager" />
 
         <service
             android:name=".SVM"
             android:enabled="true"
-            android:exported="false"></service>
+            android:exported="false" />
+
+        <activity android:name=".PersonalDetails" />
+        <activity android:name=".EditPersonalDetails"></activity>
     </application>
 
 </manifest>

@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 public class DashboardActivity extends AppCompatActivity {
 
-ImageButton sleepImage, exerciseImage, foodImage, vsImage, sugImage, DebugImage;
+ImageButton sleepImage, exerciseImage, foodImage, vsImage, sugImage, DebugImage, settingsImage;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,8 +22,13 @@ ImageButton sleepImage, exerciseImage, foodImage, vsImage, sugImage, DebugImage;
         foodImage=(ImageButton) findViewById(R.id.foodicon);
         vsImage=(ImageButton)findViewById(R.id.vsicon);
         sugImage=(ImageButton) findViewById(R.id.sugicon);
-
+        settingsImage = (ImageButton)findViewById(R.id.settings_icon);
         DebugImage=(ImageButton) findViewById(R.id.sqldebug);
+
+        //SessionHander object
+        //SessionHandler sessionHandler = new SessionHandler(context);
+        //sessionHandler.getName();
+
 
         sleepImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,7 +48,13 @@ ImageButton sleepImage, exerciseImage, foodImage, vsImage, sugImage, DebugImage;
             }
         });
 
-
+        settingsImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(DashboardActivity.this,PersonalDetails.class);
+                startActivity(i);
+            }
+        });
 
     }
 }
