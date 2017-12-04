@@ -1,26 +1,38 @@
 package com.example.android.fitnessapp2;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class Exercise extends AppCompatActivity implements SensorEventListener {
     SensorManager sm;
-    TextView tv,displaydist;
-    Button resetButton,getDist;
+    Chronometer simpleChronometer;
+    TextView tv,displaydist,displayMiles,displayCalories;
+    Button getDist,getMiles,getCalories,startButton,stopButton,restartButton;
     public float stepsInSensor = 0;
     public float stepsAtReset;
-    public float stepsSinceReset;
+    public float stepsSinceReset,miles,calories;
+    String duration;
+    SQLiteHelper Exercisedb;
+
+    //CountUpTimer timer2;
+
     boolean walk = false;
+
+
 
 
     @Override
@@ -28,13 +40,26 @@ public class Exercise extends AppCompatActivity implements SensorEventListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise);
         SharedPreferences prefs = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE);
+
         stepsAtReset = prefs.getFloat("stepsAtReset", 0);
+        Exercisedb = new SQLiteHelper(this);
+        simpleChronometer = (Chronometer) findViewById(R.id.simpleChronometer);
         tv=(TextView)findViewById(R.id.value);
-        resetButton=(Button)findViewById(R.id.resetbutton);
+        restartButton=(Button)findViewById(R.id.restartex);
+
+
+        displayMiles=(TextView)findViewById(R.id.displaymiles);
+        displayCalories=(TextView)findViewById(R.id.displaycals);
+        getMiles=(Button)findViewById(R.id.getmiles);
+        getCalories=(Button)findViewById(R.id.getcals);
+        startButton=(Button)findViewById(R.id.startex);
+        stopButton=(Button)findViewById(R.id.stopex);
+
         displaydist=(TextView)findViewById(R.id.displaydistance);
         getDist=(Button)findViewById(R.id.dist);
         sm=(SensorManager)getSystemService(Context.SENSOR_SERVICE);
-        resetButton.setOnClickListener(new View.OnClickListener() {
+
+        startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 stepsAtReset = stepsInSensor;
@@ -46,20 +71,79 @@ public class Exercise extends AppCompatActivity implements SensorEventListener {
 
                 // you can now display 0:
                 tv.setText(String.valueOf(0));
-            }
-        });
-        getDist.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                float distance = (float)(stepsSinceReset*78)/(float)100000;
-                displaydist.setText(String.valueOf(distance));
+                simpleChronometer.start();
+
 
             }
         });
+        stopButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+
+                simpleChronometer.stop();
+                duration = simpleChronometer.getText().toString();
+
+
+
+
+
+            }
+        });
+
+        restartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                simpleChronometer.setBase(SystemClock.elapsedRealtime());
+                stepsAtReset = stepsInSensor;
+
+                SharedPreferences.Editor editor =
+                        getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE).edit();
+                editor.putFloat("stepsAtReset", stepsAtReset);
+                editor.commit();
+
+                // you can now display 0:
+                tv.setText(String.valueOf(0));
+
+            }
+        });
+
+        getDist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+              //  float distance = (float)(stepsSinceReset*78)/(float)100000;
+                //displaydist.setText(String.valueOf(distance));
+                Intent intent = new Intent(Exercise.this,ViewList.class);
+                startActivity(intent);
+
+            }
+        });
+        getMiles.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                miles = (float)(stepsSinceReset*0.0005);
+                displayMiles.setText(String.valueOf(miles));
+            }
+        });
+        getCalories.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                calories = (float)(miles*0.0128);
+                displayCalories.setText(String.valueOf(calories));
+            }
+        });
+
+
 
 
 
     }
+
+
+
+
+
 
     @Override
     protected void onResume() {
@@ -102,6 +186,20 @@ public class Exercise extends AppCompatActivity implements SensorEventListener {
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int i) {
+
+    }
+
+    public void insertdetails(View v){
+
+        long id = Exercisedb.insertExercise(stepsSinceReset,miles,calories,duration);
+        Toast.makeText(this,"Let's check values",Toast.LENGTH_SHORT).show();
+
+        if(id<0){
+            Toast.makeText(this,"Transferring to database failed",Toast.LENGTH_SHORT).show();
+        }
+        else{
+            Toast.makeText(this,"Transfer Successful",Toast.LENGTH_SHORT).show();
+        }
 
     }
 
