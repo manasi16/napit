@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.android.fitnessapp2.Exercise">
+    <TextView
+        android:id="@+id/Steps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Step Counter"
+
+        android:textSize="40dp"
+        android:layout_gravity="center_horizontal" />
+
+    <TextView
+        android:paddingTop="8dp"
+        android:textSize="25dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Number of Steps"/>
+    <TextView
+        android:id="@+id/value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+
+        android:textSize="25dp"
+        android:layout_gravity="center_horizontal" />
+    <Chronometer
+        android:id="@+id/simpleChronometer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/clearFormat"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+
+        android:gravity="center"
+        android:padding="10dp"
+        android:layout_marginBottom="10dp"
+        android:textColor="#000"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/startex"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+
+            android:text="Start" />
+
+        <Button
+            android:id="@+id/restartex"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:text="Restart" />
+
+        <Button
+            android:id="@+id/stopex"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="60dp"
+            android:text="Stop" />
+
+
+    </LinearLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="View List"
+        android:id="@+id/dist"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/displaydistance"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/getmiles"
+        android:text="Get Miles"
+        android:layout_below="@+id/dist"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/displaymiles"
+        android:layout_toRightOf="@+id/getmiles" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/getcals"
+        android:text="Get Calories"
+        android:layout_below="@+id/getmiles"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/displaycals"
+        android:layout_toRightOf="@+id/getcals" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/transfer"
+        android:text="Transfer to Database"
+        android:layout_below="@+id/displaycals"
+        android:onClick="insertdetails"/>
+
+
+
+</LinearLayout>
