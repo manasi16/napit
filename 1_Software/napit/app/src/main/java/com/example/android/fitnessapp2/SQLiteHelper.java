@@ -41,12 +41,26 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
         public static final String Tables_Column_Sensor_Timestamp = "SensorTimestamp";
 
+        //Sleep Anomaly Result table
+        public static final String TABLE_NAME_AnomalyResult = "AnomalyResultTable";
+
+        public static final String Table_Column_Anomaly_ID = "id";
+
+        public static final String Table_Column_User_Email = "UserEmail";
+
+        public static final String Table_Column_Date = "date";
+
+        public static final String Table_Column_Result = "result";
+
+        //Normal sleep: +1, Abnormal Sleep: -1
+        public static final String Table_Column_Decision = "decision";
+
         //Don't care about this right now
         //public static final String Table_Column_1_Username="name";
 
         public SQLiteHelper(Context context) {
 
-            super(context, DATABASE_NAME, null, 3);
+            super(context, DATABASE_NAME, null, 7);
 }
 
         @Override
@@ -54,10 +68,13 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
             String CREATE_TABLE="CREATE TABLE IF NOT EXISTS "+TABLE_NAME+" ("+Table_Column_ID+" INTEGER PRIMARY KEY, "+Table_Column_1_Name+" VARCHAR, "+Table_Column_2_Email+" VARCHAR, "+Table_Column_3_Password+" VARCHAR)";
             //sensor table
-            String CREATE_TABLESensor="CREATE TABLE IF NOT EXISTS "+TABLE_NAME_Sensor+" ("+Table_Column_Sensor_ID+" INTEGER PRIMARY KEY, "+Table_Column_Sensor_Reading+" REAL, " + Tables_Column_Sensor_Timestamp+ " TIMESTAMP DEFAULT CURRENT_TIMESTAMP);";
+            String CREATE_TABLESensor="CREATE TABLE IF NOT EXISTS "+TABLE_NAME_Sensor+" ("+Table_Column_Sensor_ID+" INTEGER PRIMARY KEY, "+Table_Column_Sensor_Reading+" REAL, " + Tables_Column_Sensor_Timestamp+ " DATETIME DEFAULT (datetime('now','localtime')));";
+            //sleep anomaly result table
+            String CREATE_TABLEAnomaly="CREATE TABLE IF NOT EXISTS "+TABLE_NAME_AnomalyResult+" ("+Table_Column_Anomaly_ID+" INTEGER PRIMARY KEY, "+/*Table_Column_User_Email+" VARCHAR, " + Table_Column_Date+ " DATETIME "+*/Table_Column_Result+ " REAL);";
 
             database.execSQL(CREATE_TABLE);
             database.execSQL(CREATE_TABLESensor);
+            database.execSQL(CREATE_TABLEAnomaly);
 
         }
 
@@ -66,6 +83,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             db.execSQL("DROP TABLE IF EXISTS "+TABLE_NAME);
             onCreate(db);
             db.execSQL("DROP TABLE IF EXISTS "+ TABLE_NAME_Sensor);
+            onCreate(db);
+            db.execSQL("DROP TABLE IF EXISTS "+ TABLE_NAME_AnomalyResult);
             onCreate(db);
 
         }
@@ -85,7 +104,6 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         db.insert(TABLE_NAME_Sensor, null, values);
         db.close(); // Closing database connection
     }
-
 
 
     // Getting single sensor reading
@@ -197,6 +215,18 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             alc.set(1,Cursor2);
             return alc;
         }
+    }
+
+    //Adding the output of LibSVM to the database
+    void addLibSVM_Output(int output) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(Table_Column_Result, output); // Contact Name
+
+        // Inserting Row
+        db.insert(TABLE_NAME_AnomalyResult, null, values);
+        db.close(); // Closing database connection
     }
 
 }

@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -21,7 +22,7 @@ import java.util.Calendar;
 public class SleepActivity extends Activity implements SensorEventListener {
     private TextView xText, yText, zText;
     private Sensor mySensor;
-    Button startSleep,stopSleep;
+    Button startSleep,stopSleep, train_svm;
     TextView startSleepTime,stopSleepTime;
 
     private SensorManager SM;
@@ -51,6 +52,7 @@ public class SleepActivity extends Activity implements SensorEventListener {
         stopSleep=(Button)findViewById(R.id.stopbutton);
         startSleepTime=(TextView)findViewById(R.id.sleeptime1);
         stopSleepTime=(TextView)findViewById(R.id.sleeptime2);
+        train_svm = (Button)findViewById(R.id.Train_SVM);
         startSleep.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -91,6 +93,18 @@ public class SleepActivity extends Activity implements SensorEventListener {
 
             }
         });
+
+        /*train_svm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Train the SVM
+                Toast.makeText(getApplicationContext(), "Train_SVM called!", Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(SleepActivity.this,SVM.class);
+                i.putExtra("Train",true);
+                Toast.makeText(getApplicationContext(), "Service called!", Toast.LENGTH_SHORT).show();
+                startService(i);
+            }
+        });*/
 
 
         // series = new LineGraphSeries<DataPoint>();
@@ -152,15 +166,19 @@ public class SleepActivity extends Activity implements SensorEventListener {
     public void Run_Analysis(View v)
     { // Run the analysis on the data
         Intent i = new Intent(this,SVM.class);
-                startService(i);
+        startService(i);
     }
 
     public void Train_SVM(View v)
     { // Train the SVM
+        Toast.makeText(this, "Train_SVM called!", Toast.LENGTH_SHORT).show();
         Intent i = new Intent(this,SVM.class);
         i.putExtra("Train",true);
+        Toast.makeText(this, "Service called!", Toast.LENGTH_SHORT).show();
         startService(i);
     }
+
+
 
 }
 
