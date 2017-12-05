@@ -13,6 +13,8 @@ import android.widget.Toast;
 public class DashboardActivity extends AppCompatActivity {
 
 ImageButton sleepImage, exerciseImage, foodImage, vsImage, sugImage;
+    Button btnLogout;
+    private Session session;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,6 +24,23 @@ ImageButton sleepImage, exerciseImage, foodImage, vsImage, sugImage;
         foodImage=(ImageButton) findViewById(R.id.foodicon);
         vsImage=(ImageButton)findViewById(R.id.vsicon);
         sugImage=(ImageButton) findViewById(R.id.sugicon);
+        session= new Session(this);
+        String email1= session.getEmail();
+        Toast.makeText(this, email1, Toast.LENGTH_LONG).show();
+
+        if(!session.loggedin())
+        {
+            logout();
+        }
+        btnLogout=(Button)findViewById(R.id.idLogOut);
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logout();
+            }
+
+        });
+
         sleepImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -29,8 +48,21 @@ ImageButton sleepImage, exerciseImage, foodImage, vsImage, sugImage;
                 startActivity(i);
             }
         });
+        exerciseImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i1 = new Intent(DashboardActivity.this,Exercise.class);
+                startActivity(i1);
+            }
+        });
 
 
 
     }
+    private void logout() {
+        session.setLoggedin(false);
+        finish();
+        startActivity(new Intent(DashboardActivity.this, MainActivity.class));
+    }
+
 }

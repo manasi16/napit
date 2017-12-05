@@ -105,13 +105,18 @@
         android:layout_height="wrap_content"
         android:id="@+id/displaycals"
         android:layout_toRightOf="@+id/getcals" />
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/transfer"
         android:text="Transfer to Database"
-        android:layout_below="@+id/displaycals"
+        android:layout_alignParentBottom="true"
         android:onClick="insertdetails"/>
+        <Button android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/idLogOut" android:layout_alignParentEnd="true" android:layout_marginEnd="11dp" android:text="Logout" android:layout_marginBottom="13dp" android:layout_alignParentBottom="true"/>
+    </RelativeLayout>
 
 
 

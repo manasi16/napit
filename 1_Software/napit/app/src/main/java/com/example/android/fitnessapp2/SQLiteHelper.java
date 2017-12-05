@@ -28,6 +28,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         public static final String Table_Column_3_Password="password";
     //ExerciseTable
         public static final String TABLE_NAME2 = "ExerciseTable";
+
+        public static final String Ex_Col0= "Email";
         public static final String Ex_Col1 = "Steps";
         public static final String Ex_Col2 = "Miles";
         public static final String Ex_Col3 = "Calories";
@@ -38,14 +40,14 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
         public SQLiteHelper(Context context) {
 
-            super(context, DATABASE_NAME, null, 5);
+            super(context, DATABASE_NAME, null, 8);
 }
 
         @Override
         public void onCreate(SQLiteDatabase database) {
 
             String CREATE_TABLE="CREATE TABLE IF NOT EXISTS "+TABLE_NAME+" ("+Table_Column_ID+" INTEGER PRIMARY KEY, "+Table_Column_1_Name+" VARCHAR, "+Table_Column_2_Email+" VARCHAR, "+Table_Column_3_Password+" VARCHAR)";
-            String CREATE_TABLE2="CREATE TABLE IF NOT EXISTS "+TABLE_NAME2+" ("+Ex_ID+" INTEGER PRIMARY KEY, "+Ex_Col1+" VARCHAR, "+Ex_Col2+" VARCHAR, "+Ex_Col3+" VARCHAR, "+Ex_Col4+" VARCHAR)";
+            String CREATE_TABLE2="CREATE TABLE IF NOT EXISTS "+TABLE_NAME2+" ("+Ex_ID+" INTEGER PRIMARY KEY, "+Ex_Col0+" VARCHAR, "+Ex_Col1+" VARCHAR, "+Ex_Col2+" VARCHAR, "+Ex_Col3+" VARCHAR, "+Ex_Col4+" VARCHAR)";
             database.execSQL(CREATE_TABLE);
             database.execSQL(CREATE_TABLE2);
             //String CREATE_TABLE2="CREATE TABLE IF NOT EXISTS "+TABLE_NAME2+" ("+Table_Column_ID+" INTEGER PRIMARY KEY, "+xval+" VARCHAR, "+yval+" VARCHAR, "+zval+" VARCHAR)";
@@ -57,14 +59,17 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
+
+
            onCreate(db);
 
         }
 
-    public long insertExercise(float steps,float miles, float calories, String duration)
+    public long insertExercise(String email,float steps,float miles, float calories, String duration)
     {
         SQLiteDatabase sqLiteDatabase=getWritableDatabase();
         ContentValues contentValues = new ContentValues();
+        contentValues.put(Ex_Col0,email);
         contentValues.put(Ex_Col1,steps);
         contentValues.put(Ex_Col2,miles);
         contentValues.put(Ex_Col3,calories);
@@ -74,6 +79,22 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         return id;
 
     }
+
+    public boolean getUser(String email, String pass)
+    {
+        String selectQuery= "SELECT * FROM " + TABLE_NAME + " where " + Table_Column_2_Email + " = " + "'"+email+"'" + " and " + Table_Column_3_Password + " = " + "'"+pass+"'";
+        SQLiteDatabase db= this.getReadableDatabase();
+        Cursor cursor= db.rawQuery(selectQuery,null);
+        cursor.moveToFirst();
+        if(cursor.getCount()>0)
+        {
+            return true;
+        }
+        cursor.close();
+        db.close();
+        return false;
+    }
+
 
     public Cursor getListData(){
         SQLiteDatabase sqLiteDatabase = getWritableDatabase();

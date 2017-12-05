@@ -21,14 +21,15 @@ public class Exercise extends AppCompatActivity implements SensorEventListener {
     SensorManager sm;
     Chronometer simpleChronometer;
     TextView tv,displaydist,displayMiles,displayCalories;
-    Button getDist,getMiles,getCalories,startButton,stopButton,restartButton;
+    Button getDist,getMiles,getCalories,startButton,stopButton,restartButton,btnLogout;
     public float stepsInSensor = 0;
     public float stepsAtReset;
     public float stepsSinceReset,miles,calories;
-    String duration;
+    String duration,email1;
+    private Session session;
     SQLiteHelper Exercisedb;
 
-    //CountUpTimer timer2;
+
 
     boolean walk = false;
 
@@ -58,6 +59,23 @@ public class Exercise extends AppCompatActivity implements SensorEventListener {
         displaydist=(TextView)findViewById(R.id.displaydistance);
         getDist=(Button)findViewById(R.id.dist);
         sm=(SensorManager)getSystemService(Context.SENSOR_SERVICE);
+        session= new Session(this);
+        String email= session.getEmail();
+        email1=email.toString();
+        if(!session.loggedin())
+        {
+            logout();
+        }
+
+        btnLogout=(Button)findViewById(R.id.idLogOut);
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logout();
+            }
+
+        });
+
 
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -191,7 +209,7 @@ public class Exercise extends AppCompatActivity implements SensorEventListener {
 
     public void insertdetails(View v){
 
-        long id = Exercisedb.insertExercise(stepsSinceReset,miles,calories,duration);
+        long id = Exercisedb.insertExercise(email1,stepsSinceReset,miles,calories,duration);
         Toast.makeText(this,"Let's check values",Toast.LENGTH_SHORT).show();
 
         if(id<0){
@@ -201,6 +219,13 @@ public class Exercise extends AppCompatActivity implements SensorEventListener {
             Toast.makeText(this,"Transfer Successful",Toast.LENGTH_SHORT).show();
         }
 
+    }
+
+
+    private void logout() {
+        session.setLoggedin(false);
+        finish();
+        startActivity(new Intent(Exercise.this, MainActivity.class));
     }
 
 
