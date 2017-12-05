@@ -29,7 +29,7 @@ public class ViewList extends AppCompatActivity {
         }
         else{
             while (data.moveToNext()){
-                myList.add("Email: "+ data.getString(1)+"\nSteps: "+data.getString(2)+"\nMiles: "+ data.getString(3)+"\nCalories: "+ data.getString(4)+"\nDuration: "+data.getString(5));
+                myList.add("Email: "+ data.getString(1)+"\nSteps: "+data.getString(2)+"\nMiles: "+ data.getString(3)+"\nCalories: "+ data.getString(4)+"\nDuration: "+data.getString(5)+"\nDate: "+data.getString(6));
                 //   myList.add(data.getString(2));
 
 

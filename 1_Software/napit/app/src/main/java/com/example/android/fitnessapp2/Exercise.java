@@ -17,6 +17,10 @@ import android.widget.Chronometer;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 public class Exercise extends AppCompatActivity implements SensorEventListener {
     SensorManager sm;
     Chronometer simpleChronometer;
@@ -25,7 +29,7 @@ public class Exercise extends AppCompatActivity implements SensorEventListener {
     public float stepsInSensor = 0;
     public float stepsAtReset;
     public float stepsSinceReset,miles,calories;
-    String duration,email1;
+    String duration,email1,date1,date;
     private Session session;
     SQLiteHelper Exercisedb;
 
@@ -208,8 +212,12 @@ public class Exercise extends AppCompatActivity implements SensorEventListener {
     }
 
     public void insertdetails(View v){
+        DateFormat dfDate = new SimpleDateFormat("yyyy/MM/dd");
+        date=dfDate.format(Calendar.getInstance().getTime());
+        date1=date.toString();
+        DateFormat dfTime = new SimpleDateFormat("HH:mm");
 
-        long id = Exercisedb.insertExercise(email1,stepsSinceReset,miles,calories,duration);
+        long id = Exercisedb.insertExercise(email1,stepsSinceReset,miles,calories,duration,date1);
         Toast.makeText(this,"Let's check values",Toast.LENGTH_SHORT).show();
 
         if(id<0){
