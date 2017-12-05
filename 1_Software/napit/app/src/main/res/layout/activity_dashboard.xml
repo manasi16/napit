@@ -77,5 +77,6 @@
         android:scaleType="fitCenter"
         android:layout_below="@+id/vsicon"
         android:layout_toEndOf="@+id/foodicon" />
+    <Button android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/idLogOut" android:layout_alignParentEnd="true" android:layout_marginEnd="11dp" android:text="Logout" android:layout_marginBottom="13dp" android:layout_alignParentBottom="true"/>
 </RelativeLayout>
 

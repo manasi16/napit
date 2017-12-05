@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     Button LogInButton, RegisterButton ;
     EditText Email, Password ;
     String EmailHolder, PasswordHolder;
@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     SQLiteDatabase sqLiteDatabaseObj;
     SQLiteHelper sqLiteHelper;
     Cursor cursor;
+    private Session session;
     String TempPassword = "NOT_FOUND" ;
     public static final String UserEmail = "";
 
@@ -35,8 +36,10 @@ public class MainActivity extends AppCompatActivity {
         Password = (EditText)findViewById(R.id.editPassword);
 
         sqLiteHelper = new SQLiteHelper(this);
+        session= new Session(this);
 
         //Adding click listener to log in button.
+        /*
         LogInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -50,8 +53,11 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+*/
+        LogInButton.setOnClickListener(this);
 
         // Adding click listener to register button.
+        /*
         RegisterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -62,12 +68,19 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+        */
+        RegisterButton.setOnClickListener(this);
+        if(session.loggedin())
+        {
+            startActivity(new Intent(MainActivity.this,DashboardActivity.class ));
+            finish();
+        }
 
     }
 
     // Login function starts from here.
     public void LoginFunction(){
-
+/*
         if(EditTextEmptyHolder) {
 
             // Opening SQLite database write permission.
@@ -100,10 +113,27 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this,"Please Enter UserName or Password.",Toast.LENGTH_LONG).show();
 
         }
+*/
+        String email= Email.getText().toString();
+        String pass= Password.getText().toString();
+
+        if (sqLiteHelper.getUser(email,pass))
+        {
+            session.setLoggedin(true);
+            startActivity(new Intent(MainActivity.this, DashboardActivity.class));
+            finish();
+        }
+        else
+        {
+            Toast.makeText(getApplicationContext(), "Wrong Email/Password!", Toast.LENGTH_LONG).show();
+        }
+
+        session.setEmail(email);
 
     }
 
     // Checking EditText is empty or not.
+    /*
     public void CheckEditTextStatus(){
 
         // Getting value from All EditText and storing into String Variables.
@@ -146,6 +176,24 @@ public class MainActivity extends AppCompatActivity {
 
         }
         TempPassword = "NOT_FOUND" ;
+
+    }
+    */
+
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId())
+        {
+            case R.id.buttonLogin:
+                LoginFunction();
+                break;
+            case R.id.buttonRegister:
+                startActivity(new Intent(MainActivity.this, RegisterActivity.class));
+                break;
+            default:
+        }
+
 
     }
 }
