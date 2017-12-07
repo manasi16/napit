@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.android.fitnessapp2.EditPersonalDetails">
+
+
+
+        <TextView
+            android:id="@+id/edit_personalDetails"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Edit Personal Details"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+            android:layout_marginTop="32dp"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/nameEditText" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Name: "
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+            android:layout_below="@+id/edit_personalDetails"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="19dp"
+            android:layout_marginTop="32dp"
+            android:id="@+id/nameEditText" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Enter your Name"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+            android:layout_alignBaseline="@+id/nameEditText"
+            android:layout_alignBottom="@+id/nameEditText"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/edit_name"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Email id : "
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+            android:layout_below="@+id/nameEditText"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="19dp"
+            android:layout_marginTop="32dp"
+            android:id="@+id/emailEditText" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Enter your Email ID"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+            android:id="@+id/edit_email"
+            android:layout_alignBaseline="@+id/emailEditText"
+            android:layout_alignBottom="@+id/emailEditText"
+            android:layout_alignStart="@+id/edit_name" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Age: "
+            android:id="@+id/ageEditText"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/edit_email"
+            android:layout_alignStart="@+id/emailEditText" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Enter your Age"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+            android:id="@+id/edit_age"
+            android:layout_alignBaseline="@+id/ageEditText"
+            android:layout_alignBottom="@+id/ageEditText"
+            android:layout_alignStart="@+id/edit_name" />
+
+        <EditText
+            android:id="@+id/edit_height"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/heightEditText"
+            android:layout_alignBottom="@+id/heightEditText"
+            android:layout_toEndOf="@+id/emailEditText"
+            android:ems="10"
+            android:hint="Enter your Height"
+            android:inputType="textPersonName"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
+
+        <TextView
+            android:id="@+id/heightEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/ageEditText"
+            android:layout_below="@+id/edit_age"
+            android:layout_marginTop="20dp"
+            android:text="Height: "
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
+
+        <TextView
+            android:id="@+id/weightEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/heightEditText"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+            android:layout_below="@+id/edit_height"
+            android:layout_marginTop="17dp"
+            android:text="Weight: " />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save"
+            android:id="@+id/saveDetails"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="14dp" />
+
+
+        <EditText
+            android:id="@+id/edit_weight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+            android:ems="10"
+            android:hint="Enter your Weight"
+            android:inputType="textPersonName"
+            android:layout_alignBaseline="@+id/weightEditText"
+            android:layout_alignBottom="@+id/weightEditText"
+            android:layout_alignEnd="@+id/edit_height" />
+
+        <TextView
+            android:id="@+id/locationEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/weightEditText"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+            android:layout_below="@+id/edit_weight"
+            android:layout_marginTop="19dp"
+            android:text="Location: " />
+
+        <EditText
+            android:id="@+id/edit_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/locationEditText"
+            android:layout_alignBottom="@+id/locationEditText"
+            android:layout_alignStart="@+id/edit_weight"
+            android:ems="10"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+            android:hint="Enter your Location"
+            android:inputType="textPersonName" />
+
+
+    </RelativeLayout>
+
+
