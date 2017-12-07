@@ -50,6 +50,10 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
         public static final String Tables_Column_Sensor_Timestamp = "SensorTimestamp";
 
+        public static final String Tables_Column_Sensor_Date = "SensorDate";
+
+        public static final String Tables_Column_Sensor_Time = "SensorTime";
+
         //Sleep Anomaly Result table
         public static final String TABLE_NAME_AnomalyResult = "AnomalyResultTable";
 
@@ -69,7 +73,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
         public SQLiteHelper(Context context) {
 
-            super(context, DATABASE_NAME, null, 9);
+            super(context, DATABASE_NAME, null, 11);
 }
 
         @Override
@@ -77,7 +81,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
             String CREATE_TABLE="CREATE TABLE IF NOT EXISTS "+TABLE_NAME+" ("+Table_Column_ID+" INTEGER PRIMARY KEY, "+Table_Column_1_Name+" VARCHAR, "+Table_Column_2_Email+" VARCHAR, "+Table_Column_3_Password+" VARCHAR)";
             //sensor table
-            String CREATE_TABLESensor="CREATE TABLE IF NOT EXISTS "+TABLE_NAME_Sensor+" ("+Table_Column_Sensor_ID+" INTEGER PRIMARY KEY, "+Table_Column_Sensor_Reading+" REAL, " + Tables_Column_Sensor_Timestamp+ " DATETIME DEFAULT (datetime('now','localtime')));";
+            String CREATE_TABLESensor="CREATE TABLE IF NOT EXISTS "+TABLE_NAME_Sensor+" ("+Table_Column_Sensor_ID+" INTEGER PRIMARY KEY, "+Table_Column_Sensor_Reading+" REAL, " + Tables_Column_Sensor_Date+ " VARCHAR, "+Tables_Column_Sensor_Time + " VARCHAR);";
             //sleep anomaly result table
             String CREATE_TABLEAnomaly="CREATE TABLE IF NOT EXISTS "+TABLE_NAME_AnomalyResult+" ("+Table_Column_Anomaly_ID+" INTEGER PRIMARY KEY, "+/*Table_Column_User_Email+" VARCHAR, " + Table_Column_Date+ " DATETIME "+*/Table_Column_Result+ " REAL);";
 
@@ -103,11 +107,13 @@ public class SQLiteHelper extends SQLiteOpenHelper {
      */
 
     // Adding new contact
-    void addSensorReading(float SensorReading) {
+    void addSensorReading(float SensorReading, String date, String time) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
         values.put(Table_Column_Sensor_Reading, SensorReading); // Contact Name
+        values.put(Tables_Column_Sensor_Date, date);
+        values.put(Tables_Column_Sensor_Time, time);
 
         // Inserting Row
         db.insert(TABLE_NAME_Sensor, null, values);
@@ -131,13 +137,25 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     }
 
     //get sensor reading for a particular date
-    /*public Vector getSensorReadingsByDate(String date){
+    public int getReadingsByDate(String date) {
 
-        String selectQuery = "SELECT  * FROM " + TABLE_NAME_Sensor + " WHERE " + Tables_Column_Sensor_Timestamp+ " = date);";
+        SQLiteDatabase db = getWritableDatabase();
+        String selectQuery = "SELECT * FROM " + TABLE_NAME_Sensor + " where " + Tables_Column_Sensor_Date + " = " + "'" + date + "'";
+        // String selectQuery = "SELECT * FROM " + TABLE_NAME_Sensor;
 
-        SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
-        Vector SensorReadingsByDate = new Vector();
+        return cursor.getCount();
+    }
+
+    public Cursor getSensorReadingsByDate(String date){
+
+        SQLiteDatabase db = getWritableDatabase();
+        String selectQuery = "SELECT * FROM " + TABLE_NAME_Sensor + " where " + Tables_Column_Sensor_Date+ " = "+"'"+date+"'";
+       // String selectQuery = "SELECT * FROM " + TABLE_NAME_Sensor;
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        return cursor;
+        /*Vector SensorReadingsByDate = new Vector();
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
@@ -146,8 +164,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         }
 
         // return contact list
-        return SensorReadingsByDate;
-    }*/
+        return SensorReadingsByDate;*/
+    }
 
     // Getting All sensor readings
     public Vector getAllSensorReadings() {

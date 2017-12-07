@@ -3,6 +3,7 @@ package com.example.android.fitnessapp2;
 import android.app.Service;
 import android.content.Intent;
 import android.content.res.AssetManager;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
 import android.os.IBinder;
@@ -17,6 +18,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Array;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -33,8 +35,11 @@ public class SVM extends Service {
     String appFolderPath;
     LibSVM svm;
     SQLiteHelper helper;
+    Cursor cursor;
+    int cv;
     Vector SensorReadingsByDate;
     Vector AllSensorReadings;
+    String date, date1;
 
     public SVM() {
         /*systemPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/";
@@ -91,7 +96,8 @@ public class SVM extends Service {
         // need to pass in a date to examine
         //getting the current date
         DateFormat dfDate = new SimpleDateFormat("yyyy/MM/dd");
-        String date=dfDate.format(Calendar.getInstance().getTime());
+        date1=dfDate.format(Calendar.getInstance().getTime());
+        date=date1.toString();
 
         //pass the date to examine the data of that particular date
         GetDataFromDatabase(date);
@@ -141,22 +147,44 @@ public class SVM extends Service {
         // write to file at under appFolderPath
         // since this SVM only seems to like files.
 
-        //SQLiteHelper helper = new SQLiteHelper(this);
-        //SensorReadingsByDate = helper.getSensorReadingsByDate(date);
-        AllSensorReadings = helper.getAllSensorReadings();
-        int len = AllSensorReadings.size();
+        SQLiteHelper helper = new SQLiteHelper(this);
+        cursor = helper.getSensorReadingsByDate(date);
+
+        SensorReadingsByDate = new Vector();
+        //cv =  helper.getReadingsByDate(date);
+        if(cursor.getCount()!= 0){
+          Toast.makeText(this,"Data"+cursor.getCount(),Toast.LENGTH_SHORT).show();
+
+        }
+        else {
+            int j = 0;
+            while (cursor.moveToNext()) {
+                j++;
+            }
+            Toast.makeText(this, "Data" + j, Toast.LENGTH_LONG).show();
+        }
+
+        if (cursor.moveToFirst()) {
+            do {
+                SensorReadingsByDate.addElement(Float.parseFloat(cursor.getString(1)));
+            } while (cursor.moveToNext());
+        }
+
+        //AllSensorReadings = helper.getAllSensorReadings();
+
+        int len = SensorReadingsByDate.size();
         Toast.makeText(this, "Getting Data" + len, Toast.LENGTH_SHORT).show();
-        //Toast.makeText(this, len, Toast.LENGTH_SHORT).show();
+
 
         //Feature 1: Average
         //Taking average of all z-values
         float sum = 0;
         float avg;
         String avg_string;
-        for (int i = 0; i < AllSensorReadings.size(); i++){
-            sum = sum + (float) AllSensorReadings.elementAt(i);
+        for (int i = 0; i < SensorReadingsByDate.size(); i++){
+            sum = sum + (float) SensorReadingsByDate.elementAt(i);
         }
-        avg = sum/AllSensorReadings.size();
+        avg = sum/SensorReadingsByDate.size();
         Toast.makeText(this, "Getting Average! "+ avg, Toast.LENGTH_SHORT).show();
         avg_string = "" + avg;
 

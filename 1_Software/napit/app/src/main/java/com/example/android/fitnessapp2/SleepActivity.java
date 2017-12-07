@@ -24,6 +24,7 @@ public class SleepActivity extends Activity implements SensorEventListener {
     private Sensor mySensor;
     Button startSleep,stopSleep, train_svm;
     TextView startSleepTime,stopSleepTime;
+    String date, date1, time, time1;
 
     private SensorManager SM;
     SQLiteHelper SensorReadingdb;
@@ -130,8 +131,16 @@ public class SleepActivity extends Activity implements SensorEventListener {
         zText.setText("Z: " + event.values[2]);
 
         //DateFormat dfTime = new SimpleDateFormat("HH:mm:ss");
+        //Getting date and time
 
-        SensorReadingdb.addSensorReading(event.values[2]);
+        DateFormat dfDate = new SimpleDateFormat("yyyy/MM/dd");
+        date=dfDate.format(Calendar.getInstance().getTime());
+        date1=date.toString();
+        DateFormat dfTime = new SimpleDateFormat("HH:mm:ss");
+        time=dfTime.format(Calendar.getInstance().getTime());
+        time1=time.toString();
+
+        SensorReadingdb.addSensorReading(event.values[2], date1, time1);
 
     }
 
@@ -171,11 +180,15 @@ public class SleepActivity extends Activity implements SensorEventListener {
 
     public void Train_SVM(View v)
     { // Train the SVM
+
         Toast.makeText(this, "Train_SVM called!", Toast.LENGTH_SHORT).show();
         Intent i = new Intent(this,SVM.class);
         i.putExtra("Train",true);
         Toast.makeText(this, "Service called!", Toast.LENGTH_SHORT).show();
         startService(i);
+        /*
+        Intent i = new Intent(SleepActivity.this,DisplayReading.class);
+        startActivity(i);*/
     }
 
 
