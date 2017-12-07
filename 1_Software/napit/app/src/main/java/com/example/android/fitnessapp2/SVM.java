@@ -22,6 +22,7 @@ import java.lang.reflect.Array;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Vector;
 
 import umich.cse.yctung.androidlibsvm.LibSVM;
@@ -92,15 +93,6 @@ public class SVM extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
 
         boolean TrainMode = intent.getBooleanExtra("Train",false);
-
-        // need to pass in a date to examine
-        //getting the current date
-        DateFormat dfDate = new SimpleDateFormat("yyyy/MM/dd");
-        date1=dfDate.format(Calendar.getInstance().getTime());
-        date=date1.toString();
-
-        //pass the date to examine the data of that particular date
-        GetDataFromDatabase(date);
 
         if(TrainMode)
         {
@@ -175,19 +167,12 @@ public class SVM extends Service {
         int len = SensorReadingsByDate.size();
         Toast.makeText(this, "Getting Data" + len, Toast.LENGTH_SHORT).show();
 
-
         //Feature 1: Average
-        //Taking average of all z-values
-        float sum = 0;
-        float avg;
-        String avg_string;
-        for (int i = 0; i < SensorReadingsByDate.size(); i++){
-            sum = sum + (float) SensorReadingsByDate.elementAt(i);
-        }
-        avg = sum/SensorReadingsByDate.size();
-        Toast.makeText(this, "Getting Average! "+ avg, Toast.LENGTH_SHORT).show();
-        avg_string = "" + avg;
-
+        String avg_string = getAverage();
+        //Feature 2: Peak
+        String max_string = getPeak();
+        //Feature 3: Minimum
+        String min_string = getMin();
         //A row of file
         String str = "+1 1:" + avg_string + "\n";
 
@@ -204,6 +189,55 @@ public class SVM extends Service {
 
     }
 
+    //Feature 1: Average
+    //Taking average of all z-values
+    public String getAverage(){
+
+        float sum = 0;
+        float avg;
+        String avg_string;
+        for (int i = 0; i < SensorReadingsByDate.size(); i++){
+            sum = sum + (float) SensorReadingsByDate.elementAt(i);
+        }
+        avg = sum/SensorReadingsByDate.size();
+        Toast.makeText(this, "Getting Average! "+ avg, Toast.LENGTH_SHORT).show();
+        avg_string = "" + avg;
+
+        return avg_string;
+    }
+
+    //Feature 2: Peak
+    //Taking max z-value
+    public String getPeak(){
+
+        float max = 0;
+        String max_string;
+        Collections.sort(SensorReadingsByDate);
+        max = (float) SensorReadingsByDate.lastElement();
+        Toast.makeText(this, "Getting Maximum! "+ max, Toast.LENGTH_SHORT).show();
+        max_string = "" + max;
+        return max_string;
+    }
+
+    //Feature 3: Minimum
+    //Taking minimum z-value
+    public String getMin(){
+
+        float min = 0;
+        String min_string;
+        Collections.sort(SensorReadingsByDate);
+        min = (float) SensorReadingsByDate.firstElement();
+        Toast.makeText(this, "Getting Minimum! "+ min, Toast.LENGTH_SHORT).show();
+        min_string = "" + min;
+        return min_string;
+    }
+
+    //Feature 4: Duration
+    //Total duration of sleep
+    //public String getDuration(){
+
+    //    return "";
+    //}
 
     public void TrainSVM()
     { // train the SVM with some data
@@ -216,7 +250,17 @@ public class SVM extends Service {
     }
 
     public void PredictSVM()
-    { // try to predict something
+    {
+        // need to pass in a date to examine
+        //getting the current date
+        DateFormat dfDate = new SimpleDateFormat("yyyy/MM/dd");
+        date1=dfDate.format(Calendar.getInstance().getTime());
+        date=date1.toString();
+
+        //pass the date to examine the data of that particular date
+        GetDataFromDatabase(date);
+
+        // try to predict something
         Toast.makeText(this,"Analysing Data", Toast.LENGTH_LONG).show();
         //svm.predict(appFolderPath + "hear_scale_predict " + appFolderPath + "model " + appFolderPath + "result");
         svm.predict(appFolderPath + "userData "+ appFolderPath+"model " + appFolderPath + "result ");
