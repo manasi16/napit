@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 public class DashboardActivity extends AppCompatActivity {
 
-ImageButton sleepImage, exerciseImage, foodImage, vsImage, sugImage;
+ImageButton sleepImage, exerciseImage, foodImage, vsImage, sugImage,settingsImage;
     Button btnLogout;
     private Session session;
     @Override
@@ -20,6 +20,7 @@ ImageButton sleepImage, exerciseImage, foodImage, vsImage, sugImage;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
         sleepImage=(ImageButton) findViewById(R.id.sleepicon);
+        settingsImage=(ImageButton)findViewById(R.id.profile);
         exerciseImage=(ImageButton) findViewById(R.id.exerciseicon);
         foodImage=(ImageButton) findViewById(R.id.foodicon);
         vsImage=(ImageButton)findViewById(R.id.vsicon);
@@ -40,6 +41,14 @@ ImageButton sleepImage, exerciseImage, foodImage, vsImage, sugImage;
             }
 
         });
+        settingsImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(DashboardActivity.this,PersonalDetails.class);
+                startActivity(i);
+            }
+        });
+
 
         sleepImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,7 +64,21 @@ ImageButton sleepImage, exerciseImage, foodImage, vsImage, sugImage;
                 startActivity(i1);
             }
         });
+        vsImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i1 = new Intent(DashboardActivity.this,ViewExercise.class);
+                startActivity(i1);
 
+            }
+        });
+      sugImage.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View view) {
+              Intent i1 = new Intent(DashboardActivity.this,ContactUs.class);
+              startActivity(i1);
+          }
+      });
 
 
     }
