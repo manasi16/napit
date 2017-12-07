@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.android.fitnessapp2.PersonalDetails">
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="27dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+        android:text="Personal Details"
+        android:id="@+id/personalDetails"/>
+
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="31dp"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+        android:text="Name: " android:id="@+id/textname"
+        android:layout_toStartOf="@+id/email_holder"
+        android:layout_below="@+id/camera_image"/>
+
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="21dp"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+        android:text="Email ID: "
+        android:id="@+id/textemail"
+        android:layout_below="@+id/textname"
+        android:layout_alignStart="@+id/textname"/>
+
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+        android:text=" "
+        android:id="@+id/name_holder"
+        android:layout_alignStart="@+id/email_holder"
+        android:layout_above="@+id/textemail"/>
+
+
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+        android:text=" "
+        android:id="@+id/email_holder"
+        android:layout_alignStart="@+id/personalDetails"
+        android:layout_marginStart="39dp"
+        android:layout_alignBottom="@+id/textemail"
+        android:layout_alignBaseline="@+id/textemail"/>
+
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="21dp"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+        android:text="Age: "
+        android:id="@+id/textage"
+        android:layout_below="@+id/textemail"
+        android:layout_alignStart="@+id/textname"/>
+
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+        android:text=" "
+        android:id="@+id/age_holder"
+        android:layout_alignStart="@+id/email_holder"
+        android:layout_alignTop="@+id/textage"/>
+
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:text="Height: "
+        android:id="@+id/textheight"
+        android:layout_below="@+id/textage"
+        android:layout_alignStart="@+id/textage"/>
+
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="26dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:text="Weight: "
+        android:id="@+id/textweight"
+        android:layout_below="@+id/textheight"
+        android:layout_alignStart="@+id/textheight"/>
+
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+        android:text=" "
+        android:id="@+id/weight_holder"
+        android:layout_alignStart="@+id/height_holder"
+        android:layout_above="@+id/textllocation"
+        android:layout_toEndOf="@+id/height_holder"/>
+
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+        android:text=" " android:id="@+id/height_holder"
+        android:layout_alignStart="@+id/email_holder"
+        android:layout_alignTop="@+id/textheight"
+        android:layout_toEndOf="@+id/age_holder"/>
+
+    <Button
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="Edit Details"
+        android:id="@+id/btnDetails"
+        android:layout_toEndOf="@+id/textweight"
+        android:layout_alignParentBottom="true"/>
+
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:id="@+id/textView4"
+        android:layout_alignStart="@+id/btnDetails"/>
+
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="28dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:text="Location: "
+        android:id="@+id/textllocation"
+        android:layout_below="@+id/textweight"
+        android:layout_alignStart="@+id/textweight"/>
+
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+        android:text=" "
+        android:id="@+id/location_holder"
+        android:layout_alignStart="@+id/weight_holder"
+        android:layout_alignTop="@+id/textllocation"/>
+
+    <ImageView
+        android:layout_height="65dp"
+        android:layout_width="65dp"
+        android:layout_marginTop="15dp"
+        android:id="@+id/camera_image"
+        android:layout_below="@+id/personalDetails"
+        android:layout_alignStart="@+id/email_holder"
+        android:layout_toEndOf="@+id/name_holder"
+        app:srcCompat="@drawable/noimage"/>
+
+</RelativeLayout>
