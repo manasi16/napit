@@ -3,16 +3,24 @@ package com.example.android.fitnessapp2;
 import android.app.Service;
 import android.content.Intent;
 import android.content.res.AssetManager;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
 import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Vector;
 
 import umich.cse.yctung.androidlibsvm.LibSVM;
 
@@ -24,6 +32,9 @@ public class SVM extends Service {
     String systemPath;
     String appFolderPath;
     LibSVM svm;
+    SQLiteHelper helper;
+    Vector SensorReadingsByDate;
+    Vector AllSensorReadings;
 
     public SVM() {
         /*systemPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/";
@@ -53,6 +64,8 @@ public class SVM extends Service {
         CreateAppFolderIfNeeded();
         copyAssetsDataIfNeed();
 
+        helper = new SQLiteHelper(this);
+
         //Assign model/output paths
         /*String dataTrainPath = appFolderPath+"heart_scale ";
         String dataScaledPath = appFolderPath+"scaled";
@@ -76,7 +89,12 @@ public class SVM extends Service {
         boolean TrainMode = intent.getBooleanExtra("Train",false);
 
         // need to pass in a date to examine
-        GetDataFromDatabase();
+        //getting the current date
+        DateFormat dfDate = new SimpleDateFormat("yyyy/MM/dd");
+        String date=dfDate.format(Calendar.getInstance().getTime());
+
+        //pass the date to examine the data of that particular date
+        GetDataFromDatabase(date);
 
         if(TrainMode)
         {
@@ -113,7 +131,7 @@ public class SVM extends Service {
         Toast.makeText(this,"Finished", Toast.LENGTH_LONG).show();
     }
 
-    public void GetDataFromDatabase()
+    public void GetDataFromDatabase(String  date)
     { // Pull data for given night
 
         // Convert to weird sparse matrix format see files under napit/libsvm_Example_Datasets
@@ -122,6 +140,39 @@ public class SVM extends Service {
 
         // write to file at under appFolderPath
         // since this SVM only seems to like files.
+
+        //SQLiteHelper helper = new SQLiteHelper(this);
+        //SensorReadingsByDate = helper.getSensorReadingsByDate(date);
+        AllSensorReadings = helper.getAllSensorReadings();
+        int len = AllSensorReadings.size();
+        Toast.makeText(this, "Getting Data" + len, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, len, Toast.LENGTH_SHORT).show();
+
+        //Feature 1: Average
+        //Taking average of all z-values
+        float sum = 0;
+        float avg;
+        String avg_string;
+        for (int i = 0; i < AllSensorReadings.size(); i++){
+            sum = sum + (float) AllSensorReadings.elementAt(i);
+        }
+        avg = sum/AllSensorReadings.size();
+        Toast.makeText(this, "Getting Average! "+ avg, Toast.LENGTH_SHORT).show();
+        avg_string = "" + avg;
+
+        //A row of file
+        String str = "+1 1:" + avg_string + "\n";
+
+        //Writing the data to a file
+        File file = new File(appFolderPath, "userData");
+        try {
+            FileOutputStream stream = new FileOutputStream(file);
+            stream.write(str.getBytes());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -140,13 +191,25 @@ public class SVM extends Service {
     { // try to predict something
         Toast.makeText(this,"Analysing Data", Toast.LENGTH_LONG).show();
         //svm.predict(appFolderPath + "hear_scale_predict " + appFolderPath + "model " + appFolderPath + "result");
-        svm.predict(appFolderPath + "heart_scale_predict "+ appFolderPath+"model " + appFolderPath + "predict ");
+        svm.predict(appFolderPath + "userData "+ appFolderPath+"model " + appFolderPath + "result ");
+        //WriteAnalysisResultsToDB();
     }
 
     public void WriteAnalysisResultsToDB()
     { // whatever format this puts out
         // store into the database with username and date.
 
+        //Creating a database object
+        SQLiteHelper helper = new SQLiteHelper(this);
+
+        //Find the directory for external storage
+        File sdcard = Environment.getExternalStorageDirectory();
+
+        //Find the file
+        File file = new File(sdcard, "predict");
+
+        //Add the file to the db
+        helper.addLibSVM_Output(file);
     }
 
     private void CreateAppFolderIfNeeded(){

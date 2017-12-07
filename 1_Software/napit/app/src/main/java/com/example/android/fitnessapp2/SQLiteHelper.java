@@ -7,8 +7,17 @@ import android.database.MatrixCursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Base64;
 import android.util.Log;
+import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Vector;
@@ -60,7 +69,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
         public SQLiteHelper(Context context) {
 
-            super(context, DATABASE_NAME, null, 7);
+            super(context, DATABASE_NAME, null, 9);
 }
 
         @Override
@@ -121,11 +130,30 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         return SensorReading;
     }
 
+    //get sensor reading for a particular date
+    /*public Vector getSensorReadingsByDate(String date){
+
+        String selectQuery = "SELECT  * FROM " + TABLE_NAME_Sensor + " WHERE " + Tables_Column_Sensor_Timestamp+ " = date);";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        Vector SensorReadingsByDate = new Vector();
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                SensorReadingsByDate.addElement(Float.parseFloat(cursor.getString(1)));
+            } while (cursor.moveToNext());
+        }
+
+        // return contact list
+        return SensorReadingsByDate;
+    }*/
+
     // Getting All sensor readings
     public Vector getAllSensorReadings() {
         //List<float> contactList = new ArrayList<float>();
         // Select All Query
-        String selectQuery = "SELECT  * FROM " + TABLE_NAME_Sensor;
+        String selectQuery = "SELECT * FROM " + TABLE_NAME_Sensor;
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -218,11 +246,32 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     }
 
     //Adding the output of LibSVM to the database
-    void addLibSVM_Output(int output) {
+    void addLibSVM_Output(File output) {
         SQLiteDatabase db = this.getWritableDatabase();
+        String dataToSave = null;
+        //byte[] dataToSave = new byte[0];
+
+        try {
+            InputStream is = new FileInputStream(output);
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            byte[] b = new byte[1024];
+            int bytesRead = is.read(b);
+            while (bytesRead != -1){
+                bos.write(b, 0, bytesRead);
+                bytesRead = is.read(b);
+            }
+            byte[] bytes = bos.toByteArray();
+            dataToSave = Base64.encodeToString(bytes, Base64.DEFAULT);
+            //dataToSave = Base64.encode(bytes, Base64.DEFAULT);
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         ContentValues values = new ContentValues();
-        values.put(Table_Column_Result, output); // Contact Name
+        values.put(Table_Column_Result, dataToSave); // Contact Name
 
         // Inserting Row
         db.insert(TABLE_NAME_AnomalyResult, null, values);
