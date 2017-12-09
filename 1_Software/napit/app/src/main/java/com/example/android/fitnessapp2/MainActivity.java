@@ -1,5 +1,6 @@
 package com.example.android.fitnessapp2;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -11,7 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity  implements View.OnClickListener {
     Button LogInButton, RegisterButton ;
     EditText Email, Password ;
     String EmailHolder, PasswordHolder;
@@ -22,53 +23,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Session session;
     String TempPassword = "NOT_FOUND" ;
     public static final String UserEmail = "";
+    //Context context;
+
+    //private SessionHandler sessionHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //creating a new SessionHandler object
+        //sessionHandler = new SessionHandler(context);
+
         LogInButton = (Button)findViewById(R.id.buttonLogin);
-
         RegisterButton = (Button)findViewById(R.id.buttonRegister);
-
         Email = (EditText)findViewById(R.id.editEmail);
         Password = (EditText)findViewById(R.id.editPassword);
 
         sqLiteHelper = new SQLiteHelper(this);
         session= new Session(this);
 
+        //SQLiteDataBaseBuild();
+
+        //SQLiteTableBuild();
+
         //Adding click listener to log in button.
-        /*
-        LogInButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                // Calling EditText is empty or no method.
-                CheckEditTextStatus();
-
-                // Calling login method.
-                LoginFunction();
-
-
-            }
-        });
-*/
         LogInButton.setOnClickListener(this);
 
         // Adding click listener to register button.
-        /*
-        RegisterButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                // Opening new user registration activity using intent on button click.
-                Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
-                startActivity(intent);
-
-            }
-        });
-        */
         RegisterButton.setOnClickListener(this);
         if(session.loggedin())
         {

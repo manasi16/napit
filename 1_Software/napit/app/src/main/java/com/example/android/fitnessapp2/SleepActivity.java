@@ -1,6 +1,7 @@
 package com.example.android.fitnessapp2;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -12,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -20,10 +22,13 @@ import java.util.Calendar;
 public class SleepActivity extends Activity implements SensorEventListener {
     private TextView xText, yText, zText;
     private Sensor mySensor;
-    Button startSleep,stopSleep;
+    Button startSleep,stopSleep, train_svm;
     TextView startSleepTime,stopSleepTime;
+    String date, date1, time, time1;
 
     private SensorManager SM;
+    SQLiteHelper SensorReadingdb;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +39,8 @@ public class SleepActivity extends Activity implements SensorEventListener {
 
         // Accelerometer Sensor
         mySensor = SM.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+
+        SensorReadingdb = new SQLiteHelper(this);
 
         // Register sensor Listener
       //  SM.registerListener(this, mySensor, SensorManager.SENSOR_DELAY_NORMAL);
@@ -46,12 +53,13 @@ public class SleepActivity extends Activity implements SensorEventListener {
         stopSleep=(Button)findViewById(R.id.stopbutton);
         startSleepTime=(TextView)findViewById(R.id.sleeptime1);
         stopSleepTime=(TextView)findViewById(R.id.sleeptime2);
+        train_svm = (Button)findViewById(R.id.Train_SVM);
         startSleep.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 DateFormat dfDate = new SimpleDateFormat("yyyy/MM/dd");
                 String date=dfDate.format(Calendar.getInstance().getTime());
-                DateFormat dfTime = new SimpleDateFormat("HH:mm");
+                DateFormat dfTime = new SimpleDateFormat("HH:mm:ss");
                 String time = dfTime.format(Calendar.getInstance().getTime());
                 startSleepTime.setText(date + " " + time);
                 switch (view.getId()) {
@@ -71,7 +79,7 @@ public class SleepActivity extends Activity implements SensorEventListener {
             public void onClick(View view) {
                 DateFormat dfDate = new SimpleDateFormat("yyyy/MM/dd");
                 String date=dfDate.format(Calendar.getInstance().getTime());
-                DateFormat dfTime = new SimpleDateFormat("HH:mm");
+                DateFormat dfTime = new SimpleDateFormat("HH:mm:ss");
                 String time = dfTime.format(Calendar.getInstance().getTime());
                 stopSleepTime.setText(date + " " + time);
                 switch (view.getId()) {
@@ -86,6 +94,18 @@ public class SleepActivity extends Activity implements SensorEventListener {
 
             }
         });
+
+        /*train_svm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Train the SVM
+                Toast.makeText(getApplicationContext(), "Train_SVM called!", Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(SleepActivity.this,SVM.class);
+                i.putExtra("Train",true);
+                Toast.makeText(getApplicationContext(), "Service called!", Toast.LENGTH_SHORT).show();
+                startService(i);
+            }
+        });*/
 
 
         // series = new LineGraphSeries<DataPoint>();
@@ -110,9 +130,17 @@ public class SleepActivity extends Activity implements SensorEventListener {
         yText.setText("Y: " + event.values[1]);
         zText.setText("Z: " + event.values[2]);
 
+        //DateFormat dfTime = new SimpleDateFormat("HH:mm:ss");
+        //Getting date and time
 
+        DateFormat dfDate = new SimpleDateFormat("yyyy/MM/dd");
+        date=dfDate.format(Calendar.getInstance().getTime());
+        date1=date.toString();
+        DateFormat dfTime = new SimpleDateFormat("HH:mm:ss");
+        time=dfTime.format(Calendar.getInstance().getTime());
+        time1=time.toString();
 
-
+        SensorReadingdb.addSensorReading(event.values[2], date1, time1);
 
     }
 
@@ -144,8 +172,28 @@ public class SleepActivity extends Activity implements SensorEventListener {
         return true;
     }
 
+    public void Run_Analysis(View v)
+    { // Run the analysis on the data
+        Intent i = new Intent(this,SVM.class);
+        startService(i);
+    }
 
+    public void Train_SVM(View v)
+    { // Train the SVM
+
+        Toast.makeText(this, "Train_SVM called!", Toast.LENGTH_SHORT).show();
+        Intent i = new Intent(this,SVM.class);
+        i.putExtra("Train",true);
+        Toast.makeText(this, "Service called!", Toast.LENGTH_SHORT).show();
+        startService(i);
+        /*
+        Intent i = new Intent(SleepActivity.this,DisplayReading.class);
+        startActivity(i);*/
+    }
 
 
 
 }
+
+
+

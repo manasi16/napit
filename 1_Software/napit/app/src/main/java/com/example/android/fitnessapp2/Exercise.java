@@ -33,11 +33,7 @@ public class Exercise extends AppCompatActivity implements SensorEventListener {
     private Session session;
     SQLiteHelper Exercisedb;
 
-
-
     boolean walk = false;
-
-
 
 
     @Override
@@ -108,9 +104,6 @@ public class Exercise extends AppCompatActivity implements SensorEventListener {
                 duration = simpleChronometer.getText().toString();
 
 
-
-
-
             }
         });
 
@@ -156,15 +149,7 @@ public class Exercise extends AppCompatActivity implements SensorEventListener {
             }
         });
 
-
-
-
-
     }
-
-
-
-
 
 
     @Override

@@ -42,7 +42,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/startsleep"
         android:text="Start"
-        android:layout_below="@+id/zText"/>
+        android:layout_below="@+id/zText" />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -62,5 +62,26 @@
         android:layout_below="@+id/stopbutton"
         android:id="@+id/sleeptime2"
         android:layout_alignParentRight="true"/>
+
+    <Button
+        android:id="@+id/Run_Analysis"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/Train_SVM"
+        android:layout_alignBottom="@+id/Train_SVM"
+        android:layout_alignEnd="@+id/sleeptime2"
+        android:onClick="Run_Analysis"
+        android:text="Run Analysis" />
+
+    <Button
+        android:id="@+id/Train_SVM"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="62dp"
+        android:text="Train_SVM"
+        android:layout_below="@+id/sleeptime1"
+        android:layout_alignParentStart="true"
+        android:onClick="Train_SVM"
+        />
 
 </RelativeLayout>

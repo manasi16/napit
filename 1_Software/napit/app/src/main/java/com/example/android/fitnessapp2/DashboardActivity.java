@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 public class DashboardActivity extends AppCompatActivity {
 
-ImageButton sleepImage, exerciseImage, foodImage, vsImage, sugImage,settingsImage;
+ImageButton sleepImage, exerciseImage, foodImage, vsImage, sugImage,settingsImage,DebugImage;
     Button btnLogout;
     private Session session;
     @Override
@@ -25,6 +25,7 @@ ImageButton sleepImage, exerciseImage, foodImage, vsImage, sugImage,settingsImag
         foodImage=(ImageButton) findViewById(R.id.foodicon);
         vsImage=(ImageButton)findViewById(R.id.vsicon);
         sugImage=(ImageButton) findViewById(R.id.sugicon);
+        DebugImage=(ImageButton) findViewById(R.id.sqldebug);
         session= new Session(this);
         String email1= session.getEmail();
         Toast.makeText(this, email1, Toast.LENGTH_LONG).show();
@@ -70,6 +71,13 @@ ImageButton sleepImage, exerciseImage, foodImage, vsImage, sugImage,settingsImag
                 Intent i1 = new Intent(DashboardActivity.this,ViewExercise.class);
                 startActivity(i1);
 
+            }
+        });
+        DebugImage.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v) {
+
+                Intent dbmanager = new Intent(DashboardActivity.this,AndroidDatabaseManager.class);
+                startActivity(dbmanager);
             }
         });
       sugImage.setOnClickListener(new View.OnClickListener() {

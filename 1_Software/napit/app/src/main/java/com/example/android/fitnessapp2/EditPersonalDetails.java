@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 
 public class EditPersonalDetails extends AppCompatActivity {
 
@@ -16,11 +17,13 @@ public class EditPersonalDetails extends AppCompatActivity {
     private EditText detailsName, detailsEmail, detailsAge, detailsHeight, detailsWeight, detailsLocation;
     private String name = "";
     private String email = "";
+    private String gender="";
     private String age = "";
     private String weight = "";
     private String height = "";
     private String location = "";
-
+    RadioButton male,female;
+    String whichChecked;
     private SharedPreferences mpreferences;
     private SharedPreferences.Editor editor;
     @Override
@@ -28,7 +31,8 @@ public class EditPersonalDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_personal_details);
 
-
+        male=(RadioButton)findViewById(R.id.radio_male);
+        female=(RadioButton)findViewById(R.id.female);
         detailsName = (EditText)findViewById(R.id.edit_name);
         detailsEmail = (EditText)findViewById(R.id.edit_email);
         detailsAge = (EditText)findViewById(R.id.edit_age);
@@ -45,6 +49,7 @@ public class EditPersonalDetails extends AppCompatActivity {
             public void onClick(View view) {
                 name = detailsName.getText().toString();
                 email = detailsEmail.getText().toString();
+                gender=whichChecked;
                 age = detailsAge.getText().toString();
                 height = detailsHeight.getText().toString();
                 weight = detailsWeight.getText().toString();
@@ -52,6 +57,7 @@ public class EditPersonalDetails extends AppCompatActivity {
 
                 editor.putString("Name",name);
                 editor.putString("detailsEmail",email);
+                editor.putString("detailsGender",gender);
                 editor.putString("detailsAge",age);
                 editor.putString("detailsHeight",height);
                 editor.putString("detailsWeight",weight);
@@ -61,6 +67,7 @@ public class EditPersonalDetails extends AppCompatActivity {
                 Intent intent = new Intent();
                 intent.putExtra("detailsName", name);
                 intent.putExtra("detailsEmail", email);
+                intent.putExtra("detailsGender",gender);
                 intent.putExtra("detailsAge", age);
                 intent.putExtra("detailsHeight", height);
                 intent.putExtra("detailsWeight", weight);
@@ -72,4 +79,19 @@ public class EditPersonalDetails extends AppCompatActivity {
         });
 
     }
+    public void onRadioButtonClicked(View view) {
+
+        if(male.isChecked())
+        {
+            whichChecked = "Male";
+
+        }
+        else
+        {
+            whichChecked="Female";
+        }
+
+
+    }
+
 }

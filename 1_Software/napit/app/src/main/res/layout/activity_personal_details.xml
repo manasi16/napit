@@ -54,6 +54,27 @@
         android:layout_marginStart="39dp"
         android:layout_alignBottom="@+id/textemail"
         android:layout_alignBaseline="@+id/textemail"/>
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="21dp"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+        android:text="Gender: "
+        android:id="@+id/textgender"
+        android:layout_below="@+id/textemail"
+        android:layout_alignStart="@+id/textname"/>
+
+
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+        android:text=" "
+        android:id="@+id/gender_holder"
+        android:layout_toRightOf="@+id/textgender"
+        android:layout_marginTop="21dp"
+        android:layout_below="@+id/textemail"/>
+
 
     <TextView
         android:layout_height="wrap_content"
@@ -62,7 +83,7 @@
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
         android:text="Age: "
         android:id="@+id/textage"
-        android:layout_below="@+id/textemail"
+        android:layout_below="@+id/textgender"
         android:layout_alignStart="@+id/textname"/>
 
     <TextView
@@ -70,8 +91,11 @@
         android:layout_width="wrap_content"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
         android:text=" "
+        android:layout_marginLeft="20dp"
+        android:layout_toRightOf="@id/textage"
+        android:layout_below="@id/textgender"
         android:id="@+id/age_holder"
-        android:layout_alignStart="@+id/email_holder"
+
         android:layout_alignTop="@+id/textage"/>
 
     <TextView
@@ -120,6 +144,12 @@
         android:id="@+id/btnDetails"
         android:layout_toEndOf="@+id/textweight"
         android:layout_alignParentBottom="true"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/btnDetails"
+        android:text="View "
+        android:id="@+id/view"/>
 
     <TextView
         android:layout_height="wrap_content"
