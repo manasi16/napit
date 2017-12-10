@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.android.fitnessapp2.DashboardActivity">
-   <ImageButton
+
+    <ImageButton
        android:id="@+id/sleepicon"
        android:layout_width="100dp"
        android:src="@drawable/sleep2"
@@ -99,5 +100,7 @@
         android:layout_above="@+id/exerciseicon"
         android:layout_centerHorizontal="true" />
     <Button android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/idLogOut" android:layout_alignParentEnd="true" android:layout_marginEnd="11dp" android:text="Logout" android:layout_marginBottom="13dp" android:layout_alignParentBottom="true"/>
+
+
 </RelativeLayout>
 

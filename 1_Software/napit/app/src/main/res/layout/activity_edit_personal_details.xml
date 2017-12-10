@@ -6,8 +6,6 @@
     android:layout_height="match_parent"
     tools:context="com.example.android.fitnessapp2.EditPersonalDetails">
 
-
-
         <TextView
             android:id="@+id/edit_personalDetails"
             android:layout_width="wrap_content"
@@ -193,5 +191,3 @@
 
 
     </RelativeLayout>
-
-

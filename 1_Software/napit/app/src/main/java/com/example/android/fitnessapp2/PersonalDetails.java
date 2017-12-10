@@ -29,7 +29,6 @@ public class PersonalDetails extends AppCompatActivity {
     private SharedPreferences.Editor editor;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,7 +70,6 @@ public class PersonalDetails extends AppCompatActivity {
         textHeight.setText(details_height);
         textWeight.setText(details_weight);
         textLocation.setText(details_location);
-
         btnDetails = (Button) findViewById(R.id.btnDetails);
         btnDetails.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,8 +82,6 @@ public class PersonalDetails extends AppCompatActivity {
 
     }
 
-
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
@@ -96,6 +92,7 @@ public class PersonalDetails extends AppCompatActivity {
             ImageView img = (ImageView) findViewById(R.id.camera_image);
             img.setImageBitmap(bmp);
         }*/
+
 
         if(requestCode == REQ_CODE){
 
@@ -134,5 +131,4 @@ public class PersonalDetails extends AppCompatActivity {
         }
     }
 }
-
 

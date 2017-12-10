@@ -15,6 +15,7 @@ public class DashboardActivity extends AppCompatActivity {
 ImageButton sleepImage, exerciseImage, foodImage, vsImage, sugImage,settingsImage,DebugImage;
     Button btnLogout;
     private Session session;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +42,8 @@ ImageButton sleepImage, exerciseImage, foodImage, vsImage, sugImage,settingsImag
                 logout();
             }
 
-        });
+       });
+
         settingsImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -50,6 +52,9 @@ ImageButton sleepImage, exerciseImage, foodImage, vsImage, sugImage,settingsImag
             }
         });
 
+        //SessionHander object
+        //SessionHandler sessionHandler = new SessionHandler(context);
+        //sessionHandler.getName();
 
         sleepImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,6 +93,22 @@ ImageButton sleepImage, exerciseImage, foodImage, vsImage, sugImage,settingsImag
           }
       });
 
+
+        DebugImage.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v) {
+
+                Intent dbmanager = new Intent(DashboardActivity.this,AndroidDatabaseManager.class);
+                startActivity(dbmanager);
+            }
+        });
+
+//        settingsImage.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent i = new Intent(DashboardActivity.this,PersonalDetails.class);
+//                startActivity(i);
+//            }
+//        });
 
     }
     private void logout() {

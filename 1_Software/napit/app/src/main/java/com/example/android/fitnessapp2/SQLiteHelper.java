@@ -7,6 +7,7 @@ import android.database.MatrixCursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.nfc.Tag;
 import android.util.Base64;
 import android.util.Log;
 import android.widget.Toast;
@@ -21,6 +22,8 @@ import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Vector;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by Aishwarya Srikanth on 11/3/2017.
@@ -70,7 +73,6 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
         //Don't care about this right now
         //public static final String Table_Column_1_Username="name";
-
 
     //Personal Details Table
     public static final String TABLE_NAME_Details = "PersonalDetails";
@@ -139,13 +141,11 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             db.execSQL("DROP TABLE IF EXISTS "+ TABLE_NAME_AnomalyResult);
             onCreate(db);
 
-
         }
 
     /**
      * All CRUD(Create, Read, Update, Delete) Operations
      */
-
 
     // Adding new contact
     void addSensorReading(float SensorReading, String date, String time) {
@@ -160,8 +160,6 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         db.insert(TABLE_NAME_Sensor, null, values);
         db.close(); // Closing database connection
     }
-
-
 
 
     // Getting single sensor reading
@@ -248,7 +246,6 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         String selectQuery = "SELECT * FROM " + TABLE_NAME_Sensor + " where " + Tables_Column_Sensor_Date + " = " + "'" + date + "'";
         // String selectQuery = "SELECT * FROM " + TABLE_NAME_Sensor;
-
         Cursor cursor = db.rawQuery(selectQuery, null);
         return cursor.getCount();
     }
@@ -287,6 +284,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             do {
                 SensorReadings.addElement(Float.parseFloat(cursor.getString(1)));
             } while (cursor.moveToNext());
+
         }
 
         // return contact list
@@ -383,6 +381,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             while (bytesRead != -1){
                 bos.write(b, 0, bytesRead);
                 bytesRead = is.read(b);
+                Log.v(TAG, "Bytes" + b);
             }
             byte[] bytes = bos.toByteArray();
             dataToSave = Base64.encodeToString(bytes, Base64.DEFAULT);
@@ -394,6 +393,17 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             e.printStackTrace();
         }
 
+        ContentValues values = new ContentValues();
+        values.put(Table_Column_Result, dataToSave); // Contact Name
+
+        // Inserting Row
+        db.insert(TABLE_NAME_AnomalyResult, null, values);
+        db.close(); // Closing database connection
+    }
+
+    void addSVMOutput(String sleepOutput){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String dataToSave = sleepOutput;
         ContentValues values = new ContentValues();
         values.put(Table_Column_Result, dataToSave); // Contact Name
 

@@ -48,6 +48,19 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
         //SQLiteTableBuild();
 
         //Adding click listener to log in button.
+        //LogInButton.setOnClickListener(new View.OnClickListener() {
+            //@Override
+            //public void onClick(View view) {
+
+                // Calling EditText is empty or no method.
+                //CheckEditTextStatus();
+
+                // Calling login method.
+                //LoginFunction();
+
+        //SQLiteTableBuild();
+
+        //Adding click listener to log in button.
         LogInButton.setOnClickListener(this);
 
         // Adding click listener to register button.
@@ -58,6 +71,21 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
             finish();
         }
 
+    }
+
+    public void SQLiteDataBaseBuild(){
+
+        //not the place to put this. Databse should be created once the app starts for the first time
+        sqLiteDatabaseObj = openOrCreateDatabase(SQLiteHelper.DATABASE_NAME, Context.MODE_PRIVATE, null);
+
+    }
+
+    // SQLite table build method.
+    public void SQLiteTableBuild() {
+
+        //not the place to put this. Databse should be created once the app starts for the first time
+        sqLiteDatabaseObj.execSQL("CREATE TABLE IF NOT EXISTS " + SQLiteHelper.TABLE_NAME + "(" + SQLiteHelper.Table_Column_ID + " PRIMARY KEY AUTOINCREMENT NOT NULL, " + SQLiteHelper.Table_Column_1_Name + " VARCHAR, " + SQLiteHelper.Table_Column_2_Email + " VARCHAR, " + SQLiteHelper.Table_Column_3_Password + " VARCHAR);");
+        sqLiteDatabaseObj.execSQL("CREATE TABLE IF NOT EXISTS "+SQLiteHelper.TABLE_NAME_Sensor+" ("+SQLiteHelper.Table_Column_Sensor_ID+" INTEGER PRIMARY KEY, "+ SQLiteHelper.Table_Column_Sensor_Reading+" REAL);"); // + SQLiteHelper.Tables_Column_Sensor_Timestamp+ "DATETIME DEFAULT CURRENT_TIMESTAMP);");
     }
 
     // Login function starts from here.
@@ -147,9 +175,10 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
 
             // Sending Email to Dashboard Activity using intent.
             intent.putExtra(UserEmail, EmailHolder);
-
             startActivity(intent);
 
+            //starting a session
+            //sessionHandler.setName(EmailHolder);
 
         }
         else {
