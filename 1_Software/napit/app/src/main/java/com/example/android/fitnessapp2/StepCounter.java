@@ -1,5 +1,6 @@
 package com.example.android.fitnessapp2;
 
+import android.app.Notification;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +13,7 @@ import android.hardware.SensorEventListener;
 import android.os.IBinder;
 
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.NotificationCompat;
 import android.widget.Toast;
 
 
@@ -49,6 +51,15 @@ public class StepCounter extends Service implements SensorEventListener  {
 
         Toast.makeText(this,"Starting step counter", Toast.LENGTH_LONG).show();
 
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+        builder.setTicker("STEPCOUNTER").setContentTitle("STEPCOUNTER").setContentText("STEPCOUNTER")
+                //.setWhen(System.currentTimeMillis()).setAutoCancel(false)
+                .setOngoing(true).setPriority(Notification.PRIORITY_HIGH);
+                //.setContentIntent(pendIntent);
+        Notification notification = builder.build();
+
+        int id = (int)System.currentTimeMillis()%10000;
+        startForeground(id, notification);
     }
 
     /** A client is binding to the service with bindService() */
