@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
 import android.os.IBinder;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -308,9 +309,13 @@ public class SVM extends Service {
         helper.addSVMOutput(sleepOutput);
         Toast.makeText(this, "Output!" + sleepOutput, Toast.LENGTH_SHORT).show();
 
-        Intent in = new Intent();
-        in.putExtra("SleepResult", sleepOutput);
-        sendBroadcast(in);
+        Intent RTReturn = new Intent(SleepActivity.SleepResultFromSVM);
+        RTReturn.putExtra("SleepResult",sleepOutput);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(RTReturn);
+
+        //Intent in = new Intent();
+        //in.putExtra("SleepResult", sleepOutput);
+        //sendBroadcast(in);
     }
 
     private void CreateAppFolderIfNeeded(){

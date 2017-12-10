@@ -30,35 +30,69 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class SleepActivity extends Activity implements SensorEventListener {
+public class SleepActivity extends Activity {
     private TextView xText, yText, zText;
-    private Sensor mySensor;
+    //private Sensor mySensor;
     Button startSleep,stopSleep, train_svm;
     TextView startSleepTime,stopSleepTime, sleepResult;
-    String date, date1, time, time1;
-    private BroadcastReceiver statusReceiver;
+    //String date, date1, time, time1;
+    //private BroadcastReceiver statusReceiver;
 
-    private SensorManager SM;
-    SQLiteHelper SensorReadingdb;
+    //private SensorManager SM;
+    //SQLiteHelper SensorReadingdb;
     IntentFilter filter;
     String systemPath, appFolderPath;
+    public static final String Sleep_Monitor_Reading = "Sleep_Monitor_Reading";
+    public static final String SleepResultFromSVM = "SleepResultFromSVM";
+
+    private BroadcastReceiver bReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if(intent.getAction().equals(Sleep_Monitor_Reading))
+            {
+                //get step count from service
+                float Xvalue = intent.getFloatExtra("X",0);
+                float Yvalue = intent.getFloatExtra("Y",0);
+                float Zvalue = intent.getFloatExtra("Z",0);
+
+                xText.setText("X: " + Xvalue);
+                yText.setText("Y: " + Yvalue);
+                zText.setText("Z: " + Zvalue);
+            }
+            if(intent.getAction().equals(SleepResultFromSVM))
+            {
+                String sleepOutput = intent.getStringExtra("SleepResult");
+                sleepResult.setText(sleepOutput);
+            }
+
+        }
+    };
+    LocalBroadcastManager bManager;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sleep);
         // Create our Sensor Manager
-        SM = (SensorManager)getSystemService(SENSOR_SERVICE);
+        //SM = (SensorManager)getSystemService(SENSOR_SERVICE);
 
         // Accelerometer Sensor
-        mySensor = SM.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+       // mySensor = SM.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
-        SensorReadingdb = new SQLiteHelper(this);
+        //SensorReadingdb = new SQLiteHelper(this);
         systemPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/";
         appFolderPath = systemPath + "libsvm/"; // your datasets folder
 
         // Register sensor Listener
       //  SM.registerListener(this, mySensor, SensorManager.SENSOR_DELAY_NORMAL);
+
+        bManager = LocalBroadcastManager.getInstance(this);
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(Sleep_Monitor_Reading);
+        intentFilter.addAction(SleepResultFromSVM);
+        bManager.registerReceiver(bReceiver, intentFilter);
 
         // Assign TextView
         xText = (TextView)findViewById(R.id.xText);
@@ -78,15 +112,22 @@ public class SleepActivity extends Activity implements SensorEventListener {
                 DateFormat dfTime = new SimpleDateFormat("HH:mm:ss");
                 String time = dfTime.format(Calendar.getInstance().getTime());
                 startSleepTime.setText(date + " " + time);
+                Intent i = new Intent(SleepActivity.this,SleepMonitor.class);
                 switch (view.getId()) {
                     case R.id.startsleep:
-                        SM.registerListener(SleepActivity.this, mySensor, SensorManager.SENSOR_DELAY_NORMAL);
+                        //SM.registerListener(SleepActivity.this, mySensor, SensorManager.SENSOR_DELAY_NORMAL);
+                        // Start service
+                        startService(i);
                         break;
                     case R.id.stopbutton:
-                        SM.unregisterListener(SleepActivity.this);
+                       // SM.unregisterListener(SleepActivity.this);
+                        //stop service
+                        stopService(i);
                         break;
                 }
             }
+
+
 
         });
 
@@ -98,12 +139,15 @@ public class SleepActivity extends Activity implements SensorEventListener {
                 DateFormat dfTime = new SimpleDateFormat("HH:mm:ss");
                 String time = dfTime.format(Calendar.getInstance().getTime());
                 stopSleepTime.setText(date + " " + time);
+                Intent i = new Intent(SleepActivity.this,SleepMonitor.class);
                 switch (view.getId()) {
                     case R.id.startsleep:
-                        SM.registerListener(SleepActivity.this, mySensor, SensorManager.SENSOR_DELAY_NORMAL);
+                        startService(i);
                         break;
                     case R.id.stopbutton:
-                        SM.unregisterListener(SleepActivity.this);
+                        //SM.unregisterListener(SleepActivity.this);
+                        //Stop service
+                        stopService(i);
                         break;
 
                 }
@@ -136,13 +180,13 @@ public class SleepActivity extends Activity implements SensorEventListener {
         });*/
 
         //Receive the output from the service
-        statusReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                String sleepOutput = intent.getStringExtra("SleepResult");
-                sleepResult.setText(sleepOutput);
-            }
-        };
+//        statusReceiver = new BroadcastReceiver() {
+//            @Override
+//            public void onReceive(Context context, Intent intent) {
+//                String sleepOutput = intent.getStringExtra("SleepResult");
+//                sleepResult.setText(sleepOutput);
+//            }
+//        };
 
         // series = new LineGraphSeries<DataPoint>();
     }
@@ -150,37 +194,40 @@ public class SleepActivity extends Activity implements SensorEventListener {
 
     protected void onResume() {
         super.onResume();
-        SM.unregisterListener(this);
+        //SM.unregisterListener(this);
         //SM.registerListener(this, mySensor, SensorManager.SENSOR_DELAY_NORMAL);
     }
     protected void onPause() {
         super.onPause();
-        SM.unregisterListener(this);
+        //SM.unregisterListener(this);
     }
-    @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
-        // Not in use
-    }
-    @Override
-    public void onSensorChanged(SensorEvent event) {
+//    @Override
+//    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+//        // Not in use
+//    }
 
-        xText.setText("X: " + event.values[0]);
-        yText.setText("Y: " + event.values[1]);
-        zText.setText("Z: " + event.values[2]);
+    /// move to broadcast reciever
+    // xText.setText("X: " + event.values[0]);
+    // yText.setText("Y: " + event.values[1]);
+    //zText.setText("Z: " + event.values[2]);
 
-        //DateFormat dfTime = new SimpleDateFormat("HH:mm:ss");
-        //Getting date and time
 
-        DateFormat dfDate = new SimpleDateFormat("yyyy/MM/dd");
-        date=dfDate.format(Calendar.getInstance().getTime());
-        date1=date.toString();
-        DateFormat dfTime = new SimpleDateFormat("HH:mm:ss");
-        time=dfTime.format(Calendar.getInstance().getTime());
-        time1=time.toString();
-
-        SensorReadingdb.addSensorReading(event.values[2], date1, time1);
-
-    }
+//    @Override
+//    public void onSensorChanged(SensorEvent event) {
+//
+//        //DateFormat dfTime = new SimpleDateFormat("HH:mm:ss");
+//        //Getting date and time
+//
+//        DateFormat dfDate = new SimpleDateFormat("yyyy/MM/dd");
+//        date=dfDate.format(Calendar.getInstance().getTime());
+//        date1=date.toString();
+//        DateFormat dfTime = new SimpleDateFormat("HH:mm:ss");
+//        time=dfTime.format(Calendar.getInstance().getTime());
+//        time1=time.toString();
+//
+//        SensorReadingdb.addSensorReading(event.values[2], date1, time1);
+//
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -205,11 +252,11 @@ public class SleepActivity extends Activity implements SensorEventListener {
     }
 
 
-    public boolean WriteSensorReadingsToDatabase(SensorEvent event)
-    {
-
-        return true;
-    }
+//    public boolean WriteSensorReadingsToDatabase(SensorEvent event)
+//    {
+//
+//        return true;
+//    }
 
     public void Run_Analysis(View v)
     { // Run the analysis on the data

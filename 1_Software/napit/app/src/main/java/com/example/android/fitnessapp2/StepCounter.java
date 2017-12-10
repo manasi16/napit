@@ -95,19 +95,19 @@ public class StepCounter extends Service implements SensorEventListener  {
     }
 
     public void onSensorChanged(SensorEvent sensorEvent) {
-       if(walk)
-        {
+       //if(walk)
+       // {
             stepsInSensor = sensorEvent.values[0];
             stepsSinceReset = stepsInSensor - stepsAtReset;
             Intent RTReturn = new Intent(Exercise.RECEIVE_Count);
             RTReturn.putExtra("stepcount",stepsSinceReset);
             LocalBroadcastManager.getInstance(this).sendBroadcast(RTReturn);
 
-        }
-        else
-        {
-            sensorEvent.values[0]=0;
-        }
+        //}
+        //else
+        //{
+        //    sensorEvent.values[0]=0;
+        //}
 
     }
 

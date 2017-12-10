@@ -45,6 +45,10 @@
             android:enabled="true"
             android:exported="false" />
 
+        <service
+            android:name=".SleepMonitor"
+            android:enabled="true"
+            android:exported="false" />
 
     </application>
 
