@@ -6,6 +6,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -106,7 +107,6 @@ public class SleepActivity extends Activity implements SensorEventListener {
                 startService(i);
             }
         });*/
-
 
         // series = new LineGraphSeries<DataPoint>();
     }

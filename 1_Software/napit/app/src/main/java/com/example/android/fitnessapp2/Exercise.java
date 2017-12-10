@@ -1,16 +1,21 @@
 package com.example.android.fitnessapp2;
 
+//import android.content.Context;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
-import android.os.Handler;
+//import android.content.SharedPreferences;
+//import android.hardware.Sensor;
+//import android.hardware.SensorEvent;
+//import android.hardware.SensorEventListener;
+//import android.hardware.SensorManager;
+//import android.os.Handler;
+import android.content.IntentFilter;
 import android.os.SystemClock;
-import android.support.v7.app.AppCompatActivity;
+//import android.support.v7.app.AppCompatActivity;
+import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Chronometer;
@@ -21,28 +26,42 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class Exercise extends AppCompatActivity implements SensorEventListener {
-    SensorManager sm;
+public class Exercise extends Activity  {
+    //SensorManager sm;
     Chronometer simpleChronometer;
     TextView tv,displaydist,displayMiles,displayCalories;
     Button getDist,getMiles,getCalories,startButton,stopButton,restartButton,btnLogout;
-    public float stepsInSensor = 0;
-    public float stepsAtReset;
-    public float stepsSinceReset,miles,calories;
+    //public float stepsInSensor = 0;
+    //public float stepsAtReset;
+    public float miles,calories; //stepsSinceReset,
+    float stepsSinceReset = 0;
     String duration,email1,date1,date;
     private Session session;
     SQLiteHelper Exercisedb;
 
-    boolean walk = false;
+    //boolean walk = false;
 
+    public static final String RECEIVE_Count = "RECEIVE_Count";
+
+    private BroadcastReceiver bReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if(intent.getAction().equals(RECEIVE_Count)) {
+                //get step count from service
+                stepsSinceReset = intent.getFloatExtra("stepcount",0);
+                tv.setText(String.valueOf(stepsSinceReset));
+            }
+        }
+    };
+    LocalBroadcastManager bManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise);
-        SharedPreferences prefs = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE);
+        //SharedPreferences prefs = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE);
 
-        stepsAtReset = prefs.getFloat("stepsAtReset", 0);
+        //stepsAtReset = prefs.getFloat("stepsAtReset", 0);
         Exercisedb = new SQLiteHelper(this);
         simpleChronometer = (Chronometer) findViewById(R.id.simpleChronometer);
         tv=(TextView)findViewById(R.id.value);
@@ -58,7 +77,8 @@ public class Exercise extends AppCompatActivity implements SensorEventListener {
 
         displaydist=(TextView)findViewById(R.id.displaydistance);
         getDist=(Button)findViewById(R.id.dist);
-        sm=(SensorManager)getSystemService(Context.SENSOR_SERVICE);
+
+        //sm=(SensorManager)getSystemService(Context.SENSOR_SERVICE);
         session= new Session(this);
         String email= session.getEmail();
         email1=email.toString();
@@ -76,17 +96,22 @@ public class Exercise extends AppCompatActivity implements SensorEventListener {
 
         });
 
+        bManager = LocalBroadcastManager.getInstance(this);
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(RECEIVE_Count);
+        bManager.registerReceiver(bReceiver, intentFilter);
 
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                stepsAtReset = stepsInSensor;
+                //stepsAtReset = stepsInSensor;
 
-                SharedPreferences.Editor editor =
-                        getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE).edit();
-                editor.putFloat("stepsAtReset", stepsAtReset);
-                editor.commit();
-
+//                SharedPreferences.Editor editor =
+//                        getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE).edit();
+//                editor.putFloat("stepsAtReset", stepsAtReset);
+//                editor.commit();
+                Intent i = new Intent(Exercise.this,StepCounter.class);
+                startService(i);
                 // you can now display 0:
                 tv.setText(String.valueOf(0));
                 simpleChronometer.start();
@@ -98,11 +123,10 @@ public class Exercise extends AppCompatActivity implements SensorEventListener {
             @Override
             public void onClick(View view) {
 
-
-
+                Intent i = new Intent(Exercise.this,StepCounter.class);
+                stopService(i);
                 simpleChronometer.stop();
                 duration = simpleChronometer.getText().toString();
-
 
             }
         });
@@ -111,12 +135,12 @@ public class Exercise extends AppCompatActivity implements SensorEventListener {
             @Override
             public void onClick(View view) {
                 simpleChronometer.setBase(SystemClock.elapsedRealtime());
-                stepsAtReset = stepsInSensor;
+               // stepsAtReset = stepsInSensor;
 
-                SharedPreferences.Editor editor =
-                        getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE).edit();
-                editor.putFloat("stepsAtReset", stepsAtReset);
-                editor.commit();
+//                SharedPreferences.Editor editor =
+//                        getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE).edit();
+//                editor.putFloat("stepsAtReset", stepsAtReset);
+//                editor.commit();
 
                 // you can now display 0:
                 tv.setText(String.valueOf(0));
@@ -127,8 +151,8 @@ public class Exercise extends AppCompatActivity implements SensorEventListener {
         getDist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              //  float distance = (float)(stepsSinceReset*78)/(float)100000;
-                //displaydist.setText(String.valueOf(distance));
+                float distance = (float)(stepsSinceReset*78)/(float)100000;
+                displaydist.setText(String.valueOf(distance));
                 Intent intent = new Intent(Exercise.this,ViewList.class);
                 startActivity(intent);
 
@@ -155,28 +179,28 @@ public class Exercise extends AppCompatActivity implements SensorEventListener {
     @Override
     protected void onResume() {
         super.onResume();
-        walk=true;
-        Sensor countSensor = sm.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
-        if(countSensor != null){
-            sm.registerListener(this,countSensor,sm.SENSOR_DELAY_UI);
-
-        }
-        else
-        {
-            Toast.makeText(this,"Sensor Not Found!",Toast.LENGTH_SHORT).show();
-
-        }
+//        walk=true;
+//        Sensor countSensor = sm.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
+//        if(countSensor != null){
+//            sm.registerListener(this,countSensor,sm.SENSOR_DELAY_UI);
+//
+//        }
+//        else
+//        {
+//            Toast.makeText(this,"Sensor Not Found!",Toast.LENGTH_SHORT).show();
+//
+//        }
     }
     @Override
     protected void onPause()
     {
         super.onPause();
-        walk=false;
+        //walk=false;
+        // send intent to service
     }
 
 
-    @Override
-    public void onSensorChanged(SensorEvent sensorEvent) {
+/*    public void onSensorChanged(SensorEvent sensorEvent) {
         if(walk)
         {
             stepsInSensor = sensorEvent.values[0];
@@ -187,14 +211,14 @@ public class Exercise extends AppCompatActivity implements SensorEventListener {
         else
         {
             sensorEvent.values[0]=0;
-        }
+       ]
 
     }
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int i) {
 
-    }
+    }*/
 
     public void insertdetails(View v){
         DateFormat dfDate = new SimpleDateFormat("yyyy/MM/dd");
@@ -214,12 +238,18 @@ public class Exercise extends AppCompatActivity implements SensorEventListener {
 
     }
 
-
     private void logout() {
         session.setLoggedin(false);
         finish();
         startActivity(new Intent(Exercise.this, MainActivity.class));
     }
+
+    public void onDestroy() {
+        super.onDestroy();
+        bManager.unregisterReceiver(bReceiver);
+
+    }
+
 
 
 }
