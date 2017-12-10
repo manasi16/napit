@@ -1,6 +1,8 @@
 package com.example.android.fitnessapp2;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -23,8 +25,9 @@ public class SleepActivity extends Activity implements SensorEventListener {
     private TextView xText, yText, zText;
     private Sensor mySensor;
     Button startSleep,stopSleep, train_svm;
-    TextView startSleepTime,stopSleepTime;
+    TextView startSleepTime,stopSleepTime, sleepResult;
     String date, date1, time, time1;
+    private BroadcastReceiver statusReceiver;
 
     private SensorManager SM;
     SQLiteHelper SensorReadingdb;
@@ -54,6 +57,7 @@ public class SleepActivity extends Activity implements SensorEventListener {
         startSleepTime=(TextView)findViewById(R.id.sleeptime1);
         stopSleepTime=(TextView)findViewById(R.id.sleeptime2);
         train_svm = (Button)findViewById(R.id.Train_SVM);
+        sleepResult = (TextView)findViewById(R.id.sleepresult);
         startSleep.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -95,6 +99,7 @@ public class SleepActivity extends Activity implements SensorEventListener {
             }
         });
 
+
         /*train_svm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -107,9 +112,19 @@ public class SleepActivity extends Activity implements SensorEventListener {
             }
         });*/
 
+        //Receive the output from the service
+        statusReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                String sleepOutput = intent.getStringExtra("SleepResult");
+                sleepResult.setText(sleepOutput);
+            }
+        };
 
         // series = new LineGraphSeries<DataPoint>();
     }
+
+
     protected void onResume() {
         super.onResume();
         SM.unregisterListener(this);
@@ -176,6 +191,7 @@ public class SleepActivity extends Activity implements SensorEventListener {
     { // Run the analysis on the data
         Intent i = new Intent(this,SVM.class);
         startService(i);
+
     }
 
     public void Train_SVM(View v)

@@ -7,6 +7,7 @@ import android.database.MatrixCursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.nfc.Tag;
 import android.util.Base64;
 import android.util.Log;
 import android.widget.Toast;
@@ -21,6 +22,8 @@ import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Vector;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by Aishwarya Srikanth on 11/3/2017.
@@ -277,6 +280,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             while (bytesRead != -1){
                 bos.write(b, 0, bytesRead);
                 bytesRead = is.read(b);
+                Log.v(TAG, "Bytes" + b);
             }
             byte[] bytes = bos.toByteArray();
             dataToSave = Base64.encodeToString(bytes, Base64.DEFAULT);
@@ -288,6 +292,17 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             e.printStackTrace();
         }
 
+        ContentValues values = new ContentValues();
+        values.put(Table_Column_Result, dataToSave); // Contact Name
+
+        // Inserting Row
+        db.insert(TABLE_NAME_AnomalyResult, null, values);
+        db.close(); // Closing database connection
+    }
+
+    void addSVMOutput(String sleepOutput){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String dataToSave = sleepOutput;
         ContentValues values = new ContentValues();
         values.put(Table_Column_Result, dataToSave); // Contact Name
 

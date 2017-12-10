@@ -84,4 +84,14 @@
         android:onClick="Train_SVM"
         />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/sleepresult"
+        android:text="Result"
+        android:layout_below="@+id/Run_Analysis"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="45dp"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"/>
+
 </RelativeLayout>
