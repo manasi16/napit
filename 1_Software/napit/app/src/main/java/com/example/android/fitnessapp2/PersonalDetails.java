@@ -15,6 +15,8 @@ import static android.R.attr.checked;
 import static android.R.attr.id;
 import static com.example.android.fitnessapp2.R.id.calories;
 import static com.example.android.fitnessapp2.R.id.miles;
+import static com.example.android.fitnessapp2.R.id.view;
+
 
 public class PersonalDetails extends AppCompatActivity {
 
@@ -23,6 +25,8 @@ public class PersonalDetails extends AppCompatActivity {
     Button btnDetails,bv;
     TextView textName, textEmail, textAge, textHeight, textWeight, textLocation,txtGender;
     SQLiteHelper Detailsdb;
+    private Session session;
+    String email1;
 
 
     private SharedPreferences mpreferences;
@@ -34,6 +38,9 @@ public class PersonalDetails extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personal_details);
+        session= new Session(this);
+        String email= session.getEmail();
+        email1=email.toString();
 
         bv=(Button)findViewById(R.id.view);
         textName = (TextView)findViewById(R.id.name_holder);
@@ -80,6 +87,7 @@ public class PersonalDetails extends AppCompatActivity {
                 startActivityForResult(i, REQ_CODE);
             }
         });
+
 
 
     }

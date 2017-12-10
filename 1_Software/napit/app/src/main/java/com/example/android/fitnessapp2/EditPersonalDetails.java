@@ -2,19 +2,25 @@ package com.example.android.fitnessapp2;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListAdapter;
 import android.widget.RadioButton;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class EditPersonalDetails extends AppCompatActivity {
 
 
     private Button saveDetails;
-    private EditText detailsName, detailsEmail, detailsAge, detailsHeight, detailsWeight, detailsLocation;
+    private EditText detailsName, detailsAge, detailsHeight, detailsWeight, detailsLocation;
     private String name = "";
     private String email = "";
     private String gender="";
@@ -23,7 +29,9 @@ public class EditPersonalDetails extends AppCompatActivity {
     private String height = "";
     private String location = "";
     RadioButton male,female;
-    String whichChecked;
+    String whichChecked,email1;
+    SQLiteHelper sqLiteHelper;
+    private Session session;
     private SharedPreferences mpreferences;
     private SharedPreferences.Editor editor;
     @Override
@@ -34,11 +42,51 @@ public class EditPersonalDetails extends AppCompatActivity {
         male=(RadioButton)findViewById(R.id.radio_male);
         female=(RadioButton)findViewById(R.id.female);
         detailsName = (EditText)findViewById(R.id.edit_name);
-        detailsEmail = (EditText)findViewById(R.id.edit_email);
+        session= new Session(this);
+        String email= session.getEmail();
+        email1=email.toString();
+        sqLiteHelper = new SQLiteHelper(this);
         detailsAge = (EditText)findViewById(R.id.edit_age);
         detailsHeight = (EditText) findViewById(R.id.edit_height);
         detailsWeight = (EditText) findViewById(R.id.edit_weight);
         detailsLocation = (EditText) findViewById(R.id.edit_location);
+
+        Cursor data = sqLiteHelper.getLastRow(email1);
+        if (data.getCount() == 0) {
+            Toast.makeText(this, "Database is empty", Toast.LENGTH_SHORT).show();
+
+        } else {
+
+            while (data.moveToNext()) {
+               // myList.add("Name: " + data.getString(1) + "\nEmail: " + data.getString(2) + "\nGender: " + data.getString(3) + "\nAge: " + data.getString(4) + "\nHeight: " + data.getString(5) + "\nWeight: " + data.getString(6) + "\nLocation: " + data.getString(7));
+                //   myList.add(data.getString(2));
+
+
+                //ListAdapter listAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, myList);
+                if(data.getString(1)!=null)
+                detailsName.setText(data.getString(1));
+                if(data.getString(3)!=null) {
+                    if (data.getString(3) == "Male") {
+                        male.setChecked(true);
+                        whichChecked="Male";
+                    } else
+                        female.setChecked(true);
+                    whichChecked="Female";
+                }
+                if(data.getString(4)!=null)
+                detailsAge.setText(data.getString(4));
+                if(data.getString(5)!=null)
+                detailsHeight.setText(data.getString(5));
+                if(data.getString(6)!=null)
+                detailsWeight.setText(data.getString(6));
+                if(data.getString(7)!=null)
+                detailsLocation.setText(data.getString(7));
+
+            }
+
+
+        }
+
         mpreferences = PreferenceManager.getDefaultSharedPreferences(this);
         editor = mpreferences.edit();
 
@@ -48,7 +96,7 @@ public class EditPersonalDetails extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 name = detailsName.getText().toString();
-                email = detailsEmail.getText().toString();
+
                 gender=whichChecked;
                 age = detailsAge.getText().toString();
                 height = detailsHeight.getText().toString();
@@ -56,7 +104,7 @@ public class EditPersonalDetails extends AppCompatActivity {
                 location = detailsLocation.getText().toString();
 
                 editor.putString("Name",name);
-                editor.putString("detailsEmail",email);
+                editor.putString("detailsEmail",email1);
                 editor.putString("detailsGender",gender);
                 editor.putString("detailsAge",age);
                 editor.putString("detailsHeight",height);
@@ -66,7 +114,7 @@ public class EditPersonalDetails extends AppCompatActivity {
 
                 Intent intent = new Intent();
                 intent.putExtra("detailsName", name);
-                intent.putExtra("detailsEmail", email);
+                intent.putExtra("detailsEmail", email1);
                 intent.putExtra("detailsGender",gender);
                 intent.putExtra("detailsAge", age);
                 intent.putExtra("detailsHeight", height);

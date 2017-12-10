@@ -22,6 +22,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Vector;
 
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
+
 /**
  * Created by Aishwarya Srikanth on 11/3/2017.
  * Modified by John Grun 11/23/2017
@@ -240,6 +242,13 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         data.moveToLast();
         return data;
 
+    }
+
+    public Cursor getLastRow(String email){
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        String selectQuery = "Select * FROM "+TABLE_NAME_Details+" WHERE "+ Table_Column_Details_ID+"=(Select MAX("+Table_Column_Details_ID+") FROM "+TABLE_NAME_Details+" WHERE "+Table_Column_2_Email+"='"+email+"')";
+        Cursor data = sqLiteDatabase.rawQuery(selectQuery,null);
+        return data;
     }
 
     //get sensor reading for a particular date
