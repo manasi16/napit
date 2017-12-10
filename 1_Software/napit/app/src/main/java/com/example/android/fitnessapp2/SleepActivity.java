@@ -4,10 +4,12 @@ import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -17,6 +19,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -31,6 +38,8 @@ public class SleepActivity extends Activity implements SensorEventListener {
 
     private SensorManager SM;
     SQLiteHelper SensorReadingdb;
+    IntentFilter filter;
+    String systemPath, appFolderPath;
 
 
     @Override
@@ -44,6 +53,9 @@ public class SleepActivity extends Activity implements SensorEventListener {
         mySensor = SM.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
         SensorReadingdb = new SQLiteHelper(this);
+
+        systemPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/";
+        appFolderPath = systemPath + "libsvm/"; // your datasets folder
 
         // Register sensor Listener
       //  SM.registerListener(this, mySensor, SensorManager.SENSOR_DELAY_NORMAL);
@@ -181,6 +193,7 @@ public class SleepActivity extends Activity implements SensorEventListener {
         return super.onOptionsItemSelected(item);
     }
 
+
     public boolean WriteSensorReadingsToDatabase(SensorEvent event)
     {
 
@@ -207,7 +220,47 @@ public class SleepActivity extends Activity implements SensorEventListener {
         startActivity(i);*/
     }
 
+    //display the result in a text function
+    public void displayResult(View v){
+        String sleepOutput, res;
 
+        SQLiteHelper helper = new SQLiteHelper(this);
+        File file = new File(appFolderPath, "result");
+        StringBuilder text = new StringBuilder();
+        try{
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            String line;
+
+            while ((line = br.readLine()) != null){
+                text.append(line);
+                //text.append('\n');
+            }
+            br.close();
+        }
+        catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        sleepOutput = text.toString();
+        helper.addSVMOutput(sleepOutput);
+        Toast.makeText(this, "Output!" + sleepOutput, Toast.LENGTH_SHORT).show();
+
+        //Display whether sleep is proper or improper
+        if (sleepOutput.equals("+1"))
+            res = "Proper Sleep";
+        else if (sleepOutput.equals("-1"))
+            res = "Improper Sleep";
+        else res = "Error: Wrong output";
+
+        sleepResult.setText(res);
+
+        /*
+        Intent in = new Intent();
+        in.putExtra("SleepResult", sleepOutput);
+        sendBroadcast(in);
+        */
+    }
 
 }
 

@@ -266,7 +266,7 @@ public class SVM extends Service {
         //svm.predict(appFolderPath + "hear_scale_predict " + appFolderPath + "model " + appFolderPath + "predict ");
         svm.predict(appFolderPath + "userData "+ appFolderPath+"model " + appFolderPath + "result ");
         //WriteAnalysisResultsToDB();
-        displayResult();
+        //displayResult();
     }
 
     public void WriteAnalysisResultsToDB()
