@@ -285,7 +285,7 @@ public class SVM extends Service {
     }
 
     //display the result in a text function
-    void displayResult(){
+    /*void displayResult(){
         String sleepOutput;
         SQLiteHelper helper = new SQLiteHelper(this);
         File file = new File(appFolderPath, "result");
@@ -306,7 +306,7 @@ public class SVM extends Service {
             e.printStackTrace();
         }
         sleepOutput = text.toString();
-        helper.addSVMOutput(sleepOutput);
+        helper.addSVMOutput(sleepOutput,);
         Toast.makeText(this, "Output!" + sleepOutput, Toast.LENGTH_SHORT).show();
 
         Intent RTReturn = new Intent(SleepActivity.SleepResultFromSVM);
@@ -317,7 +317,7 @@ public class SVM extends Service {
         //in.putExtra("SleepResult", sleepOutput);
         //sendBroadcast(in);
     }
-
+*/
     private void CreateAppFolderIfNeeded(){
         File folder = new File(appFolderPath);
 

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 public class ViewExercise extends AppCompatActivity {
 
     TextView steps,miles,cals,dur,date;
+    TextView datesleep, resSleep;
     SQLiteHelper sqLiteHelper;
 
 
@@ -22,10 +23,20 @@ public class ViewExercise extends AppCompatActivity {
         miles=(TextView)findViewById(R.id.miles);
         cals=(TextView)findViewById(R.id.calories);
         dur=(TextView)findViewById(R.id.duration);
-        date=(TextView)findViewById(R.id.duration);
+        date=(TextView)findViewById(R.id.date);
+
+        //Sleep
+        datesleep = (TextView)findViewById(R.id.sleep_date);
+        resSleep = (TextView)findViewById(R.id.result);
+
         sqLiteHelper=new SQLiteHelper(this);
         //final ArrayList<String> myList = new ArrayList<>();
         Cursor data = sqLiteHelper.getRecentEx();
+
+        //Sleep
+        Cursor sleep = sqLiteHelper.getRecentSleep();
+        Toast.makeText(this, "Count"+sleep.getCount(), Toast.LENGTH_SHORT).show();
+
         if(data.getCount()==0){
             Toast.makeText(this,"Database is empty",Toast.LENGTH_SHORT).show();
 
@@ -40,7 +51,14 @@ public class ViewExercise extends AppCompatActivity {
 
         }
 
-
+        if(sleep.getCount() == 0){
+            Toast.makeText(this,"Database is empty",Toast.LENGTH_SHORT).show();
+        }
+        else {
+            datesleep.setText("Date: "+ sleep.getString(2));
+            resSleep.setText("Result: "+sleep.getString(4));
+        }
+    
 
     }
 }

@@ -66,7 +66,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
         public static final String Table_Column_Date = "date";
 
-        public static final String Table_Column_Result = "result";
+        public static final String Table_Column_Result = "results";
 
         //Normal sleep: +1, Abnormal Sleep: -1
         public static final String Table_Column_Decision = "decision";
@@ -102,11 +102,9 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
 
 
-
-
         public SQLiteHelper(Context context) {
 
-            super(context, DATABASE_NAME, null, 20);
+            super(context, DATABASE_NAME, null, 25);
 }
 
         @Override
@@ -121,7 +119,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
             String CREATE_TABLEDetails = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_Details + " ("+ Table_Column_Details_ID + " INTEGER PRIMARY KEY, " + Table_Column_1_Name+" VARCHAR, "+ Table_Column_2_Email +" VARCHAR, " +Table_Column_Gender+" VARCHAR, " + Table_Column_Age + " REAL, " + Table_Column_Height + " REAL, " + Table_Column_Weight + " REAL, " + Table_Column_Location + " VARCHAR " + ");";
             //sleep anomaly result table
-            String CREATE_TABLEAnomaly="CREATE TABLE IF NOT EXISTS "+TABLE_NAME_AnomalyResult+" ("+Table_Column_Anomaly_ID+" INTEGER PRIMARY KEY, "+/*Table_Column_User_Email+" VARCHAR, " + Table_Column_Date+ " DATETIME "+*/Table_Column_Result+ " REAL);";
+            String CREATE_TABLEAnomaly="CREATE TABLE IF NOT EXISTS "+TABLE_NAME_AnomalyResult+" ("+Table_Column_Anomaly_ID+" INTEGER PRIMARY KEY, "+Table_Column_User_Email+" VARCHAR, " + Table_Column_Date+ " VARCHAR, "+Table_Column_Result+ " REAL, " + Table_Column_Decision+" VARCHAR);";
 
             database.execSQL(CREATE_TABLE);
             database.execSQL(CREATE_TABLE2);
@@ -401,15 +399,25 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         db.close(); // Closing database connection
     }
 
-    void addSVMOutput(String sleepOutput){
+    void addSVMOutput(String sleepOutput, String decision, String date, String email){
         SQLiteDatabase db = this.getWritableDatabase();
         String dataToSave = sleepOutput;
         ContentValues values = new ContentValues();
-        values.put(Table_Column_Result, dataToSave); // Contact Name
+        values.put(Table_Column_User_Email, email);
+        values.put(Table_Column_Date, date);
+        values.put(Table_Column_Result, dataToSave);
+        values.put(Table_Column_Decision, decision);
 
         // Inserting Row
         db.insert(TABLE_NAME_AnomalyResult, null, values);
         db.close(); // Closing database connection
+    }
+
+    public Cursor getRecentSleep(){
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        Cursor data = sqLiteDatabase.rawQuery("Select * FROM "+ TABLE_NAME_AnomalyResult,null);
+        data.moveToLast();
+        return data;
     }
 
 }
