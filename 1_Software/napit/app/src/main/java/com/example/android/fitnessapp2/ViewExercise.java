@@ -1,8 +1,11 @@
 package com.example.android.fitnessapp2;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -12,6 +15,7 @@ public class ViewExercise extends AppCompatActivity {
 
     TextView steps,miles,cals,dur,date;
     TextView datesleep, resSleep;
+    Button showMoreSleep;
     SQLiteHelper sqLiteHelper;
 
 
@@ -28,6 +32,7 @@ public class ViewExercise extends AppCompatActivity {
         //Sleep
         datesleep = (TextView)findViewById(R.id.sleep_date);
         resSleep = (TextView)findViewById(R.id.result);
+        showMoreSleep = (Button)findViewById(R.id.ShowMoreSleep);
 
         sqLiteHelper=new SQLiteHelper(this);
         //final ArrayList<String> myList = new ArrayList<>();
@@ -58,7 +63,14 @@ public class ViewExercise extends AppCompatActivity {
             datesleep.setText("Date: "+ sleep.getString(2));
             resSleep.setText("Result: "+sleep.getString(4));
         }
-    
+
+        showMoreSleep.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent sleepInt = new Intent(ViewExercise.this, DisplayReading.class);
+                startActivity(sleepInt);
+            }
+        });
 
     }
 }

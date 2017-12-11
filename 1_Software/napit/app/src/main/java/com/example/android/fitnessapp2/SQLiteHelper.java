@@ -420,4 +420,10 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         return data;
     }
 
+    public Cursor getSleepResultData(){
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        Cursor data = sqLiteDatabase.rawQuery("Select * FROM "+ TABLE_NAME_AnomalyResult,null);
+        return data;
+    }
+
 }
