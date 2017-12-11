@@ -73,6 +73,7 @@ public class SleepMonitor extends Service implements SensorEventListener  {
 
         // Accelerometer Sensor
         mySensor = SM.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        SM.registerListener(this, mySensor, SensorManager.SENSOR_DELAY_NORMAL);
 
         return super.onStartCommand(intent,flags,startId);
     }
@@ -126,6 +127,7 @@ public class SleepMonitor extends Service implements SensorEventListener  {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        SM.unregisterListener(this, mySensor);
         Toast.makeText(this,"Stopping Sleep Monitor", Toast.LENGTH_LONG).show();
     }
 
