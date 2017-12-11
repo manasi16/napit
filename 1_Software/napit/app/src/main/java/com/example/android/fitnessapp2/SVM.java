@@ -248,8 +248,8 @@ public class SVM extends Service {
         //svm.scale(appFolderPath + "heart_scale ", appFolderPath + "heart_scale_scaled");
         //svm.train("-t 2 "/* svm kernel */ + appFolderPath + "heart_scale_scaled " + appFolderPath + "model");;
 
-        svm.scale(appFolderPath + "heart_scale ", appFolderPath + "scaled");
-        svm.train("-t 2 "/*svm kernel*/ + appFolderPath + "heart_scale "+ appFolderPath + "model ");
+        svm.scale(appFolderPath + "TrainingData ", appFolderPath + "scaledData");
+        svm.train("-t 2 "/*svm kernel*/ + appFolderPath + "TrainingData "+ appFolderPath + "sleepmodel ");
     }
 
     public void PredictSVM()
@@ -266,7 +266,7 @@ public class SVM extends Service {
         // try to predict something
         Toast.makeText(this,"Analysing Data", Toast.LENGTH_LONG).show();
         //svm.predict(appFolderPath + "hear_scale_predict " + appFolderPath + "model " + appFolderPath + "predict ");
-        svm.predict(appFolderPath + "userData "+ appFolderPath+"model " + appFolderPath + "result ");
+        svm.predict(appFolderPath + "userData "+ appFolderPath+"sleepmodel " + appFolderPath + "result ");
         //WriteAnalysisResultsToDB();
         //displayResult();
     }
