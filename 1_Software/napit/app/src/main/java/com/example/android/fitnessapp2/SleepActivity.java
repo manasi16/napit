@@ -1,13 +1,16 @@
 package com.example.android.fitnessapp2;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,6 +18,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -23,11 +31,14 @@ public class SleepActivity extends Activity implements SensorEventListener {
     private TextView xText, yText, zText;
     private Sensor mySensor;
     Button startSleep,stopSleep, train_svm;
-    TextView startSleepTime,stopSleepTime;
-    String date, date1, time, time1;
-
+    TextView startSleepTime,stopSleepTime, sleepResult;
+    String date, date1, time, time1,email1;
+    private BroadcastReceiver statusReceiver;
+    private Session session;
     private SensorManager SM;
     SQLiteHelper SensorReadingdb;
+    IntentFilter filter;
+    String systemPath, appFolderPath;
 
 
     @Override
@@ -42,8 +53,15 @@ public class SleepActivity extends Activity implements SensorEventListener {
 
         SensorReadingdb = new SQLiteHelper(this);
 
+        session= new Session(this);
+        String email= session.getEmail();
+        email1=email.toString();
+
+        systemPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/";
+        appFolderPath = systemPath + "libsvm/"; // your datasets folder
+
         // Register sensor Listener
-      //  SM.registerListener(this, mySensor, SensorManager.SENSOR_DELAY_NORMAL);
+        //  SM.registerListener(this, mySensor, SensorManager.SENSOR_DELAY_NORMAL);
 
         // Assign TextView
         xText = (TextView)findViewById(R.id.xText);
@@ -54,6 +72,7 @@ public class SleepActivity extends Activity implements SensorEventListener {
         startSleepTime=(TextView)findViewById(R.id.sleeptime1);
         stopSleepTime=(TextView)findViewById(R.id.sleeptime2);
         train_svm = (Button)findViewById(R.id.Train_SVM);
+        sleepResult = (TextView)findViewById(R.id.sleepresult);
         startSleep.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -95,6 +114,7 @@ public class SleepActivity extends Activity implements SensorEventListener {
             }
         });
 
+
         /*train_svm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -107,9 +127,19 @@ public class SleepActivity extends Activity implements SensorEventListener {
             }
         });*/
 
+        //Receive the output from the service
+        statusReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                String sleepOutput = intent.getStringExtra("SleepResult");
+                sleepResult.setText(sleepOutput);
+            }
+        };
 
         // series = new LineGraphSeries<DataPoint>();
     }
+
+
     protected void onResume() {
         super.onResume();
         SM.unregisterListener(this);
@@ -166,6 +196,7 @@ public class SleepActivity extends Activity implements SensorEventListener {
         return super.onOptionsItemSelected(item);
     }
 
+
     public boolean WriteSensorReadingsToDatabase(SensorEvent event)
     {
 
@@ -176,6 +207,7 @@ public class SleepActivity extends Activity implements SensorEventListener {
     { // Run the analysis on the data
         Intent i = new Intent(this,SVM.class);
         startService(i);
+
     }
 
     public void Train_SVM(View v)
@@ -191,6 +223,47 @@ public class SleepActivity extends Activity implements SensorEventListener {
         startActivity(i);*/
     }
 
+    //display the result in a text function
+    public void displayResult(View v){
+        String sleepOutput, res;
+
+        SQLiteHelper helper = new SQLiteHelper(this);
+        File file = new File(appFolderPath, "result");
+        StringBuilder text = new StringBuilder();
+        try{
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            String line;
+
+            while ((line = br.readLine()) != null){
+                text.append(line);
+                //text.append('\n');
+            }
+            br.close();
+        }
+        catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        sleepOutput = text.toString();
+        helper.addSVMOutput(sleepOutput,email1);
+        Toast.makeText(this, "Output!" + sleepOutput, Toast.LENGTH_SHORT).show();
+
+        //Display whether sleep is proper or improper
+        if (sleepOutput.equals("+1"))
+            res = "Proper Sleep";
+        else if (sleepOutput.equals("-1"))
+            res = "Improper Sleep";
+        else res = "Error: Wrong output";
+
+        sleepResult.setText(res);
+
+        /*
+        Intent in = new Intent();
+        in.putExtra("SleepResult", sleepOutput);
+        sendBroadcast(in);
+        */
+    }
 
 
 }
