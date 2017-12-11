@@ -331,7 +331,7 @@ public class SVM extends Service {
     }
 
     private void copyAssetsDataIfNeed() {
-        String assetsToCopy[] = {"heart_scale_predict","heart_scale_train","heart_scale"};
+        String assetsToCopy[] = {"heart_scale_predict","heart_scale_train","heart_scale","TrainingData"};
         //String targetPath[] = {C.systemPath+C.INPUT_FOLDER+C.INPUT_PREFIX+AudioConfigManager.inputConfigTrain+".wav", C.systemPath+C.INPUT_FOLDER+C.INPUT_PREFIX+AudioConfigManager.inputConfigPredict+".wav",C.systemPath+C.INPUT_FOLDER+"SomeoneLikeYouShort.mp3"};
 
         for(int i=0; i<assetsToCopy.length; i++){
