@@ -1,22 +1,20 @@
 package com.example.android.fitnessapp2;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import static java.text.DateFormat.DEFAULT;
-import static javax.xml.datatype.DatatypeConstants.DATETIME;
-
 public class RegisterActivity extends AppCompatActivity {
     EditText Email, Password, Name ;
-    Button Register;
+    Button Register,ReturnLogin;
     String NameHolder, EmailHolder, PasswordHolder;
     Boolean EditTextEmptyHolder;
     SQLiteDatabase sqLiteDatabaseObj;
@@ -30,7 +28,7 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         Register = (Button)findViewById(R.id.buttonRegister);
-
+        ReturnLogin=(Button) findViewById(R.id.backLogin);
         Email = (EditText)findViewById(R.id.editEmail);
         Password = (EditText)findViewById(R.id.editPassword);
         Name = (EditText)findViewById(R.id.editName);
@@ -58,6 +56,14 @@ public class RegisterActivity extends AppCompatActivity {
                 EmptyEditTextAfterDataInsert();
             }
         });
+        ReturnLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+
+            }
+        });
+
 
     }
     public void SQLiteDataBaseBuild(){

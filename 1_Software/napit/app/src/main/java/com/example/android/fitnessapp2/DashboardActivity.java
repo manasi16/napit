@@ -12,21 +12,22 @@ import android.widget.Toast;
 
 public class DashboardActivity extends AppCompatActivity {
 
-ImageButton sleepImage, exerciseImage, foodImage, vsImage, sugImage,settingsImage,DebugImage;
+    ImageButton sleepImage, exerciseImage, contactImage, vsImage, sugImage, faqImage,DebugImage;
     Button btnLogout;
     private Session session;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
         sleepImage=(ImageButton) findViewById(R.id.sleepicon);
-        settingsImage=(ImageButton)findViewById(R.id.profile);
         exerciseImage=(ImageButton) findViewById(R.id.exerciseicon);
-        foodImage=(ImageButton) findViewById(R.id.foodicon);
-        vsImage=(ImageButton)findViewById(R.id.vsicon);
-        sugImage=(ImageButton) findViewById(R.id.sugicon);
+        contactImage=(ImageButton) findViewById(R.id.contacticon);
         DebugImage=(ImageButton) findViewById(R.id.sqldebug);
+        vsImage=(ImageButton)findViewById(R.id.vsicon);
+        sugImage=(ImageButton) findViewById(R.id.suggestionicon);
+        faqImage=(ImageButton) findViewById(R.id.faqicon);
+
+        //session
         session= new Session(this);
         String email1= session.getEmail();
         Toast.makeText(this, email1, Toast.LENGTH_LONG).show();
@@ -42,27 +43,30 @@ ImageButton sleepImage, exerciseImage, foodImage, vsImage, sugImage,settingsImag
                 logout();
             }
 
-       });
-
-        settingsImage.setOnClickListener(new View.OnClickListener() {
+        });
+        sugImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(DashboardActivity.this,PersonalDetails.class);
+                Intent i = new Intent(DashboardActivity.this,Suggestions.class);
                 startActivity(i);
             }
         });
+        DebugImage.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v) {
 
-        //SessionHander object
-        //SessionHandler sessionHandler = new SessionHandler(context);
-        //sessionHandler.getName();
+                Intent dbmanager = new Intent(DashboardActivity.this,AndroidDatabaseManager.class);
+                startActivity(dbmanager);
+            }
+        });
 
         sleepImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              Intent i = new Intent(DashboardActivity.this,SleepActivity.class);
+                Intent i = new Intent(DashboardActivity.this,SleepActivity.class);
                 startActivity(i);
             }
         });
+
         exerciseImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -75,48 +79,28 @@ ImageButton sleepImage, exerciseImage, foodImage, vsImage, sugImage,settingsImag
             public void onClick(View view) {
                 Intent i1 = new Intent(DashboardActivity.this,ViewExercise.class);
                 startActivity(i1);
-
             }
         });
-        DebugImage.setOnClickListener(new View.OnClickListener(){
+
+        faqImage.setOnClickListener(new View.OnClickListener() {
+            @Override
             public void onClick(View v) {
-
-                Intent dbmanager = new Intent(DashboardActivity.this,AndroidDatabaseManager.class);
-                startActivity(dbmanager);
-            }
-        });
-      sugImage.setOnClickListener(new View.OnClickListener() {
-          @Override
-          public void onClick(View view) {
-              Intent i1 = new Intent(DashboardActivity.this,ContactUs.class);
-              startActivity(i1);
-          }
-      });
-
-
-        DebugImage.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v) {
-
-                Intent dbmanager = new Intent(DashboardActivity.this,AndroidDatabaseManager.class);
-                startActivity(dbmanager);
+                Intent i2= new Intent(DashboardActivity.this, FAQ.class);
+                startActivity(i2);
             }
         });
 
-//        settingsImage.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent i = new Intent(DashboardActivity.this,PersonalDetails.class);
-//                startActivity(i);
-//            }
-//        });
+        contactImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                    Intent i2= new Intent(DashboardActivity.this, ContactUs.class);
+                    startActivity(i2);
+                }
+
+        });
 
 
-        //start the background worker
-        Intent i = new Intent(DashboardActivity.this,BackgroundEventMonitor.class);
-        // kill the service if it's running already.
-        stopService(i);
-
-        startService(i);
 
     }
     private void logout() {
@@ -124,5 +108,6 @@ ImageButton sleepImage, exerciseImage, foodImage, vsImage, sugImage,settingsImag
         finish();
         startActivity(new Intent(DashboardActivity.this, MainActivity.class));
     }
+
 
 }

@@ -29,6 +29,19 @@
 
         android:textSize="25dp"
         android:layout_gravity="center_horizontal" />
+    <Chronometer
+        android:id="@+id/simpleChronometer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/clearFormat"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+
+        android:gravity="center"
+        android:padding="10dp"
+        android:layout_marginBottom="10dp"
+        android:textColor="#000"
+        android:textStyle="bold" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -61,11 +74,6 @@
 
     </LinearLayout>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="View List"
-        android:id="@+id/dist"/>
 
     <TextView
         android:id="@+id/Distance"

@@ -259,7 +259,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
     public Cursor getLastRowResult(String email){
         SQLiteDatabase sqLiteDatabase = getWritableDatabase();
-        String selectQuery = "Select * FROM "+TABLE_NAME_AnomalyResult+" WHERE "+ Table_Column_Anomaly_ID+"=(Select MAX("+Table_Column_Anomaly_ID+") FROM "+TABLE_NAME_AnomalyResult+" WHERE "+Table_Column_Email+"='"+email+"')";
+        String selectQuery = "Select * FROM "+TABLE_NAME_AnomalyResult+" WHERE "+ Table_Column_Anomaly_ID+"=(Select MAX("+Table_Column_Anomaly_ID+") FROM "+TABLE_NAME_AnomalyResult+" WHERE "+Table_Column_User_Email+"='"+email+"')";
         Cursor data = sqLiteDatabase.rawQuery(selectQuery,null);
         return data;
     }
