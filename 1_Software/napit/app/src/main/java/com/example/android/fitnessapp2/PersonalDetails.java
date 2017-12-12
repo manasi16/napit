@@ -1,20 +1,16 @@
 package com.example.android.fitnessapp2;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import static android.R.attr.checked;
-import static android.R.attr.id;
-import static com.example.android.fitnessapp2.R.id.calories;
-import static com.example.android.fitnessapp2.R.id.miles;
+import static com.example.android.fitnessapp2.R.id.female;
+
 
 public class PersonalDetails extends AppCompatActivity {
 
@@ -23,35 +19,81 @@ public class PersonalDetails extends AppCompatActivity {
     Button btnDetails,bv;
     TextView textName, textEmail, textAge, textHeight, textWeight, textLocation,txtGender;
     SQLiteHelper Detailsdb;
+    private Session session;
+    String email1;
 
 
-    private SharedPreferences mpreferences;
-    private SharedPreferences.Editor editor;
+   // private SharedPreferences mpreferences;
+   // private SharedPreferences.Editor editor;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personal_details);
+        session = new Session(this);
+        String email = session.getEmail();
+        email1 = email.toString();
 
-        bv=(Button)findViewById(R.id.view);
-        textName = (TextView)findViewById(R.id.name_holder);
-        textEmail = (TextView)findViewById(R.id.email_holder);
-        textAge = (TextView)findViewById(R.id.age_holder);
+        bv = (Button) findViewById(R.id.view);
+        textName = (TextView) findViewById(R.id.name_holder);
+        textEmail = (TextView) findViewById(R.id.email_holder);
+        textAge = (TextView) findViewById(R.id.age_holder);
         textHeight = (TextView) findViewById(R.id.height_holder);
         textWeight = (TextView) findViewById(R.id.weight_holder);
         textLocation = (TextView) findViewById(R.id.location_holder);
 
-        txtGender=(TextView)findViewById(R.id.gender_holder);
+        txtGender = (TextView) findViewById(R.id.gender_holder);
         bv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i =new Intent(PersonalDetails.this,ViewProfile.class);
+                Intent i = new Intent(PersonalDetails.this, ViewProfile.class);
                 startActivity(i);
             }
         });
 
         Detailsdb = new SQLiteHelper(this);
+        Cursor data = Detailsdb.getLastRow(email1);
+        if (data.getCount() == 0) {
+
+
+        } else {
+
+            while (data.moveToNext()) {
+                // myList.add("Name: " + data.getString(1) + "\nEmail: " + data.getString(2) + "\nGender: " + data.getString(3) + "\nAge: " + data.getString(4) + "\nHeight: " + data.getString(5) + "\nWeight: " + data.getString(6) + "\nLocation: " + data.getString(7));
+                //   myList.add(data.getString(2));
+
+
+                //ListAdapter listAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, myList);
+                if (data.getString(1) != null)
+                    textName.setText(data.getString(1));
+                textEmail.setText(email1);
+                if (data.getString(3) != null)
+                   txtGender.setText(data.getString(3));
+
+                if (data.getString(4) != null)
+                    textAge.setText(data.getString(4));
+                if (data.getString(5) != null)
+                    textHeight.setText(data.getString(5));
+                if (data.getString(6) != null)
+                    textWeight.setText(data.getString(6));
+                if (data.getString(7) != null)
+                    textLocation.setText(data.getString(7));
+
+            }
+
+
+        }
+        btnDetails = (Button) findViewById(R.id.btnDetails);
+        btnDetails.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(PersonalDetails.this, EditPersonalDetails.class);
+                startActivity(i);
+            }
+        });
+    }
+        /*
         mpreferences = PreferenceManager.getDefaultSharedPreferences(this);
         editor = mpreferences.edit();
 
@@ -80,8 +122,14 @@ public class PersonalDetails extends AppCompatActivity {
         });
 
 
+
+<<<<<<< HEAD
+=======
     }
 
+
+/*
+>>>>>>> origin/aishu2
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
@@ -91,7 +139,7 @@ public class PersonalDetails extends AppCompatActivity {
             Bitmap bmp = (Bitmap) intent.getExtras().get("data");
             ImageView img = (ImageView) findViewById(R.id.camera_image);
             img.setImageBitmap(bmp);
-        }*/
+        }
 
 
         if(requestCode == REQ_CODE){
@@ -113,7 +161,7 @@ public class PersonalDetails extends AppCompatActivity {
             textHeight.setText(details_height);
             textWeight.setText(details_weight);
             textLocation.setText(details_location);
-
+            /*
             long id = Detailsdb.addPersonalDetails(textName.getText().toString(),textEmail.getText().toString(),details_gender,textAge.getText().toString(),textHeight.getText().toString(),textWeight.getText().toString(),textLocation.getText().toString());
             //Detailsdb.getRows();
           //  long id = Exercisedb.insertExercise(email1,stepsSinceReset,miles,calories,duration,date1);
@@ -129,6 +177,7 @@ public class PersonalDetails extends AppCompatActivity {
 
 
         }
+        */
     }
-}
+
 

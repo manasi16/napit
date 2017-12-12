@@ -32,31 +32,12 @@
             android:layout_height="wrap_content"
             android:hint="Enter your Name"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+            android:id="@+id/edit_name"
             android:layout_alignBaseline="@+id/nameEditText"
             android:layout_alignBottom="@+id/nameEditText"
-            android:layout_centerHorizontal="true"
-            android:id="@+id/edit_name"/>
+            android:layout_alignStart="@+id/edit_age" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Email id : "
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-            android:layout_below="@+id/nameEditText"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="19dp"
-            android:layout_marginTop="32dp"
-            android:id="@+id/emailEditText" />
 
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="Enter your Email ID"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-            android:id="@+id/edit_email"
-            android:layout_alignBaseline="@+id/emailEditText"
-            android:layout_alignBottom="@+id/emailEditText"
-            android:layout_alignStart="@+id/edit_name" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -65,17 +46,16 @@
             android:id="@+id/Genderedit"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
             android:layout_marginTop="20dp"
-            android:layout_below="@+id/edit_email"
-            android:layout_alignStart="@+id/emailEditText" />
+            android:layout_below="@+id/edit_name"
+            android:layout_alignStart="@+id/nameEditText" />
 
         <RadioGroup
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/emailEditText"
-            android:layout_marginTop="21dp"
             android:layout_marginLeft="30sp"
-            android:layout_toRightOf="@+id/Genderedit"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_alignTop="@+id/Genderedit"
+            android:layout_centerHorizontal="true">
                 <RadioButton android:id="@+id/radio_male"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -99,7 +79,7 @@
             android:layout_marginTop="20dp"
 
             android:layout_below="@+id/Genderedit"
-            android:layout_alignStart="@+id/emailEditText" />
+            android:layout_alignStart="@+id/nameEditText" />
 
         <EditText
             android:layout_width="wrap_content"
@@ -110,19 +90,19 @@
             android:inputType="number"
             android:layout_alignBaseline="@+id/ageEditText"
             android:layout_alignBottom="@+id/ageEditText"
-            android:layout_alignStart="@+id/edit_name" />
+            android:layout_alignStart="@+id/edit_height" />
 
         <EditText
             android:id="@+id/edit_height"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/heightEditText"
-            android:layout_alignBottom="@+id/heightEditText"
-            android:layout_toEndOf="@+id/emailEditText"
             android:ems="10"
             android:hint="Enter your Height"
             android:inputType="numberDecimal"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+            android:layout_alignBaseline="@+id/heightEditText"
+            android:layout_alignBottom="@+id/heightEditText"
+            android:layout_alignStart="@+id/edit_weight" />
 
         <TextView
             android:id="@+id/heightEditText"
@@ -165,7 +145,7 @@
 
             android:layout_alignBaseline="@+id/weightEditText"
             android:layout_alignBottom="@+id/weightEditText"
-            android:layout_alignEnd="@+id/edit_height" />
+            android:layout_alignStart="@+id/edit_location" />
 
         <TextView
             android:id="@+id/locationEditText"
@@ -181,13 +161,13 @@
             android:id="@+id/edit_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/locationEditText"
-            android:layout_alignBottom="@+id/locationEditText"
-            android:layout_alignStart="@+id/edit_weight"
             android:ems="10"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
             android:hint="Enter your Location"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            android:layout_alignBaseline="@+id/locationEditText"
+            android:layout_alignBottom="@+id/locationEditText"
+            android:layout_toEndOf="@+id/locationEditText" />
 
 
     </RelativeLayout>

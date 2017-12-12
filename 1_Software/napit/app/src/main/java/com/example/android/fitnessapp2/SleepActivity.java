@@ -12,6 +12,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -68,8 +69,6 @@ public class SleepActivity extends Activity {
         }
     };
     LocalBroadcastManager bManager;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -297,6 +296,7 @@ public class SleepActivity extends Activity {
     { // Run the analysis on the data
         Intent i = new Intent(this,SVM.class);
         startService(i);
+
     }
 
     public void Train_SVM(View v)
@@ -311,7 +311,6 @@ public class SleepActivity extends Activity {
         Intent i = new Intent(SleepActivity.this,DisplayReading.class);
         startActivity(i);*/
     }
-
 
     //display the result in a text function
     public void displayResult(View v){

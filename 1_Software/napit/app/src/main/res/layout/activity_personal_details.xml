@@ -147,9 +147,12 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/btnDetails"
         android:text="View "
-        android:id="@+id/view"/>
+        android:id="@+id/view"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true" />
+
+
 
     <TextView
         android:layout_height="wrap_content"

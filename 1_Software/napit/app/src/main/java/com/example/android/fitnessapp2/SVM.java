@@ -4,24 +4,19 @@ import android.app.Service;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
 import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.Toast;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.lang.reflect.Array;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -32,10 +27,11 @@ import umich.cse.yctung.androidlibsvm.LibSVM;
 
 public class SVM extends Service {
 
-//https://github.com/yctung/AndroidLibSVM
+    //https://github.com/yctung/AndroidLibSVM
     //global for this service
     static final String LOG_TAG = "LibSVM";
-    String systemPath;
+    String systemPath,email1;
+    private Session session;
     String appFolderPath;
     LibSVM svm;
     SQLiteHelper helper;
@@ -72,6 +68,10 @@ public class SVM extends Service {
         //Create necessary folders to save model files
         CreateAppFolderIfNeeded();
         copyAssetsDataIfNeed();
+
+        session= new Session(this);
+        String email= session.getEmail();
+        email1=email.toString();
 
         helper = new SQLiteHelper(this);
 
@@ -149,7 +149,7 @@ public class SVM extends Service {
         SensorReadingsByDate = new Vector();
         //cv =  helper.getReadingsByDate(date);
         if(cursor.getCount()!= 0){
-          Toast.makeText(this,"Data"+cursor.getCount(),Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"Data"+cursor.getCount(),Toast.LENGTH_SHORT).show();
 
         }
         else {
@@ -267,6 +267,7 @@ public class SVM extends Service {
         Toast.makeText(this,"Analysing Data", Toast.LENGTH_LONG).show();
         //svm.predict(appFolderPath + "hear_scale_predict " + appFolderPath + "model " + appFolderPath + "predict ");
         svm.predict(appFolderPath + "userData "+ appFolderPath+"sleepmodel " + appFolderPath + "result ");
+
         //WriteAnalysisResultsToDB();
         //displayResult();
     }
@@ -277,7 +278,6 @@ public class SVM extends Service {
 
         //Creating a database object
         SQLiteHelper helper = new SQLiteHelper(this);
-
         File file = new File(appFolderPath, "result");
 
         //Add the file to the db
@@ -318,6 +318,7 @@ public class SVM extends Service {
         //sendBroadcast(in);
     }
 */
+
     private void CreateAppFolderIfNeeded(){
         File folder = new File(appFolderPath);
 

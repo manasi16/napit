@@ -62,6 +62,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
         public static final String Table_Column_Anomaly_ID = "id";
 
+        public static final String Table_Column_Email="email";
+
         public static final String Table_Column_User_Email = "UserEmail";
 
         public static final String Table_Column_Date = "date";
@@ -119,8 +121,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
             String CREATE_TABLEDetails = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_Details + " ("+ Table_Column_Details_ID + " INTEGER PRIMARY KEY, " + Table_Column_1_Name+" VARCHAR, "+ Table_Column_2_Email +" VARCHAR, " +Table_Column_Gender+" VARCHAR, " + Table_Column_Age + " REAL, " + Table_Column_Height + " REAL, " + Table_Column_Weight + " REAL, " + Table_Column_Location + " VARCHAR " + ");";
             //sleep anomaly result table
-            String CREATE_TABLEAnomaly="CREATE TABLE IF NOT EXISTS "+TABLE_NAME_AnomalyResult+" ("+Table_Column_Anomaly_ID+" INTEGER PRIMARY KEY, "+Table_Column_User_Email+" VARCHAR, " + Table_Column_Date+ " VARCHAR, "+Table_Column_Result+ " REAL, " + Table_Column_Decision+" VARCHAR);";
 
+            String CREATE_TABLEAnomaly="CREATE TABLE IF NOT EXISTS "+TABLE_NAME_AnomalyResult+" ("+Table_Column_Anomaly_ID+" INTEGER PRIMARY KEY, "+Table_Column_User_Email+" VARCHAR, " + Table_Column_Date+ " VARCHAR, "+Table_Column_Result+ " REAL, " + Table_Column_Decision+" VARCHAR);";
             database.execSQL(CREATE_TABLE);
             database.execSQL(CREATE_TABLE2);
             database.execSQL(CREATE_TABLEDetails);
@@ -237,6 +239,28 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         return data;
 
     }
+
+    public Cursor getLastRow(String email){
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        String selectQuery = "Select * FROM "+TABLE_NAME_Details+" WHERE "+ Table_Column_Details_ID+"=(Select MAX("+Table_Column_Details_ID+") FROM "+TABLE_NAME_Details+" WHERE "+Table_Column_2_Email+"='"+email+"')";
+        Cursor data = sqLiteDatabase.rawQuery(selectQuery,null);
+        return data;
+    }
+
+    public Cursor getLastRowStep(String email){
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        String selectQuery = "Select * FROM "+TABLE_NAME2+" WHERE "+ Ex_ID+"=(Select MAX("+Ex_ID+") FROM "+TABLE_NAME2+" WHERE "+Ex_Col0+"='"+email+"')";
+        Cursor data = sqLiteDatabase.rawQuery(selectQuery,null);
+        return data;
+    }
+
+    public Cursor getLastRowResult(String email){
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        String selectQuery = "Select * FROM "+TABLE_NAME_AnomalyResult+" WHERE "+ Table_Column_Anomaly_ID+"=(Select MAX("+Table_Column_Anomaly_ID+") FROM "+TABLE_NAME_AnomalyResult+" WHERE "+Table_Column_Email+"='"+email+"')";
+        Cursor data = sqLiteDatabase.rawQuery(selectQuery,null);
+        return data;
+    }
+
 
     //get sensor reading for a particular date
     public int getReadingsByDate(String date) {
@@ -407,7 +431,6 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         values.put(Table_Column_Date, date);
         values.put(Table_Column_Result, dataToSave);
         values.put(Table_Column_Decision, decision);
-
         // Inserting Row
         db.insert(TABLE_NAME_AnomalyResult, null, values);
         db.close(); // Closing database connection
