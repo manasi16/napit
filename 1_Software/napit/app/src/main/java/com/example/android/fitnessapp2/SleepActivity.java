@@ -1,6 +1,8 @@
 package com.example.android.fitnessapp2;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -75,24 +77,51 @@ public class SleepActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sleep);
-        // Create our Sensor Manager
-        //SM = (SensorManager)getSystemService(SENSOR_SERVICE);
-
-        // Accelerometer Sensor
-       // mySensor = SM.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-
         //SensorReadingdb = new SQLiteHelper(this);
         systemPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/";
         appFolderPath = systemPath + "libsvm/"; // your datasets folder
 
         // Register sensor Listener
-      //  SM.registerListener(this, mySensor, SensorManager.SENSOR_DELAY_NORMAL);
-
         bManager = LocalBroadcastManager.getInstance(this);
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Sleep_Monitor_Reading);
         intentFilter.addAction(SleepResultFromSVM);
         bManager.registerReceiver(bReceiver, intentFilter);
+
+        // comms to background service
+        // trigger automatic intent at time of day
+        Calendar calendarStart = Calendar.getInstance();
+        calendarStart.setTimeInMillis(System.currentTimeMillis());
+        calendarStart.set(Calendar.HOUR_OF_DAY, 22); //10pm
+        calendarStart.set(Calendar.MINUTE, 30); // set minutes
+
+        AlarmManager pm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        //creating a new intent specifying the broadcast receiver
+        Intent StartSleepMonitor = new Intent(BackgroundEventMonitor.Sleep_Monitor_Trigger);
+        //creating a pending intent using the intent
+        PendingIntent pi = PendingIntent.getBroadcast(this, 0, StartSleepMonitor, 0);
+        pm.cancel(pi);
+        //setting the repeating alarm that will be fired every day
+        pm.setRepeating(AlarmManager.RTC, calendarStart.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pi);
+        Toast.makeText(this, "Start sleep monitor alarm is set", Toast.LENGTH_SHORT).show();
+
+        //// Sleep stop
+        // comms to background service
+        // trigger automatic intent at time of day
+        Calendar calendarStop = Calendar.getInstance();
+        calendarStop.setTimeInMillis(System.currentTimeMillis());
+        calendarStop.set(Calendar.HOUR_OF_DAY, 06); //6 am
+        calendarStop.set(Calendar.MINUTE, 00); // set minutes
+
+        AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        //creating a new intent specifying the broadcast receiver
+        Intent StopSleepMonitor = new Intent(BackgroundEventMonitor.Sleep_Monitor_Stop);
+        //creating a pending intent using the intent
+        PendingIntent PendingStopSleep = PendingIntent.getBroadcast(this, 0, StopSleepMonitor, 0);
+        am.cancel(PendingStopSleep);
+        //setting the repeating alarm that will be fired every day
+        am.setRepeating(AlarmManager.RTC, calendarStop.getTimeInMillis(), AlarmManager.INTERVAL_DAY, PendingStopSleep);
+        Toast.makeText(this, "Stop sleep monitor alarm is set", Toast.LENGTH_SHORT).show();
 
         // Assign TextView
         xText = (TextView)findViewById(R.id.xText);
@@ -154,6 +183,7 @@ public class SleepActivity extends Activity {
 
             }
         });
+
 
         /*train_svm.setOnClickListener(new View.OnClickListener() {
             @Override

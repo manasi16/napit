@@ -29,19 +29,6 @@
 
         android:textSize="25dp"
         android:layout_gravity="center_horizontal" />
-    <Chronometer
-        android:id="@+id/simpleChronometer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/clearFormat"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-
-        android:gravity="center"
-        android:padding="10dp"
-        android:layout_marginBottom="10dp"
-        android:textColor="#000"
-        android:textStyle="bold" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -79,27 +66,45 @@
         android:layout_height="wrap_content"
         android:text="View List"
         android:id="@+id/dist"/>
+
+    <TextView
+        android:id="@+id/Distance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+
+        android:text="Distance"
+        android:textSize="40dp" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/displaydistance"/>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/getmiles"
-        android:text="Get Miles"
-        android:layout_below="@+id/dist"/>
+
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/Miles"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+
+        android:text="Miles"
+        android:textSize="40dp" />
+
+    <TextView
         android:id="@+id/displaymiles"
-        android:layout_toRightOf="@+id/getmiles" />
-    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/getcals"
-        android:text="Get Calories"
-        android:layout_below="@+id/getmiles"/>
+        android:layout_toRightOf="@+id/getmiles" />
+
+    <TextView
+        android:id="@+id/Calories"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+
+        android:text="Calories"
+        android:textSize="40dp" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -108,13 +113,6 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/transfer"
-        android:text="Transfer to Database"
-        android:layout_alignParentBottom="true"
-        android:onClick="insertdetails"/>
         <Button android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/idLogOut" android:layout_alignParentEnd="true" android:layout_marginEnd="11dp" android:text="Logout" android:layout_marginBottom="13dp" android:layout_alignParentBottom="true"/>
     </RelativeLayout>
 

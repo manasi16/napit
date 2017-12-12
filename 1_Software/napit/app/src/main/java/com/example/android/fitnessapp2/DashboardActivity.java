@@ -110,6 +110,14 @@ ImageButton sleepImage, exerciseImage, foodImage, vsImage, sugImage,settingsImag
 //            }
 //        });
 
+
+        //start the background worker
+        Intent i = new Intent(DashboardActivity.this,BackgroundEventMonitor.class);
+        // kill the service if it's running already.
+        stopService(i);
+
+        startService(i);
+
     }
     private void logout() {
         session.setLoggedin(false);

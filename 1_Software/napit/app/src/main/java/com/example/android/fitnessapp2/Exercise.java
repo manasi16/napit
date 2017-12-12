@@ -1,6 +1,8 @@
 package com.example.android.fitnessapp2;
 
 //import android.content.Context;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -28,18 +30,16 @@ import java.util.Calendar;
 
 public class Exercise extends Activity  {
     //SensorManager sm;
-    Chronometer simpleChronometer;
+
     TextView tv,displaydist,displayMiles,displayCalories;
     Button getDist,getMiles,getCalories,startButton,stopButton,restartButton,btnLogout;
     //public float stepsInSensor = 0;
     //public float stepsAtReset;
     public float miles,calories; //stepsSinceReset,
     float stepsSinceReset = 0;
-    String duration,email1,date1,date;
+    //String duration,email1;
     private Session session;
-    SQLiteHelper Exercisedb;
 
-    //boolean walk = false;
 
     public static final String RECEIVE_Count = "RECEIVE_Count";
 
@@ -48,8 +48,12 @@ public class Exercise extends Activity  {
         public void onReceive(Context context, Intent intent) {
             if(intent.getAction().equals(RECEIVE_Count)) {
                 //get step count from service
-                stepsSinceReset = intent.getFloatExtra("stepcount",0);
-                tv.setText(String.valueOf(stepsSinceReset));
+
+                tv.setText(String.valueOf(intent.getFloatExtra("stepcount",0)));
+                displayMiles.setText(String.valueOf(intent.getFloatExtra("Miles",0)));
+                displaydist.setText(String.valueOf(intent.getFloatExtra("Distance",0)));
+                displayCalories.setText(String.valueOf( intent.getFloatExtra("Calories",0)));
+
             }
         }
     };
@@ -59,15 +63,8 @@ public class Exercise extends Activity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise);
-        //SharedPreferences prefs = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE);
-
-        //stepsAtReset = prefs.getFloat("stepsAtReset", 0);
-        Exercisedb = new SQLiteHelper(this);
-        simpleChronometer = (Chronometer) findViewById(R.id.simpleChronometer);
         tv=(TextView)findViewById(R.id.value);
         restartButton=(Button)findViewById(R.id.restartex);
-
-
         displayMiles=(TextView)findViewById(R.id.displaymiles);
         displayCalories=(TextView)findViewById(R.id.displaycals);
         getMiles=(Button)findViewById(R.id.getmiles);
@@ -80,8 +77,6 @@ public class Exercise extends Activity  {
 
         //sm=(SensorManager)getSystemService(Context.SENSOR_SERVICE);
         session= new Session(this);
-        String email= session.getEmail();
-        email1=email.toString();
         if(!session.loggedin())
         {
             logout();
@@ -96,10 +91,31 @@ public class Exercise extends Activity  {
 
         });
 
+        // register to receive broadcast from stepcounter
         bManager = LocalBroadcastManager.getInstance(this);
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(RECEIVE_Count);
         bManager.registerReceiver(bReceiver, intentFilter);
+
+
+        //// Sleep stop
+        // comms to background service
+        // trigger automatic intent at time of day
+        Calendar calendarStop = Calendar.getInstance();
+        calendarStop.setTimeInMillis(System.currentTimeMillis());
+        calendarStop.set(Calendar.HOUR_OF_DAY, 24); //12 am
+        calendarStop.set(Calendar.MINUTE, 00); // set minutes
+
+        AlarmManager StepResetAndStore = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        //creating a new intent specifying the broadcast receiver
+        Intent RESETSTEPCOUNTER = new Intent(BackgroundEventMonitor.Step_Counter_Reset);
+        //creating a pending intent using the intent
+        PendingIntent PendingResetCounter = PendingIntent.getBroadcast(this, 0, RESETSTEPCOUNTER, 0);
+        StepResetAndStore.cancel(PendingResetCounter);
+        //setting the repeating alarm that will be fired every day
+        StepResetAndStore.setRepeating(AlarmManager.RTC, calendarStop.getTimeInMillis(), AlarmManager.INTERVAL_DAY, PendingResetCounter);
+        Toast.makeText(this, "Step counter reset and store alarm is set", Toast.LENGTH_SHORT).show();
+
 
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,7 +130,6 @@ public class Exercise extends Activity  {
                 startService(i);
                 // you can now display 0:
                 tv.setText(String.valueOf(0));
-                simpleChronometer.start();
 
 
             }
@@ -123,10 +138,11 @@ public class Exercise extends Activity  {
             @Override
             public void onClick(View view) {
 
+                Intent Start = new Intent(StepCounter.Step_Counter_Reset_EOD);
+                LocalBroadcastManager.getInstance(Exercise.this).sendBroadcast(Start);
+
                 Intent i = new Intent(Exercise.this,StepCounter.class);
                 stopService(i);
-                simpleChronometer.stop();
-                duration = simpleChronometer.getText().toString();
 
             }
         });
@@ -134,7 +150,7 @@ public class Exercise extends Activity  {
         restartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                simpleChronometer.setBase(SystemClock.elapsedRealtime());
+
                // stepsAtReset = stepsInSensor;
 
 //                SharedPreferences.Editor editor =
@@ -148,30 +164,8 @@ public class Exercise extends Activity  {
             }
         });
 
-        getDist.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                float distance = (float)(stepsSinceReset*78)/(float)100000;
-                displaydist.setText(String.valueOf(distance));
-                Intent intent = new Intent(Exercise.this,ViewList.class);
-                startActivity(intent);
 
-            }
-        });
-        getMiles.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                miles = (float)(stepsSinceReset*0.0005);
-                displayMiles.setText(String.valueOf(miles));
-            }
-        });
-        getCalories.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                calories = (float)(miles*0.0128);
-                displayCalories.setText(String.valueOf(calories));
-            }
-        });
+
 
     }
 
@@ -220,23 +214,7 @@ public class Exercise extends Activity  {
 
     }*/
 
-    public void insertdetails(View v){
-        DateFormat dfDate = new SimpleDateFormat("yyyy/MM/dd");
-        date=dfDate.format(Calendar.getInstance().getTime());
-        date1=date.toString();
-        DateFormat dfTime = new SimpleDateFormat("HH:mm");
 
-        long id = Exercisedb.insertExercise(email1,stepsSinceReset,miles,calories,duration,date1);
-        Toast.makeText(this,"Let's check values",Toast.LENGTH_SHORT).show();
-
-        if(id<0){
-            Toast.makeText(this,"Transferring to database failed",Toast.LENGTH_SHORT).show();
-        }
-        else{
-            Toast.makeText(this,"Transfer Successful",Toast.LENGTH_SHORT).show();
-        }
-
-    }
 
     private void logout() {
         session.setLoggedin(false);
