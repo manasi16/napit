@@ -99,6 +99,14 @@
         android:layout_alignStart="@+id/contacticon"
         android:layout_above="@+id/idLogOut"
         android:layout_marginBottom="33sp"/>
+    <ImageButton
+        android:id="@+id/sqldebug"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@android:drawable/sym_def_app_icon"
+        android:layout_alignBottom="@+id/idLogOut"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp" />
 
     <Button
         android:layout_height="wrap_content"
@@ -111,5 +119,9 @@
         android:layout_alignParentBottom="true"
         android:text="Logout"/>
 
-    <TextView android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/dash" android:text="Welcome to napIt" android:layout_centerHorizontal="true" android:layout_alignParentTop="true" android:textColor="#000" android:gravity="center" android:textStyle="bold" android:textSize="40sp" android:fontFamily="cursive" android:layout_marginTop="16sp"/>
+    <TextView android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/dash" android:text="Welcome to napIt"
+        android:textColor="#000" android:gravity="center" android:textStyle="bold" android:textSize="40sp" android:fontFamily="cursive"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="11dp" />
 </RelativeLayout>
