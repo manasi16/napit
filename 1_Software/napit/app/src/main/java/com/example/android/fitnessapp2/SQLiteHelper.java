@@ -135,13 +135,14 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
             db.execSQL("DROP TABLE IF EXISTS "+TABLE_NAME);
-            onCreate(db);
+            //onCreate(db);
             db.execSQL("DROP TABLE IF EXISTS "+ TABLE_NAME_Sensor);
-            onCreate(db);
+            //onCreate(db);
             db.execSQL("DROP TABLE IF EXISTS "+ TABLE_NAME_AnomalyResult);
-            onCreate(db);
+            //onCreate(db);
             db.execSQL("DROP TABLE IF EXISTS "+ TABLE_NAME_Details);
-            onCreate(db);
+            //onCreate(db);
+
             db.execSQL("DROP TABLE IF EXISTS "+ TABLE_NAME2);
             onCreate(db);
         }

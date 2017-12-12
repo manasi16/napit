@@ -35,6 +35,8 @@
         <activity android:name=".PersonalDetails" />
         <activity android:name=".ShowMore" />
         <activity android:name=".ViewProfile" />
+        <activity android:name=".Suggestions"/>
+        <activity android:name=".FAQ" />
 
         <service
             android:name=".SVM"
