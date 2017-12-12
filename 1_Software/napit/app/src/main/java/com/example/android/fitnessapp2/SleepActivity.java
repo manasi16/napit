@@ -32,8 +32,8 @@ import java.util.Calendar;
 public class SleepActivity extends Activity {
     private TextView xText, yText, zText;
     //private Sensor mySensor;
-    Button startSleep,stopSleep, train_svm;
-    TextView startSleepTime,stopSleepTime, sleepResult;
+    Button startSleep, stopSleep, train_svm;
+    TextView startSleepTime, stopSleepTime, sleepResult;
     String date, date1, time, time1;
     //private BroadcastReceiver statusReceiver;
     private Session session;
@@ -49,19 +49,17 @@ public class SleepActivity extends Activity {
     private BroadcastReceiver bReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if(intent.getAction().equals(Sleep_Monitor_Reading))
-            {
+            if (intent.getAction().equals(Sleep_Monitor_Reading)) {
                 //get step count from service
-                float Xvalue = intent.getFloatExtra("X",0);
-                float Yvalue = intent.getFloatExtra("Y",0);
-                float Zvalue = intent.getFloatExtra("Z",0);
+                float Xvalue = intent.getFloatExtra("X", 0);
+                float Yvalue = intent.getFloatExtra("Y", 0);
+                float Zvalue = intent.getFloatExtra("Z", 0);
 
                 xText.setText("X: " + Xvalue);
                 yText.setText("Y: " + Yvalue);
                 zText.setText("Z: " + Zvalue);
             }
-            if(intent.getAction().equals(SleepResultFromSVM))
-            {
+            if (intent.getAction().equals(SleepResultFromSVM)) {
                 String sleepOutput = intent.getStringExtra("SleepResult");
                 sleepResult.setText(sleepOutput);
             }
@@ -78,11 +76,10 @@ public class SleepActivity extends Activity {
         systemPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/";
         appFolderPath = systemPath + "libsvm/"; // your datasets folder
 
-        session= new Session(this);
-        String email= session.getEmail();
-        email1=email.toString();
-        if(!session.loggedin())
-        {
+        session = new Session(this);
+        String email = session.getEmail();
+        email1 = email.toString();
+        if (!session.loggedin()) {
             logout();
         }
 
@@ -128,24 +125,25 @@ public class SleepActivity extends Activity {
         Toast.makeText(this, "Stop sleep monitor alarm is set", Toast.LENGTH_SHORT).show();
 
         // Assign TextView
-        xText = (TextView)findViewById(R.id.xText);
-        yText = (TextView)findViewById(R.id.yText);
-        zText = (TextView)findViewById(R.id.zText);
-        startSleep=(Button)findViewById(R.id.startsleep);
-        stopSleep=(Button)findViewById(R.id.stopbutton);
-        startSleepTime=(TextView)findViewById(R.id.sleeptime1);
-        stopSleepTime=(TextView)findViewById(R.id.sleeptime2);
-        train_svm = (Button)findViewById(R.id.Train_SVM);
-        sleepResult = (TextView)findViewById(R.id.sleepresult);
+        xText = (TextView) findViewById(R.id.xText);
+        yText = (TextView) findViewById(R.id.yText);
+        zText = (TextView) findViewById(R.id.zText);
+        startSleep = (Button) findViewById(R.id.startsleep);
+        stopSleep = (Button) findViewById(R.id.stopbutton);
+        startSleepTime = (TextView) findViewById(R.id.sleeptime1);
+        stopSleepTime = (TextView) findViewById(R.id.sleeptime2);
+        train_svm = (Button) findViewById(R.id.Train_SVM);
+        sleepResult = (TextView) findViewById(R.id.sleepresult);
         startSleep.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 DateFormat dfDate = new SimpleDateFormat("yyyy/MM/dd");
-                String date=dfDate.format(Calendar.getInstance().getTime());
+                String date = dfDate.format(Calendar.getInstance().getTime());
                 DateFormat dfTime = new SimpleDateFormat("HH:mm:ss");
                 String time = dfTime.format(Calendar.getInstance().getTime());
                 startSleepTime.setText(date + " " + time);
-                Intent i = new Intent(SleepActivity.this,SleepMonitor.class);
+                Intent i = new Intent(SleepActivity.this, SleepMonitor.class);
+                Intent svm = new Intent(SleepActivity.this, SVM.class);
                 switch (view.getId()) {
                     case R.id.startsleep:
                         //SM.registerListener(SleepActivity.this, mySensor, SensorManager.SENSOR_DELAY_NORMAL);
@@ -153,13 +151,13 @@ public class SleepActivity extends Activity {
                         startService(i);
                         break;
                     case R.id.stopbutton:
-                       // SM.unregisterListener(SleepActivity.this);
+                        // SM.unregisterListener(SleepActivity.this);
                         //stop service
                         stopService(i);
+                        startService(svm);
                         break;
                 }
             }
-
 
 
         });
@@ -168,11 +166,12 @@ public class SleepActivity extends Activity {
             @Override
             public void onClick(View view) {
                 DateFormat dfDate = new SimpleDateFormat("yyyy/MM/dd");
-                String date=dfDate.format(Calendar.getInstance().getTime());
+                String date = dfDate.format(Calendar.getInstance().getTime());
                 DateFormat dfTime = new SimpleDateFormat("HH:mm:ss");
                 String time = dfTime.format(Calendar.getInstance().getTime());
                 stopSleepTime.setText(date + " " + time);
-                Intent i = new Intent(SleepActivity.this,SleepMonitor.class);
+                Intent i = new Intent(SleepActivity.this, SleepMonitor.class);
+                Intent svm = new Intent(SleepActivity.this, SVM.class);
                 switch (view.getId()) {
                     case R.id.startsleep:
                         startService(i);
@@ -181,6 +180,7 @@ public class SleepActivity extends Activity {
                         //SM.unregisterListener(SleepActivity.this);
                         //Stop service
                         stopService(i);
+                        startService(svm);
                         break;
 
                 }
@@ -231,6 +231,7 @@ public class SleepActivity extends Activity {
         //SM.unregisterListener(this);
         //SM.registerListener(this, mySensor, SensorManager.SENSOR_DELAY_NORMAL);
     }
+
     protected void onPause() {
         super.onPause();
         //SM.unregisterListener(this);

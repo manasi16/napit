@@ -96,16 +96,18 @@ public class SVM extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        boolean TrainMode = intent.getBooleanExtra("Train",false);
+        //boolean TrainMode = intent.getBooleanExtra("Train",false);
 
-        if(TrainMode)
+        /*if(TrainMode)
         {
             TrainSVM();
         }
         else
         {
             PredictSVM();
-        }
+        }*/
+        TrainSVM();
+        PredictSVM();
 
         //return mStartMode;
         stopSelf();
