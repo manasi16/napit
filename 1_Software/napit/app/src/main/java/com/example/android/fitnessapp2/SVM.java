@@ -250,8 +250,8 @@ public class SVM extends Service {
         //svm.scale(appFolderPath + "heart_scale ", appFolderPath + "heart_scale_scaled");
         //svm.train("-t 2 "/* svm kernel */ + appFolderPath + "heart_scale_scaled " + appFolderPath + "model");;
 
-        svm.scale(appFolderPath + "TrainingData ", appFolderPath + "scaledData");
-        svm.train("-t 2 "/*svm kernel*/ + appFolderPath + "TrainingData "+ appFolderPath + "sleepmodel ");
+        svm.scale(appFolderPath + "TrainingData1 ", appFolderPath + "scaledData");
+        svm.train("-t 2 "/*svm kernel*/ + appFolderPath + "TrainingData1 "+ appFolderPath + "sleepmodel ");
     }
 
     public void PredictSVM()
@@ -334,7 +334,7 @@ public class SVM extends Service {
     }
 
     private void copyAssetsDataIfNeed() {
-        String assetsToCopy[] = {"heart_scale_predict","heart_scale_train","heart_scale","TrainingData"};
+        String assetsToCopy[] = {"heart_scale_predict","heart_scale_train","heart_scale","TrainingData1"};
         //String targetPath[] = {C.systemPath+C.INPUT_FOLDER+C.INPUT_PREFIX+AudioConfigManager.inputConfigTrain+".wav", C.systemPath+C.INPUT_FOLDER+C.INPUT_PREFIX+AudioConfigManager.inputConfigPredict+".wav",C.systemPath+C.INPUT_FOLDER+"SomeoneLikeYouShort.mp3"};
 
         for(int i=0; i<assetsToCopy.length; i++){

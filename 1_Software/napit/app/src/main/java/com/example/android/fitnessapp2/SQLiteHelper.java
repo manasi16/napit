@@ -106,7 +106,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
         public SQLiteHelper(Context context) {
 
-            super(context, DATABASE_NAME, null, 25);
+            super(context, DATABASE_NAME, null, 26);
         }
 
         @Override
@@ -140,7 +140,10 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             onCreate(db);
             db.execSQL("DROP TABLE IF EXISTS "+ TABLE_NAME_AnomalyResult);
             onCreate(db);
-
+            db.execSQL("DROP TABLE IF EXISTS "+ TABLE_NAME_Details);
+            onCreate(db);
+            db.execSQL("DROP TABLE IF EXISTS "+ TABLE_NAME2);
+            onCreate(db);
         }
 
     /**
