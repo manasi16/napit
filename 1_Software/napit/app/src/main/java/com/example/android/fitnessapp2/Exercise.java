@@ -33,7 +33,7 @@ public class Exercise extends Activity  {
 
     Chronometer simpleChronometer;
     TextView tv,displaydist,displayMiles,displayCalories;
-    Button getDist,getMiles,getCalories,startButton,stopButton,restartButton,btnLogout,viewList;
+    Button getDist,getMiles,getCalories,startButton,stopButton,restartButton,btnLogout;
     //public float stepsInSensor = 0;
     //public float stepsAtReset;
     public float miles,calories; //stepsSinceReset,
@@ -71,7 +71,7 @@ public class Exercise extends Activity  {
         displayMiles=(TextView)findViewById(R.id.displaymiles);
         displayCalories=(TextView)findViewById(R.id.displaycals);
         getMiles=(Button)findViewById(R.id.getmiles);
-        viewList=(Button)findViewById(R.id.viewlist);
+        //viewList=(Button)findViewById(R.id.viewlist);
         getCalories=(Button)findViewById(R.id.getcals);
         startButton=(Button)findViewById(R.id.startex);
         stopButton=(Button)findViewById(R.id.stopex);
@@ -138,13 +138,7 @@ public class Exercise extends Activity  {
 
             }
         });
-        viewList.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(Exercise.this,ViewList.class);
-                startActivity(i);
-            }
-        });
+
         stopButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

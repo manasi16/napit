@@ -15,7 +15,7 @@ public class ViewExercise extends AppCompatActivity {
 
     TextView steps,miles,cals,dur,date;
     TextView datesleep, resSleep;
-    Button showMoreSleep;
+    Button showMoreSleep,showMoreExercise;
     SQLiteHelper sqLiteHelper;
 
 
@@ -33,7 +33,7 @@ public class ViewExercise extends AppCompatActivity {
         datesleep = (TextView)findViewById(R.id.sleep_date);
         resSleep = (TextView)findViewById(R.id.result);
         showMoreSleep = (Button)findViewById(R.id.ShowMoreSleep);
-
+        showMoreExercise=(Button)findViewById(R.id.ShowMore);
         sqLiteHelper=new SQLiteHelper(this);
         //final ArrayList<String> myList = new ArrayList<>();
         Cursor data = sqLiteHelper.getRecentEx();
@@ -55,6 +55,13 @@ public class ViewExercise extends AppCompatActivity {
             dur.setText("Duration: "+data.getString(5));
 
         }
+        showMoreExercise.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(ViewExercise.this,ViewList.class);
+                startActivity(i);
+            }
+        });
 
         if(sleep.getCount() == 0){
             Toast.makeText(this,"Database is empty",Toast.LENGTH_SHORT).show();
