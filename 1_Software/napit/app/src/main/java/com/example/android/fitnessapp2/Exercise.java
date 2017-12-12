@@ -31,8 +31,9 @@ import java.util.Calendar;
 public class Exercise extends Activity  {
     //SensorManager sm;
 
+    Chronometer simpleChronometer;
     TextView tv,displaydist,displayMiles,displayCalories;
-    Button getDist,getMiles,getCalories,startButton,stopButton,restartButton,btnLogout;
+    Button getDist,getMiles,getCalories,startButton,stopButton,restartButton,btnLogout,viewList;
     //public float stepsInSensor = 0;
     //public float stepsAtReset;
     public float miles,calories; //stepsSinceReset,
@@ -54,6 +55,7 @@ public class Exercise extends Activity  {
                 displaydist.setText(String.valueOf(intent.getFloatExtra("Distance",0)));
                 displayCalories.setText(String.valueOf( intent.getFloatExtra("Calories",0)));
 
+
             }
         }
     };
@@ -65,15 +67,17 @@ public class Exercise extends Activity  {
         setContentView(R.layout.activity_exercise);
         tv=(TextView)findViewById(R.id.value);
         restartButton=(Button)findViewById(R.id.restartex);
+        simpleChronometer = (Chronometer) findViewById(R.id.simpleChronometer);
         displayMiles=(TextView)findViewById(R.id.displaymiles);
         displayCalories=(TextView)findViewById(R.id.displaycals);
         getMiles=(Button)findViewById(R.id.getmiles);
+        viewList=(Button)findViewById(R.id.viewlist);
         getCalories=(Button)findViewById(R.id.getcals);
         startButton=(Button)findViewById(R.id.startex);
         stopButton=(Button)findViewById(R.id.stopex);
 
         displaydist=(TextView)findViewById(R.id.displaydistance);
-        getDist=(Button)findViewById(R.id.dist);
+       // getDist=(Button)findViewById(R.id.viewlist);
 
         //sm=(SensorManager)getSystemService(Context.SENSOR_SERVICE);
         session= new Session(this);
@@ -130,8 +134,15 @@ public class Exercise extends Activity  {
                 startService(i);
                 // you can now display 0:
                 tv.setText(String.valueOf(0));
+                simpleChronometer.start();
 
-
+            }
+        });
+        viewList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(Exercise.this,ViewList.class);
+                startActivity(i);
             }
         });
         stopButton.setOnClickListener(new View.OnClickListener() {
@@ -143,6 +154,8 @@ public class Exercise extends Activity  {
 
                 Intent i = new Intent(Exercise.this,StepCounter.class);
                 stopService(i);
+                simpleChronometer.stop();
+
 
             }
         });
@@ -151,6 +164,7 @@ public class Exercise extends Activity  {
             @Override
             public void onClick(View view) {
 
+                simpleChronometer.setBase(SystemClock.elapsedRealtime());
                // stepsAtReset = stepsInSensor;
 
 //                SharedPreferences.Editor editor =
