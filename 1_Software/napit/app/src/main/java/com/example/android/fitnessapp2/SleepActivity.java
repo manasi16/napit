@@ -8,10 +8,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
@@ -37,8 +33,10 @@ public class SleepActivity extends Activity {
     //private Sensor mySensor;
     Button startSleep,stopSleep, train_svm;
     TextView startSleepTime,stopSleepTime, sleepResult;
-    //String date, date1, time, time1;
+    String date, date1, time, time1;
     //private BroadcastReceiver statusReceiver;
+    private Session session;
+    String email1;
 
     //private SensorManager SM;
     //SQLiteHelper SensorReadingdb;
@@ -81,7 +79,14 @@ public class SleepActivity extends Activity {
         systemPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/";
         appFolderPath = systemPath + "libsvm/"; // your datasets folder
 
-        // Register sensor Listener
+        session= new Session(this);
+        String email= session.getEmail();
+        email1=email.toString();
+        if(!session.loggedin())
+        {
+            logout();
+        }
+
         bManager = LocalBroadcastManager.getInstance(this);
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Sleep_Monitor_Reading);
@@ -331,9 +336,6 @@ public class SleepActivity extends Activity {
             e.printStackTrace();
         }
         sleepOutput = text.toString();
-        helper.addSVMOutput(sleepOutput);
-        Toast.makeText(this, "Output!" + sleepOutput, Toast.LENGTH_SHORT).show();
-
         //Display whether sleep is proper or improper
         if (sleepOutput.equals("+1"))
             res = "Proper Sleep";
@@ -343,11 +345,28 @@ public class SleepActivity extends Activity {
 
         sleepResult.setText(res);
 
+        DateFormat dfDate = new SimpleDateFormat("yyyy/MM/dd");
+        date=dfDate.format(Calendar.getInstance().getTime());
+        date1=date.toString();
+        DateFormat dfTime = new SimpleDateFormat("HH:mm:ss");
+        time=dfTime.format(Calendar.getInstance().getTime());
+
+        helper.addSVMOutput(sleepOutput, res, date, email1);
+        Toast.makeText(this, "Output!" + sleepOutput, Toast.LENGTH_SHORT).show();
+
+
+
         /*
         Intent in = new Intent();
         in.putExtra("SleepResult", sleepOutput);
         sendBroadcast(in);
         */
+    }
+
+    private void logout() {
+        session.setLoggedin(false);
+        finish();
+        startActivity(new Intent(SleepActivity.this, MainActivity.class));
     }
 
 }

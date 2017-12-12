@@ -248,8 +248,8 @@ public class SVM extends Service {
         //svm.scale(appFolderPath + "heart_scale ", appFolderPath + "heart_scale_scaled");
         //svm.train("-t 2 "/* svm kernel */ + appFolderPath + "heart_scale_scaled " + appFolderPath + "model");;
 
-        svm.scale(appFolderPath + "heart_scale ", appFolderPath + "scaled");
-        svm.train("-t 2 "/*svm kernel*/ + appFolderPath + "heart_scale "+ appFolderPath + "model ");
+        svm.scale(appFolderPath + "TrainingData ", appFolderPath + "scaledData");
+        svm.train("-t 2 "/*svm kernel*/ + appFolderPath + "TrainingData "+ appFolderPath + "sleepmodel ");
     }
 
     public void PredictSVM()
@@ -266,7 +266,7 @@ public class SVM extends Service {
         // try to predict something
         Toast.makeText(this,"Analysing Data", Toast.LENGTH_LONG).show();
         //svm.predict(appFolderPath + "hear_scale_predict " + appFolderPath + "model " + appFolderPath + "predict ");
-        svm.predict(appFolderPath + "userData "+ appFolderPath+"model " + appFolderPath + "result ");
+        svm.predict(appFolderPath + "userData "+ appFolderPath+"sleepmodel " + appFolderPath + "result ");
         //WriteAnalysisResultsToDB();
         //displayResult();
     }
@@ -285,7 +285,7 @@ public class SVM extends Service {
     }
 
     //display the result in a text function
-    void displayResult(){
+    /*void displayResult(){
         String sleepOutput;
         SQLiteHelper helper = new SQLiteHelper(this);
         File file = new File(appFolderPath, "result");
@@ -306,7 +306,7 @@ public class SVM extends Service {
             e.printStackTrace();
         }
         sleepOutput = text.toString();
-        helper.addSVMOutput(sleepOutput);
+        helper.addSVMOutput(sleepOutput,);
         Toast.makeText(this, "Output!" + sleepOutput, Toast.LENGTH_SHORT).show();
 
         Intent RTReturn = new Intent(SleepActivity.SleepResultFromSVM);
@@ -317,7 +317,7 @@ public class SVM extends Service {
         //in.putExtra("SleepResult", sleepOutput);
         //sendBroadcast(in);
     }
-
+*/
     private void CreateAppFolderIfNeeded(){
         File folder = new File(appFolderPath);
 
@@ -331,7 +331,7 @@ public class SVM extends Service {
     }
 
     private void copyAssetsDataIfNeed() {
-        String assetsToCopy[] = {"heart_scale_predict","heart_scale_train","heart_scale"};
+        String assetsToCopy[] = {"heart_scale_predict","heart_scale_train","heart_scale","TrainingData"};
         //String targetPath[] = {C.systemPath+C.INPUT_FOLDER+C.INPUT_PREFIX+AudioConfigManager.inputConfigTrain+".wav", C.systemPath+C.INPUT_FOLDER+C.INPUT_PREFIX+AudioConfigManager.inputConfigPredict+".wav",C.systemPath+C.INPUT_FOLDER+"SomeoneLikeYouShort.mp3"};
 
         for(int i=0; i<assetsToCopy.length; i++){

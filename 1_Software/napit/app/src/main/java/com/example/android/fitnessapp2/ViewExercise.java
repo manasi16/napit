@@ -1,8 +1,11 @@
 package com.example.android.fitnessapp2;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -11,6 +14,8 @@ import java.util.ArrayList;
 public class ViewExercise extends AppCompatActivity {
 
     TextView steps,miles,cals,dur,date;
+    TextView datesleep, resSleep;
+    Button showMoreSleep;
     SQLiteHelper sqLiteHelper;
 
 
@@ -22,10 +27,21 @@ public class ViewExercise extends AppCompatActivity {
         miles=(TextView)findViewById(R.id.miles);
         cals=(TextView)findViewById(R.id.calories);
         dur=(TextView)findViewById(R.id.duration);
-        date=(TextView)findViewById(R.id.duration);
+        date=(TextView)findViewById(R.id.date);
+
+        //Sleep
+        datesleep = (TextView)findViewById(R.id.sleep_date);
+        resSleep = (TextView)findViewById(R.id.result);
+        showMoreSleep = (Button)findViewById(R.id.ShowMoreSleep);
+
         sqLiteHelper=new SQLiteHelper(this);
         //final ArrayList<String> myList = new ArrayList<>();
         Cursor data = sqLiteHelper.getRecentEx();
+
+        //Sleep
+        Cursor sleep = sqLiteHelper.getRecentSleep();
+        Toast.makeText(this, "Count"+sleep.getCount(), Toast.LENGTH_SHORT).show();
+
         if(data.getCount()==0){
             Toast.makeText(this,"Database is empty",Toast.LENGTH_SHORT).show();
 
@@ -40,7 +56,21 @@ public class ViewExercise extends AppCompatActivity {
 
         }
 
+        if(sleep.getCount() == 0){
+            Toast.makeText(this,"Database is empty",Toast.LENGTH_SHORT).show();
+        }
+        else {
+            datesleep.setText("Date: "+ sleep.getString(2));
+            resSleep.setText("Result: "+sleep.getString(4));
+        }
 
+        showMoreSleep.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent sleepInt = new Intent(ViewExercise.this, DisplayReading.class);
+                startActivity(sleepInt);
+            }
+        });
 
     }
 }
