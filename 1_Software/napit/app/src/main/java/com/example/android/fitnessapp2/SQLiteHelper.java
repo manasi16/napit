@@ -106,8 +106,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
         public SQLiteHelper(Context context) {
 
-            super(context, DATABASE_NAME, null, 28);
-}
+            super(context, DATABASE_NAME, null, 25);
+        }
 
         @Override
         public void onCreate(SQLiteDatabase database) {

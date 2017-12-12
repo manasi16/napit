@@ -62,26 +62,6 @@
         android:layout_below="@+id/stopbutton"
         android:id="@+id/sleeptime2"
         android:layout_alignParentRight="true"/>
-
-    <Button
-        android:id="@+id/Run_Analysis"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/Train_SVM"
-        android:layout_alignBottom="@+id/Train_SVM"
-        android:layout_alignEnd="@+id/sleeptime2"
-        android:onClick="Run_Analysis"
-        android:text="Run Analysis" />
-
-    <Button
-        android:id="@+id/Train_SVM"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="62dp"
-        android:text="Train_SVM"
-        android:layout_below="@+id/sleeptime1"
-        android:layout_alignParentStart="true"
-        android:onClick="Train_SVM"
         />
 
     <Button
@@ -90,19 +70,18 @@
         android:id="@+id/viewResult"
         android:text="View Result"
         android:onClick="displayResult"
-        android:layout_alignBaseline="@+id/sleepresult"
-        android:layout_alignBottom="@+id/sleepresult"
-        android:layout_alignParentStart="true" />
+        android:layout_marginTop="26dp"
+        android:layout_below="@+id/sleepresult"
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/sleepresult"
         android:text="Result"
-        android:layout_marginTop="44dp"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-        android:layout_below="@+id/Run_Analysis"
-        android:layout_toEndOf="@+id/xText"
-        android:layout_marginStart="13dp" />
+        android:layout_below="@+id/sleeptime1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="34dp" />
 
 </RelativeLayout>

@@ -132,7 +132,7 @@ public class SleepActivity extends Activity {
         stopSleep = (Button) findViewById(R.id.stopbutton);
         startSleepTime = (TextView) findViewById(R.id.sleeptime1);
         stopSleepTime = (TextView) findViewById(R.id.sleeptime2);
-        train_svm = (Button) findViewById(R.id.Train_SVM);
+        //train_svm = (Button) findViewById(R.id.Train_SVM);
         sleepResult = (TextView) findViewById(R.id.sleepresult);
         startSleep.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -293,7 +293,7 @@ public class SleepActivity extends Activity {
 //        return true;
 //    }
 
-    public void Run_Analysis(View v)
+    /*public void Run_Analysis(View v)
     { // Run the analysis on the data
         Intent i = new Intent(this,SVM.class);
         startService(i);
@@ -308,10 +308,7 @@ public class SleepActivity extends Activity {
         i.putExtra("Train",true);
         Toast.makeText(this, "Service called!", Toast.LENGTH_SHORT).show();
         startService(i);
-        /*
-        Intent i = new Intent(SleepActivity.this,DisplayReading.class);
-        startActivity(i);*/
-    }
+    }*/
 
     //display the result in a text function
     public void displayResult(View v){
