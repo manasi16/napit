@@ -6,14 +6,12 @@ import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.os.Environment;
 import android.os.IBinder;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -179,9 +177,11 @@ public class SVM extends Service {
         String max_string = getPeak();
         //Feature 3: Minimum
         String min_string = getMin();
+        //Feature 4: Standard Deviation
+        String dev_string = getStdDev();
 
         //A row of file
-        String str = "+1 1:" + avg_string + " 2:"+ max_string + " 3:" + min_string +"\n";
+        String str = "+1 1:" + avg_string + " 2:"+ max_string + " 3:" + min_string  + " 4:"+ dev_string+"\n";
 
         //Writing the data to a file
         File file = new File(appFolderPath, "userData");
@@ -213,6 +213,17 @@ public class SVM extends Service {
         return avg_string;
     }
 
+    public float getAverageForStdDev(){
+
+        float sum = 0;
+        float avg;
+        for (int i = 0; i < SensorReadingsByDate.size(); i++){
+            sum = sum + (float) SensorReadingsByDate.elementAt(i);
+        }
+        avg = sum/SensorReadingsByDate.size();
+        return avg;
+    }
+
     //Feature 2: Peak
     //Taking max z-value
     public String getPeak(){
@@ -239,10 +250,25 @@ public class SVM extends Service {
         return min_string;
     }
 
-    //Feature 4: Duration
-    //Total duration of sleep
-    //public String getDuration(){
-    //}
+    //Feature 4: Standard Deviation
+    public String getStdDev() {
+        float u = getAverageForStdDev();
+        float sq_diff = 0;
+        float mean_sq_diff=0;
+        String dev_string;
+        double std=0;
+        for (int i=0; i<SensorReadingsByDate.size(); i++){
+            sq_diff = (float) (sq_diff + Math.pow(((float)SensorReadingsByDate.elementAt(i) - u),2));
+        }
+        Toast.makeText(this, "Getting Square diff!" + sq_diff, Toast.LENGTH_SHORT).show();
+        mean_sq_diff =  sq_diff/SensorReadingsByDate.size();
+        Toast.makeText(this, "Getting meean!" + mean_sq_diff, Toast.LENGTH_SHORT).show();
+        std =  Math.sqrt(mean_sq_diff);
+        dev_string = "" +std;
+        Toast.makeText(this, "Getting Standard Deviation!" + std, Toast.LENGTH_SHORT).show();
+        return dev_string;
+
+    }
 
     public void TrainSVM()
     { // train the SVM with some data
@@ -250,8 +276,8 @@ public class SVM extends Service {
         //svm.scale(appFolderPath + "heart_scale ", appFolderPath + "heart_scale_scaled");
         //svm.train("-t 2 "/* svm kernel */ + appFolderPath + "heart_scale_scaled " + appFolderPath + "model");;
 
-        svm.scale(appFolderPath + "TrainingData1 ", appFolderPath + "scaledData");
-        svm.train("-t 2 "/*svm kernel*/ + appFolderPath + "TrainingData1 "+ appFolderPath + "sleepmodel ");
+        svm.scale(appFolderPath + "TrainingData4 ", appFolderPath + "scaledData");
+        svm.train("-t 2 "/*svm kernel*/ + appFolderPath + "TrainingData4 " + appFolderPath + "sleepmodel ");
     }
 
     public void PredictSVM()
@@ -334,7 +360,7 @@ public class SVM extends Service {
     }
 
     private void copyAssetsDataIfNeed() {
-        String assetsToCopy[] = {"heart_scale_predict","heart_scale_train","heart_scale","TrainingData1"};
+        String assetsToCopy[] = {"heart_scale_predict","heart_scale_train","heart_scale", "TrainingData4"};
         //String targetPath[] = {C.systemPath+C.INPUT_FOLDER+C.INPUT_PREFIX+AudioConfigManager.inputConfigTrain+".wav", C.systemPath+C.INPUT_FOLDER+C.INPUT_PREFIX+AudioConfigManager.inputConfigPredict+".wav",C.systemPath+C.INPUT_FOLDER+"SomeoneLikeYouShort.mp3"};
 
         for(int i=0; i<assetsToCopy.length; i++){
