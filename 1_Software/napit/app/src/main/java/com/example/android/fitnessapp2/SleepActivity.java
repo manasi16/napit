@@ -334,7 +334,7 @@ public class SleepActivity extends Activity {
         }
         sleepOutput = text.toString();
         //Display whether sleep is proper or improper
-        if (sleepOutput.equals("+1"))
+        if (sleepOutput.equals("1"))
             res = "Proper Sleep";
         else if (sleepOutput.equals("-1"))
             res = "Improper Sleep";
