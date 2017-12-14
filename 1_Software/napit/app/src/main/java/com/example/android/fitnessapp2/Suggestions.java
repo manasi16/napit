@@ -8,7 +8,7 @@ import android.widget.Toast;
 
 public class Suggestions extends AppCompatActivity {
 private Session session;
-    String email1,result,gender,r;
+    String email1,result,gender;
     double bmi,h,w,step;
     int age;
     TextView sug;
@@ -81,16 +81,9 @@ private Session session;
             while (data2.moveToNext()) {
 
                // stepText.setText("Steps: "+ data1.getString(2));
-                 r=data2.getString(3);
-               if(r.equals("+1"))
-               {
-                    result="Proper Sleep";
+                 result=data2.getString(4);
 
-                }
-                else
-                {
-                    result="Improper Sleep";
-                }
+
 //                sug.setText("Suggestions: "+result);
 
 
