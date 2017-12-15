@@ -1,5 +1,6 @@
 package com.example.android.fitnessapp2;
-
+// written by Aishwarya Srikanth, John Grun
+// Debugging Aishwarya Srikanth, John Grun
 //import android.content.Context;
 import android.app.AlarmManager;
 import android.app.PendingIntent;

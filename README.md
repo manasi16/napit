@@ -6,67 +6,27 @@ Code and documentation for Software Engineering Fall 2017 Rutgers
 
 ## Demo
 See 0_Demo for code used in the Demo on Nov 1st 2017. 
+See 1_Software/napit for code used in demo 2 Final
 
 ## Install
+Requires Android studio, Android SDK, Android NDK
 
-Install mongodb on your system
+clone repo https://github.com/napIT-Rutgers-SE-Fall-2017/napit.git
+In android studio navigate to 1_Software/napit
+open project
+In build menu select make project
 
-#linux - debian flavor
-
-sudo apt install mongo
-
-Install nodejs on your system
-
-sudo apt install node
-
-Unzip the project zip in 
-1_Software.zip
-
-Zip is in this directory
-
-Install node packages for backend
-
-Navigate to 1_Software/Databse_Manager
-Execute: 
-npm install
-
-
-Install node packages for frontend
-
-Navigate to 1_Software/napit
-Execute: 
-npm install
-
-Install the Expo app on your phone
-Connect your phone to the same network that the backend will be running on.
-
-## Configuration
-
-Change the ServerBackend variable ip address in 1_Software/napit/configuration.js to point to the loction where the backend will be running.
 
 ## Run
-Start backend 
-Note Mongo must be running on localhost
+To run the app on hardware see 
+[https://developer.android.com/studio/run/device.html](https://developer.android.com/studio/run/device.html)
 
-Navigate to 1_Software/Databse_Manager
-Execute: 
-npm start
+If everything is setup properly 
+under Run menu -> Run 'java in app'
 
-Start Frontend
-Navigate to 1_Software/napit
-Execute: 
-npm start
+## Run tests 
+See Run tests at [https://developer.android.com/studio/test/index.html#run_a_test](https://developer.android.com/studio/test/index.html#run_a_test)
 
-In the Expo app scan the 2D bar code that appears in your terminal
 
 ### References 
 Other software components and tutorials used in this application
-* [LibSVM](https://github.com/yctung/AndroidLibSVM)
-* [Database backend tutorial](http://rationalappdev.com/api-backend-with-nodejs-express-and-mongodb-for-react-native-apps/)
-* [Database backend code example](https://github.com/rationalappdev/MovieTicketsBackend)
-* [Accelorometer](https://docs.expo.io/versions/latest/sdk/accelerometer.html)
-* [Networking](https://facebook.github.io/react-native/docs/network.html)
-* [Navigation github](https://github.com/react-community/react-navigation)
-* [Navigation Tutorial](https://reactnavigation.org/docs/intro/)
-* [Restful API Post request](https://www.tutorialspoint.com/react_native/react_native_text_input.htm)
-* [Restful API Overview](https://facebook.github.io/react-native/docs/network.html)

@@ -1,5 +1,5 @@
 package com.example.android.fitnessapp2;
-
+// written by Aishwarya Srikanth
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 

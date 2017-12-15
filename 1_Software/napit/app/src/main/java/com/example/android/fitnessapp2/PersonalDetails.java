@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
+// written by Aishwarya Srikanth
 import static com.example.android.fitnessapp2.R.id.female;
 
 

@@ -1,5 +1,6 @@
 package com.example.android.fitnessapp2;
-
+// written by Aishwarya Srikanth
+// tested by Aishwarya Srikanth, John grun
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;

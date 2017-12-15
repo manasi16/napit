@@ -1,5 +1,7 @@
 package com.example.android.fitnessapp2;
-
+// written by Aishwarya Srikanth, John Grun
+// tDebugging Aishwarya Srikanth, John Grun
+// Testing Aishwarya Srikanth, John Grun
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

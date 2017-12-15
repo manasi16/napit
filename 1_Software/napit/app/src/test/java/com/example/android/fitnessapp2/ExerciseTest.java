@@ -7,7 +7,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- * Created by john on 12/12/17.
+ * Created by john grun on 12/12/17.
  */
 public class ExerciseTest {
     @Before

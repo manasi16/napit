@@ -17,7 +17,9 @@ import android.widget.Toast;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-
+// //written john grun,
+// debugged john grun,
+// tested by john grun,
 
 public class SleepMonitor extends Service implements SensorEventListener  {
 

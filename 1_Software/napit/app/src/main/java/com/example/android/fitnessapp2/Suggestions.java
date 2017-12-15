@@ -1,5 +1,5 @@
 package com.example.android.fitnessapp2;
-
+// written by Aishwarya Srikanth
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

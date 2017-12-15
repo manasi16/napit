@@ -1,5 +1,7 @@
 package com.example.android.fitnessapp2;
-
+//written john grun
+// debugged john grun
+// tested by john grun
 import android.app.Notification;
 import android.app.Service;
 import android.content.BroadcastReceiver;

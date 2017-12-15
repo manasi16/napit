@@ -29,6 +29,10 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+// written by Aishwarya Srikanth, johngrun
+// debugged by Aishwarya Srikanth, john grun
+// Tested by Aishwarya Srikanth, john grun
+
 public class SleepActivity extends Activity {
     private TextView xText, yText, zText;
     //private Sensor mySensor;

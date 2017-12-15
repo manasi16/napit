@@ -1,4 +1,6 @@
 package com.example.android.fitnessapp2;
+// written by Aishwarya Srikanth, John grun
+// tested by Aishwarya Srikanth, john grun
 
 import android.content.Context;
 import android.content.Intent;

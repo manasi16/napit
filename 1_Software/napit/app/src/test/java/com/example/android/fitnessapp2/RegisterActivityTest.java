@@ -12,6 +12,8 @@ import static org.junit.Assert.*;
 public class RegisterActivityTest {
     @Before
     public void setUp() throws Exception {
+
+
     }
 
     @After

@@ -20,7 +20,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Vector;
-
+// //written john grun, Madhura
+// debugged john grun, Madhura
+// tested by john grun, Madhura
 import umich.cse.yctung.androidlibsvm.LibSVM;
 
 public class SVM extends Service {

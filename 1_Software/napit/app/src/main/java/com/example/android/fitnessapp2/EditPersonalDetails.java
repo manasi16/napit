@@ -1,5 +1,6 @@
 package com.example.android.fitnessapp2;
-
+//written by Aishwarya Srikanth
+// tested by John Grun, Aishwarya Srikanth
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;

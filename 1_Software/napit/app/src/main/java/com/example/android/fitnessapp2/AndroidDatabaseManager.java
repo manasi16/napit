@@ -1,8 +1,11 @@
 package com.example.android.fitnessapp2;
 
 //all required import files
+// //written john grun
+// debugged john grun
+// tested by john grun
 
-import java.util.ArrayList;
+		import java.util.ArrayList;
 import java.util.LinkedList;
 import android.app.Activity;
 import android.app.AlertDialog;

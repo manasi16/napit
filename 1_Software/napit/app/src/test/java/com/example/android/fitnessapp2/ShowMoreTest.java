@@ -12,7 +12,7 @@ import static org.junit.Assert.*;
 public class ShowMoreTest {
     @Before
     public void setUp() throws Exception {
-    }
+    }   // does nothing
 
     @After
     public void tearDown() throws Exception {

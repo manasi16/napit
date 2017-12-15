@@ -7,19 +7,28 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- * Created by john grun on 12/12/17.
+ * Created by john grun on 12/14/17.
+ * written by john grun
  */
-public class SuggestionsTest {
+public class BackgroundEventMonitorTest {
     @Before
     public void setUp() throws Exception {
-    }  /// does nothing at al
+    }
 
     @After
     public void tearDown() throws Exception {
     }
 
     @Test
+    public void onBind() throws Exception {
+    }
+
+    @Test
     public void onCreate() throws Exception {
+    }
+
+    @Test
+    public void onDestroy() throws Exception {
     }
 
 }

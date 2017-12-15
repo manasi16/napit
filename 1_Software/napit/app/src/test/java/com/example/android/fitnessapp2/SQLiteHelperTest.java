@@ -4,14 +4,21 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.hamcrest.core.IsNull.nullValue;
 import static org.junit.Assert.*;
 
 /**
- * Created by john on 12/12/17.
+ * Created by john grun on 12/12/17.
  */
 public class SQLiteHelperTest {
+    SQLiteHelperTest Test;
     @Before
     public void setUp() throws Exception {
+        // see if we can create the object
+        Test = new SQLiteHelperTest();
+        //onCreate();
+        // test that the object is not null. Ie created successfully
+        assertNotSame(nullValue(), Test);
     }
 
     @After
@@ -28,10 +35,13 @@ public class SQLiteHelperTest {
 
     @Test
     public void addSensorReading() throws Exception {
+
     }
 
     @Test
     public void getSensorReading() throws Exception {
+
+        //getSensorReading();
     }
 
     @Test
@@ -104,6 +114,7 @@ public class SQLiteHelperTest {
 
     @Test
     public void getSleepResultData() throws Exception {
+
     }
 
 }

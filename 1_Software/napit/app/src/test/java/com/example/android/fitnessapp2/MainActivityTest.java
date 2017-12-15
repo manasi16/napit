@@ -28,10 +28,12 @@ public class MainActivityTest {
 
     @Test
     public void SQLiteTableBuild() throws Exception {
+        // don't run this automatically. test by hand!
     }
 
     @Test
     public void loginFunction() throws Exception {
+
     }
 
     @Test
