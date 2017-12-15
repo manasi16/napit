@@ -8,11 +8,10 @@ import static org.hamcrest.core.IsNull.nullValue;
 import static org.junit.Assert.*;
 
 /**
- * Created by john on 12/12/17.
+ * Created by john on 12/15/17.
  */
-public class EditPersonalDetailsTest {
-
-    EditPersonalDetailsTest Test;
+public class SleepActivityTest {
+   // SleepActivity Test;
     @Before
     public void setUp() throws Exception {
     }
@@ -24,14 +23,30 @@ public class EditPersonalDetailsTest {
     @Test
     public void onCreate() throws Exception {
         // see if we can create the object
-        Test = new EditPersonalDetailsTest();
+        //Test = new SleepActivity();
         //onCreate();
         // test that the object is not null. Ie created successfully
-        assertNotSame(nullValue(), Test);
+        //assertNotSame(nullValue(), Test);
     }
 
     @Test
-    public void onRadioButtonClicked() throws Exception {
+    public void onResume() throws Exception {
+    }
+
+    @Test
+    public void onPause() throws Exception {
+    }
+
+    @Test
+    public void onCreateOptionsMenu() throws Exception {
+    }
+
+    @Test
+    public void onOptionsItemSelected() throws Exception {
+    }
+
+    @Test
+    public void displayResult() throws Exception {
     }
 
 }

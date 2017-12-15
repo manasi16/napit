@@ -4,6 +4,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.hamcrest.core.IsNull.nullValue;
 import static org.junit.Assert.*;
 
 /**
@@ -11,6 +12,8 @@ import static org.junit.Assert.*;
  * written by john grun
  */
 public class BackgroundEventMonitorTest {
+
+    BackgroundEventMonitor Test;
     @Before
     public void setUp() throws Exception {
     }
@@ -25,6 +28,12 @@ public class BackgroundEventMonitorTest {
 
     @Test
     public void onCreate() throws Exception {
+        // see if we can create the object
+        BackgroundEventMonitor Test = new BackgroundEventMonitor();
+        //onCreate();
+        // test that the object is not null. Ie created successfully
+        assertNotSame(nullValue(), Test);
+
     }
 
     @Test

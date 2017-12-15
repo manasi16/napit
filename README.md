@@ -25,7 +25,9 @@ If everything is setup properly
 under Run menu -> Run 'java in app'
 
 ## Run tests 
+Unit testing and integration testing was done in Android studio. 
 See Run tests at [https://developer.android.com/studio/test/index.html#run_a_test](https://developer.android.com/studio/test/index.html#run_a_test)
+Further testing was done manually by intercting with the app
 
 
 ### References 
