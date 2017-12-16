@@ -1,5 +1,9 @@
 ## Table of Contents
-
+* [Demo](#Demo)
+* [Install](#Install)
+* [Run](#Run)
+* [Run Tests](#Run_Tests)
+* [References](#References)
 
 ## Napit
 Code and documentation for Software Engineering Fall 2017 Rutgers
@@ -24,11 +28,17 @@ To run the app on hardware see
 If everything is setup properly 
 under Run menu -> Run 'java in app'
 
-## Run tests 
+## Run_Tests 
 Unit testing and integration testing was done in Android studio. 
-See Run tests at [https://developer.android.com/studio/test/index.html#run_a_test](https://developer.android.com/studio/test/index.html#run_a_test)
-Further testing was done manually by intercting with the app
 
+	Unit test are located in the source code at napit/app/src/test/java/.
+	Integration test or "instrumented tests" are located in the source code at napit/app/src/androidTest/java/.
+	Unit testing is done within Android Studio 
+	Integration Testing will require an Android device. 
+
+See Run tests at [https://developer.android.com/studio/test/index.html#run_a_test](https://developer.android.com/studio/test/index.html#run_a_test)
+
+Further testing was done manually by interacting with the app
 
 ### References 
 Other software components and tutorials used in this application
