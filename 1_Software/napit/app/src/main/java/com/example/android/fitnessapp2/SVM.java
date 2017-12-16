@@ -24,7 +24,7 @@ import java.util.Vector;
 // debugged john grun, Madhura
 // tested by john grun, Madhura
 import umich.cse.yctung.androidlibsvm.LibSVM;
-
+// Service that trains and runs the Support Vector Machine (SVM) to analyze the user's sleep.
 public class SVM extends Service {
 
     //https://github.com/yctung/AndroidLibSVM

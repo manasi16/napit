@@ -18,6 +18,9 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import static android.support.v4.content.WakefulBroadcastReceiver.startWakefulService;
+
+// 	Main background service that controls the StepCounter and Sleep Monitor.
+//	Triggers the step counter to reset and store values at 12am
 public class BackgroundEventMonitor extends Service {
 
     public static final String Sleep_Monitor_Trigger = "Sleep_Monitor_Trigger";

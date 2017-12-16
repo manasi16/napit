@@ -31,7 +31,7 @@ import static android.content.ContentValues.TAG;
  * Modified by Madhura on 11/30/2017
  * Test by Aishwarya Srikanth , Madhura, John Grun
  */
-
+// Class to handle interactions with the database
 public class SQLiteHelper extends SQLiteOpenHelper {
     static String DATABASE_NAME="UserDataBase";
 
@@ -131,7 +131,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             database.execSQL(CREATE_TABLEAnomaly);
 
         }
-
+        // terrible function that is included in Android
+        // drops the table on upgrade of database version
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
@@ -180,6 +181,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         // return SensorReading
         return SensorReading;
     }
+
+    // insert exercise data into database
     public long insertExercise(String email,float steps,float miles, float calories, String duration,String date)
     {
 
@@ -195,7 +198,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         return id;
 
     }
-
+    // get user info
     public boolean getUser(String email, String pass)
     {
         String selectQuery= "SELECT * FROM " + TABLE_NAME + " where " + Table_Column_2_Email + " = " + "'"+email+"'" + " and " + Table_Column_3_Password + " = " + "'"+pass+"'";

@@ -28,7 +28,7 @@ import android.widget.Toast;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-
+// Displays information about the user's exercise habits.
 public class Exercise extends Activity  {
     //SensorManager sm;
 

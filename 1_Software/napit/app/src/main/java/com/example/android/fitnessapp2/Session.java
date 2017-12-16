@@ -6,7 +6,7 @@ import android.content.SharedPreferences;
 /**
  * Created by Aishwarya Srikanth on 12/4/2017.
  */
-
+// Class to store session information such as current logged in user, email, etc
 public class Session {
 
     SharedPreferences prefs;

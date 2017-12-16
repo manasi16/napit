@@ -18,7 +18,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import static com.example.android.fitnessapp2.R.id.view;
-
+// Allows a logged in user to change their personal details
 public class EditPersonalDetails extends AppCompatActivity {
 
 

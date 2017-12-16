@@ -10,6 +10,8 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+//View the user's profile
+
 public class ViewProfile extends AppCompatActivity {
 
     ListView lview;

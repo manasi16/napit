@@ -9,7 +9,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-
+// Support class to format data displayed to the screen
 public class ViewList extends AppCompatActivity {
 
     ListView lview;

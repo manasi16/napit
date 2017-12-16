@@ -32,7 +32,7 @@ import java.util.Calendar;
 // written by Aishwarya Srikanth, johngrun
 // debugged by Aishwarya Srikanth, john grun
 // Tested by Aishwarya Srikanth, john grun
-
+// Displays information about the user's sleep
 public class SleepActivity extends Activity {
     private TextView xText, yText, zText;
     //private Sensor mySensor;
@@ -77,6 +77,7 @@ public class SleepActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sleep);
         //SensorReadingdb = new SQLiteHelper(this);
+        // set path used for the SVM
         systemPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/";
         appFolderPath = systemPath + "libsvm/"; // your datasets folder
 
@@ -87,11 +88,12 @@ public class SleepActivity extends Activity {
             logout();
         }
 
+        // setup broadcast filtering
         bManager = LocalBroadcastManager.getInstance(this);
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Sleep_Monitor_Reading);
         intentFilter.addAction(SleepResultFromSVM);
-        bManager.registerReceiver(bReceiver, intentFilter);
+        bManager.registerReceiver(bReceiver, intentFilter); // register function to handle broadcast
 
         // comms to background service
         // trigger automatic intent at time of day
@@ -100,6 +102,7 @@ public class SleepActivity extends Activity {
         calendarStart.set(Calendar.HOUR_OF_DAY, 22); //10pm
         calendarStart.set(Calendar.MINUTE, 30); // set minutes
 
+        // sets the alarm and triggeres the background listener
         AlarmManager pm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         //creating a new intent specifying the broadcast receiver
         Intent StartSleepMonitor = new Intent(BackgroundEventMonitor.Sleep_Monitor_Trigger);
@@ -138,6 +141,8 @@ public class SleepActivity extends Activity {
         stopSleepTime = (TextView) findViewById(R.id.sleeptime2);
         //train_svm = (Button) findViewById(R.id.Train_SVM);
         sleepResult = (TextView) findViewById(R.id.sleepresult);
+
+        // manual override for demo
         startSleep.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -165,7 +170,7 @@ public class SleepActivity extends Activity {
 
 
         });
-
+        // manual override for demo
         stopSleep.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -28,7 +28,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
-
+// Service that records steps via the accelerometer and stores the values in the database.
 public class StepCounter extends Service implements SensorEventListener  {
 
     //global for this service
@@ -147,7 +147,7 @@ public class StepCounter extends Service implements SensorEventListener  {
 
     }
 
-
+    // functions to convert steps into other formats
     float getDistance()
     {
         return (stepsSinceReset*78)/(float)100000;
@@ -175,7 +175,7 @@ public class StepCounter extends Service implements SensorEventListener  {
     }
 
 
-
+    // send step count on sensor value change
     public void onSensorChanged(SensorEvent sensorEvent) {
        //if(walk)
        // {

@@ -2,6 +2,7 @@ package com.example.android.fitnessapp2;
 // written by Aishwarya Srikanth, John grun
 // tested by Aishwarya Srikanth, john grun
 
+// The main screen the user is presented with prior to logging in.
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;

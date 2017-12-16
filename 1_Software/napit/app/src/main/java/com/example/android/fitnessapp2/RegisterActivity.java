@@ -13,6 +13,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+// Allows a new user to register a new account with the app
+
 public class RegisterActivity extends AppCompatActivity {
     EditText Email, Password, Name ;
     Button Register,ReturnLogin;

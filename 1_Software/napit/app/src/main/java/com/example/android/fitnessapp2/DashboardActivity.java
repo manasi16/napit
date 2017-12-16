@@ -11,7 +11,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
+// The main point of navigation in the application. Only available after the user logs in. Launches the BackgroundEventMonitor
 public class DashboardActivity extends AppCompatActivity {
 
     ImageButton sleepImage, exerciseImage, contactImage, vsImage, sugImage, faqImage,DebugImage;

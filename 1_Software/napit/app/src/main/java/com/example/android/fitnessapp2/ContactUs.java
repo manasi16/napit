@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+// Displays contact information
 public class ContactUs extends AppCompatActivity {
 
     Button subbutton;

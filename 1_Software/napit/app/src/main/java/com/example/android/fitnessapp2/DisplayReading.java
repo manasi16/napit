@@ -9,7 +9,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-
+// Displays the results of sleep analysis
 public class DisplayReading extends AppCompatActivity {
 
     ListView sleepList;

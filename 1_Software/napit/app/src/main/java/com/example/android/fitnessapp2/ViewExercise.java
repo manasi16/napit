@@ -11,7 +11,7 @@ import android.widget.Toast;
 
 // written by Aishwarya Srikanth
 import java.util.ArrayList;
-
+//View exercise details
 public class ViewExercise extends AppCompatActivity {
 
     TextView steps,miles,cals,dur,date;

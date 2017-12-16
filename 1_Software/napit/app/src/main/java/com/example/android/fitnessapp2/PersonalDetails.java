@@ -11,7 +11,7 @@ import android.widget.Toast;
 // written by Aishwarya Srikanth
 import static com.example.android.fitnessapp2.R.id.female;
 
-
+// Displays the user's personal details as stored in the database
 public class PersonalDetails extends AppCompatActivity {
 
     static final int REQ_CODE = 123;

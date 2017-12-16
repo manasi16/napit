@@ -20,7 +20,7 @@ import java.util.Calendar;
 // //written john grun,
 // debugged john grun,
 // tested by john grun,
-
+// Service that records sensor readings during sleep and stores them in a database.
 public class SleepMonitor extends Service implements SensorEventListener  {
 
     private Sensor mySensor;

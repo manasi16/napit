@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 import android.widget.Toast;
 
+// Gives the user feedback to correct issues found during analysis
 public class Suggestions extends AppCompatActivity {
 private Session session;
     String email1,result,gender;

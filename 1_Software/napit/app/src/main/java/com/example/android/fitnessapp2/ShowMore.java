@@ -2,7 +2,7 @@ package com.example.android.fitnessapp2;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-
+// Displays more information to the user
 public class ShowMore extends AppCompatActivity {
 
     @Override
